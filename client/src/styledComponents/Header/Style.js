@@ -32,6 +32,16 @@ export const LinkText = styled.p `
     font-size: 20px;
 `
 
+export const TextButton = styled.p `
+    font-size: 20px;
+
+    &:hover {
+        color: white;
+        padding-bottom: 5px;
+        border-bottom: 1px solid black;
+    }
+`
+
 export const Button = styled.button `
 
     width: 125px;

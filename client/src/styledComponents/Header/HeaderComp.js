@@ -42,6 +42,13 @@ HeaderComp.Button = function Button ({children, ...restProps}) {
         {children}
     </Style.Button>
 }
+
+HeaderComp.TextButton = function TextButton ({children, ...restProps}) {
+    return <Style.TextButton {...restProps}>
+        {children}
+    </Style.TextButton>
+}
+
 function LinkContainer ({ to,children, ...restProps}) {
     return (
         <Link to ={to} style={LinkStyle} {...restProps}>
