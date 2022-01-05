@@ -21,6 +21,7 @@ export const BackGround = styled.div `
     border-radius: 10px;
     box-shadow: 5px 5px 20px #808080;
     display: ${props => props.hide};
+    z-index: 1;
 `
 
 export const Container = styled.div `

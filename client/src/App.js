@@ -3,6 +3,7 @@ import './App.css';
 
 import Header from './components/Header';
 import Search from './components/Search';
+import Footer from './components/Footer';
 
 class App extends React.Component {
 
@@ -13,6 +14,7 @@ class App extends React.Component {
             <div className='App'>
                 <Header/>
                 <Search/>
+                <Footer/>
             </div>
         )
     }

@@ -8,7 +8,12 @@ const IconStyle = {
     left: '100px',
 }
 
-
+const GoogleIconStyle = {
+    fontSize: "20px",
+    position: 'absolute',
+    left: '100px',
+    color: '#21d3ff',
+}
 class Authorization extends React.Component {
 
     state = {signInActive: true}
@@ -93,7 +98,7 @@ class Authorization extends React.Component {
                     </ExternalAuth.Button>
 
                     <ExternalAuth.Button backgroundColor = "white" color = "black">
-                        <i className="fab fa-google" style={IconStyle}></i>  
+                        <i className="fab fa-google" style={GoogleIconStyle}></i>  
                         Connect with Google
                     </ExternalAuth.Button>
 
