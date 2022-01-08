@@ -41,6 +41,11 @@
       "ImageURL": "https://lh3.googleusercontent.com/a/AATXAJw3Mv5N8vYCS67l0gMBBz2_FgF7AcEfp_7dBVW6=s96-c",
       "Email": "bo.an.563641292@gmail.com",
       "id": 5
+    },
+    {
+      "Email": "test1@gmail.com",
+      "Password": "123456",
+      "id": 6
     }
   ]
 }
