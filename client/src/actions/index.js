@@ -1,13 +1,73 @@
-import * as Types from '../const/reduxTypes'
+import * as TYPES from '../const/reduxTypes'
+import BASEAPI from '../apis/mockup'
 
-export const googleSignIn = () => {
+export const googleSignIn = (auth) => {
+    var profile = auth.currentUser.get().getBasicProfile()
+
+    var user = {
+        ID: profile.getId(),
+        FullName: profile.getName(),
+        GivenName: profile.getGivenName(),
+        FamilyName: profile.getFamilyName(),
+        ImageURL: profile.getImageUrl(),
+        Email: profile.getEmail()
+    }
+
+    sessionStorage.setItem("user", JSON.stringify(user))
     return {
-        type: Types.GOOGLE_SIGN_IN
+        type: TYPES.GOOGLE_SIGN_IN,
+        payload: user,
+        authInstance: auth
     }
 }
 
 export const googleSignOut = () => {
     return {
-        type: Types.GOOGLE_SIGN_OUT
+        type: TYPES.GOOGLE_SIGN_OUT
+    }
+}
+
+export const signIn = (formValue) => {
+    
+    return async (dispatch) => {
+        
+        const {data} = await BASEAPI.get('/createUser')
+        let check = false
+
+        for (const key in data) {
+            if (data[key].Email === formValue.signInEmail && data[key].Password === formValue.signInpassword) {
+                check = true
+                let user = {
+                    Email:data[key].Email,
+                }
+                sessionStorage.setItem("user", JSON.stringify(user))
+                break
+            } 
+        }
+
+        dispatch ({type: TYPES.SIGN_IN, payload: check})
+    }   
+}
+
+export const signOut = (auth) => {
+
+    
+    if (auth.authType === TYPES.GOOGLE_SIGN_IN) {
+        auth.authInstance.signOut()
+        
+    }
+    sessionStorage.removeItem("user")
+    return {
+        type: TYPES.SIGN_OUT
+    }
+}
+
+export const createUser = (formValue) => {
+    return async (dispatch) => {
+        const registerValue = {
+            Email : formValue.registerEmail,
+            Password: formValue.registerPassword
+        }
+        BASEAPI.post('/createUser', registerValue)
     }
 }

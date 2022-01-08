@@ -8,6 +8,17 @@ const inputBorder = '1px solid #d6d6d6'
 
 const passwordHintColor = '#41729c'
 
+export const Modal = styled.div `
+    position: fixed;
+    display: ${props => props.hide};
+    height: 100vh;
+    width: 100vw;
+    top:0;
+    left:0;
+    background-color:black;
+    opacity:0.6;
+    z-index: 30;
+`
 export const BackGround = styled.div `
     
     position: fixed;
@@ -19,9 +30,9 @@ export const BackGround = styled.div `
     top: 5%;
     background-color: white;
     border-radius: 10px;
-    box-shadow: 5px 5px 20px #808080;
     display: ${props => props.hide};
-    z-index: 1;
+    box-shadow: 5px 5px 20px #808080;
+    z-index: 40;
 `
 
 export const Container = styled.div `

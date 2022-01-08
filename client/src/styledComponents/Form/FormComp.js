@@ -7,6 +7,9 @@ function FormComp ({children, ...restProps}) {
 
 export default FormComp
 
+FormComp.Modal = function Modal({children, ...restProps}) {
+    return <Style.Modal {...restProps}> {children}</Style.Modal>
+}
 FormComp.Container = function Container({children, ...restProps}) {
     return <Style.Container {...restProps}> {children}</Style.Container>
 }
