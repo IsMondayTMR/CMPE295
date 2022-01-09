@@ -8,7 +8,7 @@ import ExternalAuth from './ExternalAuth'
 class Authorization extends React.Component {
 
     state = {signInActive: true}
-    renderSignInField = ({input, label, text, type, meta}) => {
+    renderSignInField = ({input, label, text, type}) => {
         return (
             
             <FormComp.InputContainer>

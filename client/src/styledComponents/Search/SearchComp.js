@@ -1,5 +1,5 @@
 import React from 'react'
-import * as Style from './Style'
+import * as Style from './StyleSearch'
 
 function SearchComp ({children, ...restProps}) {
     return <Style.Background {...restProps}>

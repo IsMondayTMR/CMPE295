@@ -7,13 +7,11 @@ export const BackGround = styled.div`
     justify-content: center;
 `
 export const Container = styled.div `
-    
     display: flex;
     height : 100%;
     justify-content: space-between;
     align-items: center;
     width: 75%;
-
 `
 
 export const WebsiteName = styled.p `

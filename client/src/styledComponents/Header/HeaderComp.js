@@ -1,5 +1,5 @@
 import React from 'react'
-import * as Style from './Style'
+import * as Style from './StyledHeader'
 import { Link } from 'react-router-dom'
 function HeaderComp ({children, ...restProps}) {
     return <Style.BackGround {...restProps}>

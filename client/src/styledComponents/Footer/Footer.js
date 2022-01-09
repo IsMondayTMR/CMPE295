@@ -1,5 +1,5 @@
 import React from 'react'
-import * as Style from './Style';
+import * as Style from './/StyleFooter';
 function Footer({children, ...restProps}){
     return(
         <Style.Container {...restProps}>

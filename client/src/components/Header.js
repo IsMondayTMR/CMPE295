@@ -29,11 +29,8 @@ class Header extends React.Component {
                 <HeaderComp.LinkText to = ''>Listing</HeaderComp.LinkText>
                 {/* <img src= {this.props.auth.user.ImageURL}alt="user img" width="40" height="40"/> */}
                 <HeaderComp.TextButton onClick = {() => this.props.signOut(this.props.auth)} >Sign Out</HeaderComp.TextButton>
-                {this.renderModal()}
             </HeaderComp.RightPanel>)
-            
-            
-        } else {
+            } else {
             return (
                 <HeaderComp.RightPanel>
                     <HeaderComp.LinkText to = ''>About</HeaderComp.LinkText>
