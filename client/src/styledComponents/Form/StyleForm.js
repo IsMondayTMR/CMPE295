@@ -79,11 +79,10 @@ export const Input = styled.input`
     height: 40px;
     margin-bottom: 20px;
     border-radius: 5px;
-    border: ${inputBorder};
+    border: ${props => props.touched ? "red 1px solid" : inputBorder};
     padding-left: 10px;
     font-size: 18px;
     background-color: ${inputBackground};
-
     ::-webkit-input-placeholder {
         font-size: 15px;
     }
@@ -95,7 +94,6 @@ export const Label = styled.label`
     font-size: 20px;
     width:50px; 
     margin-bottom: 10px;
-
     
 `
 export const Link = styled.a `
@@ -115,6 +113,12 @@ export const SubmitButton = styled.button`
     &:hover {
         background-color: ${SubmitBtnHover};
     }
+
+    &:disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+    
 `
 
 export const LINE = styled.hr`

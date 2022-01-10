@@ -59,8 +59,12 @@ FormComp.ConnectText = function ConnectText({children, ...restProps}) {
     return <Style.ConnectText {...restProps}>{children}</Style.ConnectText>
 }
 
-FormComp.PasswordHint = function PasswordHint({children, ...restProps}) {
-    return <Style.PasswordHint {...restProps}>{children}</Style.PasswordHint>
+FormComp.PasswordHint = function PasswordHint({check, children, ...restProps}) {
+
+    return <Style.PasswordHint {...restProps}> 
+            <i className="fas fa-check" style={{color:"green",marginRight: "10px", display: check ? "inline" : "none"}}></i>
+            <i className="fas fa-times" style={{color:"red", marginRight: "10px", display: check ? "none" : "inline"}}></i>
+            {children}</Style.PasswordHint>
 }
 
 FormComp.HintContainer = function HintContainer({children, ...restProps}) {

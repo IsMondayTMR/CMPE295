@@ -32,10 +32,12 @@ export const signIn = (formValue) => {
     return async (dispatch) => {
         
         const {data} = await BASEAPI.get('/createUser')
+        
         let check = false
 
         for (const key in data) {
-            if (data[key].Email === formValue.signInEmail && data[key].Password === formValue.signInpassword) {
+           
+            if (data[key].Email === formValue.signInEmail && data[key].Password === formValue.signInPassword) {
                 check = true
                 let user = {
                     Email:data[key].Email,
@@ -44,7 +46,7 @@ export const signIn = (formValue) => {
                 break
             } 
         }
-
+        
         dispatch ({type: TYPES.SIGN_IN, payload: check})
     }   
 }
