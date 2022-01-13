@@ -1,7 +1,7 @@
 import moxios from "moxios"
 import { storeFactory } from "../Utils/testUtils"
 import { googleSignIn, signIn, signOut, createUser} from "../../actions"
-import BASEAPI from '../../apis/mockup'
+import BASEAPI from '../../apis/baseUrl'
 describe(`actions tests`, () => {
     beforeEach(() => {
         moxios.install()

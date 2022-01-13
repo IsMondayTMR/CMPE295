@@ -1,5 +1,5 @@
 import * as TYPES from '../const/reduxTypes'
-import BASEAPI from '../apis/mockup'
+import BASEAPI from '../apis/baseUrl'
 
 /**
  * Returns Redux Thunk function that dispatches GOOGLE_SIGN_IN action
