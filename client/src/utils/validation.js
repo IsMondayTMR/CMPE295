@@ -71,7 +71,9 @@ export const validateEmail = (email) => {
 };
 
 export const validatePass = (pass) => {
- 
+    if (pass === undefined) {
+        pass = ''
+    }
     if (!checkLength(pass)) {
         return false;
     }

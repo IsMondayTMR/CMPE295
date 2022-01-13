@@ -10,8 +10,6 @@ export const Container = styled.div`
 `
 
 export const Button = styled.button`
- 
-
     text-align: center;
     height: 40px;
     margin: 0 auto;

@@ -7,7 +7,7 @@ const inputBackground = '#f5f5f5'
 const inputBorder = '1px solid #d6d6d6'
 
 const passwordHintColor = '#41729c'
-
+const backgroundColor = 'white'
 export const Modal = styled.div `
     position: fixed;
     display: ${props => props.hide};
@@ -28,7 +28,7 @@ export const BackGround = styled.div `
     left: 0;
     right: 0;
     top: 5%;
-    background-color: white;
+    background-color: ${backgroundColor};
     border-radius: 10px;
     display: ${props => props.hide};
     box-shadow: 5px 5px 20px #808080;
@@ -44,7 +44,7 @@ export const Container = styled.div `
 `
 
 export const Form = styled.form `
-    display: ${props => props.active}
+    display: ${props => props.active};
 `
 
 export const Header = styled.p `
@@ -64,6 +64,7 @@ export const TabButton = styled.button `
     border-bottom: ${props => props.borderActive};
     &:hover {
         color: blue;
+        cursor: pointer;
     }
 `
 
@@ -89,6 +90,11 @@ export const Input = styled.input`
     &:focus {
         outline: none;
     }
+
+    &:hover {
+        border: 1px solid #949494;
+        cursor: pointer;
+    }
 `
 export const Label = styled.label`
     font-size: 20px;
@@ -112,6 +118,7 @@ export const SubmitButton = styled.button`
 
     &:hover {
         background-color: ${SubmitBtnHover};
+        cursor: pointer;
     }
 
     &:disabled {
@@ -147,9 +154,15 @@ export const ConnectText = styled.p`
     color: #8f8f8f;
 `
 
-export const CloseButton = styled.div `
+export const CloseButton = styled.button`
     position: absolute;
+    border: none;
+    background-color: ${backgroundColor};
     top: 20px;
     right: 20px;
-    width: 20px;
+    width: 30px;
+    height: 30px;
+    &:hover {
+        cursor: pointer;
+    }
 `

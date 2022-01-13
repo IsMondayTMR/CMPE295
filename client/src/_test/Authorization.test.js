@@ -1,35 +1,59 @@
-import React from "react"
-import { Provider } from "react-redux"
-import renderer from "react-test-renderer"
-import { render, screen } from "@testing-library/react"
-import configureStore from "redux-mock-store"
-import { reducer as formReducer } from 'redux-form'
+import React from 'react'
+import Enzyme, { mount } from 'enzyme'
+import EnzymeAdapter from '@wojtekmaj/enzyme-adapter-react-17'
+import { Provider } from 'react-redux'
+import Authroization from '../components/Authorization'
+import { storeFactory, findByTestAttr } from './Utils/testUtils'
 
-import Authorization from "../components/Authorization"
+Enzyme.configure({adapter: new EnzymeAdapter()})
 
-const mockStore = configureStore([])
-// const isSignedIn = sessionStorage.getItem("user") === null ? false : true
-// const INITIAL_STATE = {
-//     isSignedIn,
-//     user: JSON.parse(sessionStorage.getItem("user")),
-//     authType: null,
-//     authInstance: null,
-// }
+const setup = () => {
+    const store = storeFactory();
+
+    return mount (
+        <Provider store={store}>
+            <Authroization/>
+        </Provider>
+    )
+}
 
 
-describe(`render Auth form`, () => {
-    let store 
-    let component
-
-    beforeEach(() => {
-        store = mockStore({form: formReducer})
-
-        component = renderer.create(
-            <Provider store = {store}>
-                <Authorization/>
-            </Provider>)
-    })
-    it(`first render`, () => {
-        screen.debug()
-    })
+test(`render authorization form without error`, () => {
+    const wrapper = setup()
+    const compnent = wrapper.find('div')
+    const authComp = findByTestAttr(compnent,'auth-form')
+    expect(authComp).toHaveLength(1)
 })
+
+describe(`render test`, () => {
+ 
+    test(`test text feilds are rendered correctly`, () => {
+        const wrapper = setup();
+        const textFields = wrapper.find('p')
+
+        expect(textFields).toHaveLength(2)
+        
+        var header = findByTestAttr(wrapper,'header').find('p')
+        
+        var connectText = findByTestAttr(wrapper,'connect-text').find('p')
+        
+        expect(header.text()).toEqual('Welcome To Mock')
+        expect(connectText.text()).toEqual('Or connect with')
+    })
+
+    test(`test buttons are rendered correctly`, () => {
+        const wrapper = setup();
+        const buttons = wrapper.find('button')
+        
+        expect(buttons).toHaveLength(7)
+
+        var registerButton = findByTestAttr(wrapper, 'register-btn').find('button')
+        expect(registerButton).toHaveLength(0)
+        
+        const registerTabButton = findByTestAttr(wrapper, 'register-tab-btn').find('button')
+        registerTabButton.simulate('click')
+
+        registerButton = findByTestAttr(wrapper, 'register-btn').find('button')
+        expect(registerButton).toHaveLength(1)
+    })
+}) 

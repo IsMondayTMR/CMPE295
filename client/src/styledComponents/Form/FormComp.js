@@ -1,41 +1,41 @@
 import React from 'react'
 import * as Style from './StyleForm'
 function FormComp ({children, ...restProps}) {
-    return <Style.BackGround {...restProps}> {children} </Style.BackGround>
+    return <Style.BackGround {...restProps}>{children} </Style.BackGround>
 
 }
 
 export default FormComp
 
 FormComp.Modal = function Modal({children, ...restProps}) {
-    return <Style.Modal {...restProps}> {children}</Style.Modal>
+    return <Style.Modal {...restProps}>{children}</Style.Modal>
 }
 FormComp.Container = function Container({children, ...restProps}) {
-    return <Style.Container {...restProps}> {children}</Style.Container>
+    return <Style.Container {...restProps}>{children}</Style.Container>
 }
 
 FormComp.Form = function Form({children, ...restProps}) {
-    return <Style.Form {...restProps}> {children}</Style.Form>
+    return <Style.Form {...restProps}>{children}</Style.Form>
 }
 
 FormComp.Header = function Header({children, ...restProps}) {
 
-    return <Style.Header {...restProps}> {children}</Style.Header>
+    return <Style.Header {...restProps}>{children}</Style.Header>
 }
 
 FormComp.TabButton = function TabButton({focus, children, ...restProps}) {
     
-    return <Style.TabButton  {...restProps} > {children}</Style.TabButton>
+    return <Style.TabButton  {...restProps} >{children}</Style.TabButton>
 }
 
 FormComp.TabButtonContainer = function TabButtonContainer({children, ...restProps}) {
     
-    return <Style.TabButtonContainer {...restProps}> {children}</Style.TabButtonContainer>
+    return <Style.TabButtonContainer {...restProps}>{children}</Style.TabButtonContainer>
 }
 
 FormComp.InputContainer = function InputContainer({children, ...restProps}) {
 
-    return <Style.InputContinaer {...restProps}> {children} </Style.InputContinaer>
+    return <Style.InputContinaer {...restProps}>{children} </Style.InputContinaer>
 }
 
 FormComp.Input = function Input({...restProps}) {

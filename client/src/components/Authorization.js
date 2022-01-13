@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { FormComp } from '../styledComponents/export'
 import { reduxForm, Field, formValueSelector} from 'redux-form'
 import { connect } from 'react-redux'
@@ -9,13 +9,11 @@ import ExternalAuth from './ExternalAuth'
 class Authorization extends React.Component {
 
     state = {signInActive: true}
-    registerPass = this.props.registerPassword === undefined ? '' : this.props.registerPassword
     
     signInFormValidate = () => this.props.signInEmail === undefined || this.props.signInPassword === undefined
-    registerFormValidate = () => this.props.registerEmail === undefined || this.props.registerPassword === undefined
+    registerFormValidate = () => this.props.registerEmail === undefined || this.props.registerPassword === undefined || !Utils.validatePass(this.props.registerPassword)
 
     renderRegisterField = ({input,name, label, text, type, meta}) => {
-
         let validate = type === "email" ? !Utils.validateEmail(this.props.registerEmail) : !Utils.validatePass(this.props.registerPassword);
         
         let touched = meta.touched ? validate : meta.touched
@@ -38,45 +36,81 @@ class Authorization extends React.Component {
 
     renderSignInForm() {
         return(
-            <FormComp.Form active = {this.state.signInActive ? 'block' : 'none'} onSubmit = {this.props.handleSubmit(this.onSigninFormSubmit)}>
+            <FormComp.Form 
+                active = {this.state.signInActive ? 'block' : 'none'} 
+                onSubmit = {this.props.handleSubmit(this.onSigninFormSubmit)} 
+                data-test = "sign-in-form">
                 <FormComp.InputContainer>
-                    <Field name = "signInEmail" component = {this.renderSignInField} label = "Email" text = 'Enter Email' type = 'email'/>
-                    <Field name = "signInPassword" component = {this.renderSignInField} label = "Password" text = 'Enter Password' type = 'password'/>
-                    <FormComp.SubmitButton name = "signInButton" disabled ={this.signInFormValidate()}>Sign In</FormComp.SubmitButton>
+                    <Field 
+                        component = {this.renderSignInField} 
+                        label = "Email" text = 'Enter Email' 
+                        type = 'email' 
+                        name = 'signInEmail'
+                        data-test = "sign-in-email-input"/>
+                    <Field 
+                        component = {this.renderSignInField} 
+                        label = "Password" 
+                        text = 'Enter Password' 
+                        type = 'password'
+                        name = 'signInPassword' 
+                        data-test = "sign-in-password-input"/>
+                    <FormComp.SubmitButton 
+                        disabled ={this.signInFormValidate()} 
+                        data-test = "sign-in-btn">
+                            Sign In
+                    </FormComp.SubmitButton>
                 </FormComp.InputContainer>
             </FormComp.Form>
         )
     }
 
     renderRegisterForm() {
-
         return(
-            <FormComp.Form active = {this.state.signInActive ? 'none' : 'block'} onSubmit = {this.props.handleSubmit(this.onRegisterFormSubmit)}>
-                    <FormComp.InputContainer>
-                        <Field name = "registerEmail" component = {this.renderRegisterField} label = "Email" text = 'Enter Email' type = 'email'/>
-                        <Field name = "registerPassword" component = {this.renderRegisterField} label = "Password" text = 'Enter Password' type = 'password'/>
+            <FormComp.Form 
+                onSubmit = {this.props.handleSubmit(this.onRegisterFormSubmit)} 
+                data-test = "register-form">
 
-                        <FormComp.HintContainer>
-                            <FormComp.PasswordHint 
-                                check = {Utils.checkLength(this.props.registerPassword)}>
-                                    At least 8 characters
-                            </FormComp.PasswordHint>
-                            <FormComp.PasswordHint 
-                                check = {Utils.checkSpecial(this.props.registerPassword)}>
-                                    Mix of letters and numbers
-                            </FormComp.PasswordHint>
-                            <FormComp.PasswordHint 
-                                check = {Utils.checkLetterAndNumber(this.props.registerPassword)}>
-                                    At least 1 special character
-                            </FormComp.PasswordHint>
-                            <FormComp.PasswordHint 
-                                check = {Utils.checkUpperLower(this.props.registerPassword)}>
-                                    At least 1 lowercase letter and 1 uppercase letter
-                            </FormComp.PasswordHint>
-                        </FormComp.HintContainer>
-                        
-                            <FormComp.SubmitButton name = "registerButton" disabled ={this.registerFormValidate()}>Register</FormComp.SubmitButton>
-                    </FormComp.InputContainer>
+                <FormComp.InputContainer>
+                    <Field 
+                        component = {this.renderRegisterField} 
+                        label = "Email" 
+                        text = 'Enter Email' 
+                        type = 'email'
+                        name = 'registerEmail'  
+                        data-test = "register-email-input"/>
+                    <Field 
+                        component = {this.renderRegisterField} 
+                        label = "Password" 
+                        text = 'Enter Password' 
+                        type = 'password' 
+                        name = 'registerPassword' 
+                        data-test = "register-password-input"/>
+
+                    <FormComp.HintContainer>
+                        <FormComp.PasswordHint 
+                            check = {Utils.checkLength(this.props.registerPassword)}>
+                                At least 8 characters
+                        </FormComp.PasswordHint>
+                        <FormComp.PasswordHint 
+                            check = {Utils.checkSpecial(this.props.registerPassword)}>
+                                Mix of letters and numbers
+                        </FormComp.PasswordHint>
+                        <FormComp.PasswordHint 
+                            check = {Utils.checkLetterAndNumber(this.props.registerPassword)}>
+                                At least 1 special character
+                        </FormComp.PasswordHint>
+                        <FormComp.PasswordHint 
+                            check = {Utils.checkUpperLower(this.props.registerPassword)}>
+                                At least 1 lowercase letter and 1 uppercase letter
+                        </FormComp.PasswordHint>
+                    </FormComp.HintContainer>
+                    
+                        <FormComp.SubmitButton 
+                            disabled ={this.registerFormValidate()} 
+                            data-test = "register-btn">
+                            Register
+                        </FormComp.SubmitButton>
+                </FormComp.InputContainer>
             </FormComp.Form>
         )
     }
@@ -90,41 +124,53 @@ class Authorization extends React.Component {
         this.props.signIn(formValues)
         this.props.closeHelper()
     }
+
     render () {
-        
         return (
-        <>
-            <FormComp hide = {this.props.hide ? "none" : "block" }>
-                    <FormComp.CloseButton onClick = {() => this.props.closeHelper()}/>
+        <Fragment >
+            <FormComp 
+                hide = {this.props.hide ? "none" : "block"} 
+                data-test = "auth-form">
+                    <FormComp.CloseButton 
+                        onClick = {() => this.props.closeHelper()} 
+                        data-test = "close-btn"/>
                 <FormComp.Container>
-                    
-                    <FormComp.Header> Welcome To Mock </FormComp.Header>
+                    <FormComp.Header data-test = "header">Welcome To Mock</FormComp.Header>
 
                     <FormComp.TabButtonContainer>
                         <FormComp.TabButton 
                             onClick = {() => this.setState({signInActive: true})} 
-                            borderActive = {this.state.signInActive ? "3px solid #1995ff" : "none"} name = "tabButton">Sign In</FormComp.TabButton>
+                            borderActive = {this.state.signInActive ? "3px solid #1995ff" : "none"} 
+                            data-test = "sign-in-tab-btn">
+                                Sign In
+                        </FormComp.TabButton>
                         <FormComp.TabButton 
                             onClick = {() => this.setState({signInActive: false})} 
-                            borderActive = {!this.state.signInActive ? "3px solid #1995ff" : "none"} name = "tabButton">New Account</FormComp.TabButton>
+                            borderActive = {!this.state.signInActive ? "3px solid #1995ff" : "none"} 
+                            data-test = "register-tab-btn">
+                                New Account
+                        </FormComp.TabButton>
                     </FormComp.TabButtonContainer>
 
                     <FormComp.Line />
-
-                        {this.renderRegisterForm()}
-                        {this.renderSignInForm()}
+                        {this.state.signInActive ? this.renderSignInForm() : this.renderRegisterForm()}
                     <FormComp.Line />
-                    <FormComp.ConnectText>Or connect with</FormComp.ConnectText>
+
+                    <FormComp.ConnectText 
+                        data-test = "connect-text">
+                            Or connect with
+                    </FormComp.ConnectText>
 
                     <ExternalAuth/>
                     
                 </FormComp.Container>
             </FormComp>
-            <FormComp.Modal hide = {this.props.hide ? "none" : "block"} onClick = {() => this.props.closeHelper()}></FormComp.Modal>
-        </>
+            <FormComp.Modal 
+                hide = {this.props.hide ? "none" : "block"} 
+                onClick = {() => this.props.closeHelper()}/>
+        </Fragment>
         )
     }
-    
 }
 
 const formWrapped = reduxForm({form: 'Authorization'})(Authorization)

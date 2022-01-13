@@ -65,11 +65,26 @@ export const signOut = (auth) => {
 }
 
 export const createUser = (formValue) => {
+
     return async (dispatch) => {
+        
         const registerValue = {
             Email : formValue.registerEmail,
             Password: formValue.registerPassword
         }
-        BASEAPI.post('/createUser', registerValue)
+        const {status, statusText} = await BASEAPI.post('/createUser', registerValue)
+
+        if (status === 201 && statusText === "Created") {
+            dispatch ({
+                type: TYPES.CREATE_SUCESS,
+                payload: true
+            })
+        } else {
+            
+            dispatch ({
+                type: TYPES.CREATE_FAIL,
+                payload: false
+            })
+        }
     }
 }
