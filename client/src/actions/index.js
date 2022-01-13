@@ -1,5 +1,6 @@
 import * as TYPES from '../const/reduxTypes'
-import BASEAPI from '../apis/baseUrl'
+import { BASEURL } from '../const/apis'
+import axios from 'axios'
 
 /**
  * Returns Redux Thunk function that dispatches GOOGLE_SIGN_IN action
@@ -67,8 +68,7 @@ export const googleSignOut = () => {
 export const signIn = (formValue) => {
     
     return async (dispatch) => {
-        const {data} = await BASEAPI.get('/createUser')
-        
+        const {data} = await axios.get(`${BASEURL}/createUser`)
         var isSignedIn = false
         var user = null
         for (const key in data) {
@@ -132,7 +132,7 @@ export const createUser = (formValue) => {
             Email : formValue.registerEmail,
             Password: formValue.registerPassword
         }
-        const {status, statusText} = await BASEAPI.post('/createUser', registerValue)
+        const {status, statusText} = await axios.post(`${BASEURL}/createUser`, registerValue)
 
         if (status === 201 && statusText === "Created") {
             dispatch ({

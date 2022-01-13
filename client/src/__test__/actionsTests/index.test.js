@@ -1,7 +1,9 @@
 import moxios from "moxios"
+import axios from "axios"
 import { storeFactory } from "../Utils/testUtils"
 import { googleSignIn, signIn, signOut, createUser} from "../../actions"
-import BASEAPI from '../../apis/baseUrl'
+jest.mock('axios')
+
 describe(`actions tests`, () => {
     beforeEach(() => {
         moxios.install()
@@ -27,7 +29,7 @@ describe(`actions tests`, () => {
      * @todo update moxios to corretly intercept axios request
      *  */ 
     
-    test(`signIn`, async () => {
+    test(`signIn`, () => {
         const store = storeFactory()
         const formVallue = {
             signInEmail: "test1@gmail.com",
@@ -42,21 +44,21 @@ describe(`actions tests`, () => {
             authType: "SIGN_IN",
             authInstance: null,
         }
-        moxios.wait(() => {
-            const request = moxios.requests.mostRecent()
-            request.respondWith({
-                data: {
+
+        axios.get.mockImplementationOnce(() =>
+        Promise.resolve({
+                data: 
+                {
                     0: {
-                        Email: "test5@gmail.com",
-                        Password: "Tmdsb!@213"
+                        Email: "test1@gmail.com",
+                        Password: "Plmoknijb!@213"
                     },
                     1: {
-                        Email: "test5@gmail.com",
-                        Password: "Tmdsb!@213"
+                        Email: "test1@gmail.com",
+                        Password: "Plmoknijb!@213"
                     }
                 }
-            })
-        })
+                }));
 
         return store.dispatch(signIn(formVallue))
         .then(() => {
