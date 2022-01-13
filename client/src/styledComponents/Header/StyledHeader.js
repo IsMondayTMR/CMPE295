@@ -1,12 +1,12 @@
 import styled from 'styled-components'
-
+import { Link } from 'react-router-dom'
 export const BackGround = styled.div`
     height : 75px;
     background-color: #d1d1d1;
     display: flex;
     justify-content: center;
 `
-export const Container = styled.div `
+export const Container = styled.div`
     display: flex;
     height : 100%;
     justify-content: space-between;
@@ -14,7 +14,7 @@ export const Container = styled.div `
     width: 75%;
 `
 
-export const WebsiteName = styled.p `
+export const WebsiteName = styled.p`
     font-size: 25px;
     margin-left: 1.5rem;
     font-weight: 600;
@@ -26,11 +26,11 @@ export const RightPanelContainer = styled.div`
     align-items: center;
 `
 
-export const LinkText = styled.p `
+export const LinkText = styled.p`
     font-size: 20px;
 `
 
-export const TextButton = styled.p `
+export const TextButton = styled.p`
     font-size: 20px;
 
     &:hover {
@@ -40,7 +40,7 @@ export const TextButton = styled.p `
     }
 `
 
-export const Button = styled.button `
+export const Button = styled.button`
 
     width: 125px;
     height: 45px;
@@ -54,4 +54,14 @@ export const Button = styled.button `
         background-color: #7c7c7c;
         color: #E0E0E0;
     }
+`
+
+export const RouteLink = styled(Link)`
+    text-decoration: none;
+    color: #383838;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 45px;
 `

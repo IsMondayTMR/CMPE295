@@ -3,7 +3,7 @@ import { Footer } from '../styledComponents/export';
 
 function FooterContainer() {
     return (
-        <>
+        <React.Fragment>
             <Footer>
                 <Footer.Title>Questions? Contact us.</Footer.Title>
                 <Footer.Break />
@@ -15,21 +15,21 @@ function FooterContainer() {
                         <Footer.Link href="#">Corporate Information</Footer.Link>
                         <Footer.Link href="#">Rent Originals</Footer.Link>
                     </Footer.Column>
-                    
+
                     <Footer.Column>
                         <Footer.Link href="#">Help Centre</Footer.Link>
                         <Footer.Link href="#">Jobs</Footer.Link>
                         <Footer.Link href="#">Terms of Use</Footer.Link>
                         <Footer.Link href="#">Contact Us</Footer.Link>
                     </Footer.Column>
-                    
+
                     <Footer.Column>
                         <Footer.Link href="#">Account</Footer.Link>
                         <Footer.Link href="#">Reedem gift cards</Footer.Link>
                         <Footer.Link href="#">Priacy</Footer.Link>
                         <Footer.Link href="#">Speed Test</Footer.Link>
                     </Footer.Column>
-                    
+
                     <Footer.Column>
                         <Footer.Link href="#">Media Centre</Footer.Link>
                         <Footer.Link href="#">Buy gift cards</Footer.Link>
@@ -45,12 +45,12 @@ function FooterContainer() {
                     </Footer.Column>
                 </Footer.Row>
                 <Footer.Break />
-                
+
             </Footer>
             <Footer.Bottom>
-                
+
             </Footer.Bottom>
-        </>
+        </React.Fragment>
     )
 }
 

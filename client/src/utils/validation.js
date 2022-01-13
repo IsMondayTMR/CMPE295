@@ -16,7 +16,7 @@ export const checkLetterAndNumber = (pass) => {
     const number = pass[pass.search(/\d+/)]
     const letter = pass[pass.search(/[a-z]/i)]
     // const upper = pass[pass.search(/[A-Z]/)]
- 
+
     if (number === undefined || number.length < 0) {
         return false
     }
@@ -46,7 +46,7 @@ export const checkUpperLower = (pass) => {
     }
     const lower = pass[pass.search(/[a-z]/)]
     const upper = pass[pass.search(/[A-Z]/)]
- 
+
     if (lower === undefined || lower.length < 0) {
         return false
     }
@@ -59,13 +59,8 @@ export const checkUpperLower = (pass) => {
 }
 
 export const validateEmail = (email) => {
-    if(String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )) {
-          return true;
-      }
+    if (String(email).toLowerCase().match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) { return true; }
 
     return false
 };
@@ -85,7 +80,7 @@ export const validatePass = (pass) => {
     if (!checkLetterAndNumber(pass)) {
         return false;
     }
-    
+
     if (!checkUpperLower(pass)) {
         return false;
     }
