@@ -1,5 +1,5 @@
 import React from "react";
-import * as Style from "./StyleExternalAuth";
+import * as Style from "./StyledExternalAuth";
 function ExternalAuth({ children, ...restProps }) {
     return <Style.Container {...restProps}>
         {children}

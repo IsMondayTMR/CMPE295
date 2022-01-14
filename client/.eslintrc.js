@@ -22,6 +22,6 @@ module.exports = {
     ],
     "rules": {
         "semi": [2, "always"],
-        "quotes": [2, "double", { "avoidEscape": false }]
+        "quotes": [2, "double", { "avoidEscape": true }]
     }
 };

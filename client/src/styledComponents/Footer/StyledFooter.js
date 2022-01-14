@@ -7,7 +7,7 @@ export const Container = styled.div`
     margin: 0;
     height: 320px;
     background: #696969;
-    vertical-align:bottom;
+    vertical-align: bottom;
     display:block;
     padding-bottom:10px;
 

@@ -1,5 +1,5 @@
 import React from "react";
-import * as Style from "./StyleForm";
+import * as Style from "./StyledForm";
 function FormComp({ children, ...restProps }) {
     return <Style.BackGround {...restProps}>{children} </Style.BackGround>
 

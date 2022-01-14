@@ -33,22 +33,18 @@ class ExternalAuth extends React.Component {
     render() {
         return (
             <ExternalAuthComp>
-
                 <ExternalAuthComp.Button backgroundColor="black" color="white">
                     <i className="fab fa-apple" style={IconStyle}></i>
                     Connect with Apple
                 </ExternalAuthComp.Button>
-
                 <ExternalAuthComp.Button backgroundColor="#005eff" color="white">
                     <i className="fab fa-facebook" style={IconStyle}></i>
                     Connect with Facebook
                 </ExternalAuthComp.Button>
-
                 <ExternalAuthComp.Button backgroundColor="white" color="black" onClick={() => this.onGoogleSignInClick()}>
                     <i className="fab fa-google" style={GoogleIconStyle}></i>
                     Connect with Google
                 </ExternalAuthComp.Button>
-
             </ExternalAuthComp>
         );
     }

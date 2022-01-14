@@ -69,7 +69,6 @@ class Authorization extends React.Component {
             <FormComp.Form
                 onSubmit={this.props.handleSubmit(this.onRegisterFormSubmit)}
                 data-test="register-form">
-
                 <FormComp.InputContainer>
                     <Field
                         component={this.renderRegisterField}
@@ -85,7 +84,6 @@ class Authorization extends React.Component {
                         type='password'
                         name='registerPassword'
                         data-test="register-password-input" />
-
                     <FormComp.HintContainer>
                         <FormComp.PasswordHint
                             check={Utils.checkLength(this.props.registerPassword)}>
@@ -104,7 +102,6 @@ class Authorization extends React.Component {
                             At least 1 lowercase letter and 1 uppercase letter
                         </FormComp.PasswordHint>
                     </FormComp.HintContainer>
-
                     <FormComp.SubmitButton
                         disabled={this.registerFormValidate()}
                         data-test="register-btn">
@@ -136,7 +133,6 @@ class Authorization extends React.Component {
                         data-test="close-btn" />
                     <FormComp.Container>
                         <FormComp.Header data-test="header">Welcome To Mock</FormComp.Header>
-
                         <FormComp.TabButtonContainer>
                             <FormComp.TabButton
                                 onClick={() => this.setState({ signInActive: true })}
@@ -151,18 +147,14 @@ class Authorization extends React.Component {
                                 New Account
                             </FormComp.TabButton>
                         </FormComp.TabButtonContainer>
-
                         <FormComp.Line />
                         {this.state.signInActive ? this.renderSignInForm() : this.renderRegisterForm()}
                         <FormComp.Line />
-
                         <FormComp.ConnectText
                             data-test="connect-text">
                             Or connect with
                         </FormComp.ConnectText>
-
                         <ExternalAuth />
-
                     </FormComp.Container>
                 </FormComp>
                 <FormComp.Modal
@@ -177,10 +169,10 @@ const formWrapped = reduxForm({ form: "Authorization" })(Authorization);
 const selector = formValueSelector("Authorization");
 const mapStateToProps = (state) => {
     return {
-        signInEmail: selector(state, "signInEmail"),
-        signInPassword: selector(state, "signInPassword"),
-        registerEmail: selector(state, "registerEmail"),
-        registerPassword: selector(state, "registerPassword")
+        signInEmail: selector(state, "signInEmail") === undefined ? "" : selector(state, "signInEmail"),
+        signInPassword: selector(state, "signInPassword") === undefined ? "" : selector(state, "signInEmail"),
+        registerEmail: selector(state, "registerEmail") === undefined ? "" : selector(state, "signInEmail"),
+        registerPassword: selector(state, "registerPassword") === undefined ? "" : selector(state, "signInEmail")
     };
 };
 
