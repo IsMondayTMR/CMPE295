@@ -1,12 +1,11 @@
-{
+module.exports = {
     "env": {
         "browser": true,
         "es2021": true
     },
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:prettier/recommended"
+        "plugin:react/recommended"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -18,7 +17,11 @@
     "plugins": [
         "react"
     ],
+    "ignorePatterns": [
+        "src/styledComponents/*/*.js"
+    ],
     "rules": {
-        "react/react-in-jsx-scope": "off"
+        "semi": [2, "always"],
+        "quotes": [2, "double", { "avoidEscape": false }]
     }
-}
+};

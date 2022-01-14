@@ -1,20 +1,20 @@
-import React from 'react'
-import * as Style from './/StyleFooter';
-function Footer({children, ...restProps}){
-    return(
+import React from "react";
+import * as Style from ".//StyleFooter";
+function Footer({ children, ...restProps }) {
+    return (
         <Style.Container {...restProps}>
             {children}
-            </Style.Container>
+        </Style.Container>
     )
 }
 
 export default Footer
 
-Footer.Link = function FooterLink({href, children,...restProps}){
-    return(
-        <Style.ExternalLink href = {href} {...restProps}>
+Footer.Link = function FooterLink({ href, children, ...restProps }) {
+    return (
+        <Style.ExternalLink href={href} {...restProps}>
             {children}
-            </Style.ExternalLink>
+        </Style.ExternalLink>
     )
 
 }

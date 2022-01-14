@@ -1,5 +1,5 @@
-import React from 'react';
-import { Footer } from '../styledComponents/export';
+import React from "react";
+import { Footer } from "../styledComponents/export";
 
 function FooterContainer() {
     return (
@@ -51,7 +51,7 @@ function FooterContainer() {
 
             </Footer.Bottom>
         </React.Fragment>
-    )
+    );
 }
 
-export default FooterContainer
+export default FooterContainer;

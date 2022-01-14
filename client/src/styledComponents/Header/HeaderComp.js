@@ -1,5 +1,5 @@
-import React from 'react'
-import * as Style from './StyledHeader'
+import React from "react";
+import * as Style from "./StyledHeader";
 
 function HeaderComp({ children, ...restProps }) {
     return <Style.BackGround {...restProps}>

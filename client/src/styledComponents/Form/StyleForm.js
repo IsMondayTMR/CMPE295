@@ -8,7 +8,8 @@ const inputBorder = '1px solid #d6d6d6'
 
 const passwordHintColor = '#41729c'
 const backgroundColor = 'white'
-export const Modal = styled.div `
+
+export const Modal = styled.div`
     position: fixed;
     display: ${props => props.hide};
     height: 100vh;
@@ -19,7 +20,7 @@ export const Modal = styled.div `
     opacity:0.6;
     z-index: 30;
 `
-export const BackGround = styled.div `
+export const BackGround = styled.div`
     
     position: fixed;
     width: 450px;
@@ -35,7 +36,7 @@ export const BackGround = styled.div `
     z-index: 40;
 `
 
-export const Container = styled.div `
+export const Container = styled.div`
     width: 90%;
     margin: 0 auto 3% auto;
     padding: 0;
@@ -43,20 +44,20 @@ export const Container = styled.div `
 
 `
 
-export const Form = styled.form `
+export const Form = styled.form`
     display: ${props => props.active};
 `
 
-export const Header = styled.p `
+export const Header = styled.p`
     margin: 0;
     font-size: 25px;
     margin: 30px;
     font-weight: bolder;
 `
-export const TabButtonContainer = styled.div `
+export const TabButtonContainer = styled.div`
     width: 200px;
 `
-export const TabButton = styled.button `
+export const TabButton = styled.button`
     font-size: 18px;
     background-color: white;
     border: none;
@@ -102,7 +103,7 @@ export const Label = styled.label`
     margin-bottom: 10px;
     
 `
-export const Link = styled.a `
+export const Link = styled.a`
 
 `
 

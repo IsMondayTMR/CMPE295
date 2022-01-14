@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import BackgroundImg from '../../resources/SearchBackground.jpg'
+import BackgroundImg from "../../resources/SearchBackground.jpg";
 export const Background = styled.div`
     background-image: url(${BackgroundImg});
     height: calc(75vh - 75px);

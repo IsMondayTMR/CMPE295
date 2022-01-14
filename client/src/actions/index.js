@@ -1,6 +1,6 @@
-import * as TYPES from '../const/reduxTypes'
-import { BASEURL } from '../const/apis'
-import axios from 'axios'
+import * as TYPES from "../const/reduxTypes";
+import { BASEURL } from "../const/apis";
+import axios from "axios";
 
 /**
  * Returns Redux Thunk function that dispatches GOOGLE_SIGN_IN action
@@ -11,7 +11,7 @@ import axios from 'axios'
 */
 export const googleSignIn = (auth) => {
     if (!auth) {
-        return {
+        return ({
             type: TYPES.GOOGLE_SIGN_IN,
             payload: {
                 authInstance: null,
@@ -19,11 +19,10 @@ export const googleSignIn = (auth) => {
                 user: null,
                 authType: null,
             }
-            
-        }
+        });
     }
 
-    var profile = auth.currentUser.get().getBasicProfile()
+    var profile = auth.currentUser.get().getBasicProfile();
 
     var user = {
         ID: profile.getId(),
@@ -32,10 +31,10 @@ export const googleSignIn = (auth) => {
         FamilyName: profile.getFamilyName(),
         ImageURL: profile.getImageUrl(),
         Email: profile.getEmail()
-    }
+    };
 
-    sessionStorage.setItem("user", JSON.stringify(user))
-    return {
+    sessionStorage.setItem("user", JSON.stringify(user));
+    return ({
         type: TYPES.GOOGLE_SIGN_IN,
         payload: {
             authInstance: auth,
@@ -43,9 +42,8 @@ export const googleSignIn = (auth) => {
             user: user,
             authType: TYPES.GOOGLE_SIGN_IN
         }
-        
-    }
-}
+    });
+};
 
 /**
  * Returns Redux Thunk function that dispatches GOOGLE_SIGN_OUT action
@@ -53,10 +51,10 @@ export const googleSignIn = (auth) => {
  * @returns {function} - Redux Thunk function.
 */
 export const googleSignOut = () => {
-    return {
+    return ({
         type: TYPES.GOOGLE_SIGN_OUT
-    }
-}
+    });
+};
 
 /**
  * Returns Redux Thunk function that dispatches SIGN_IN action
@@ -66,31 +64,32 @@ export const googleSignOut = () => {
 */
 
 export const signIn = (formValue) => {
-    
+
     return async (dispatch) => {
-        const {data} = await axios.get(`${BASEURL}/createUser`)
-        var isSignedIn = false
-        var user = null
+        const { data } = await axios.get(`${BASEURL}/createUser`);
+        var isSignedIn = false;
+        var user = null;
         for (const key in data) {
             if (data[key].Email === formValue.signInEmail && data[key].Password === formValue.signInPassword) {
-                isSignedIn = true
+                isSignedIn = true;
                 user = {
-                    Email:data[key].Email,
-                }
-                sessionStorage.setItem("user", JSON.stringify(user))
-                break
-            } 
+                    Email: data[key].Email,
+                };
+                sessionStorage.setItem("user", JSON.stringify(user));
+                break;
+            }
         }
-        
-        dispatch ({
-            type: TYPES.SIGN_IN, 
+
+        dispatch({
+            type: TYPES.SIGN_IN,
             payload: {
                 isSignedIn: isSignedIn,
                 user: user,
                 authType: TYPES.SIGN_IN
-            }})
-    }   
-}
+            }
+        });
+    };
+};
 /**
  * Returns Redux Thunk function that dispatches SIGN_OUT action
  * @function signOut
@@ -98,16 +97,14 @@ export const signIn = (formValue) => {
  * @returns {function} - Redux Thunk function.
 */
 export const signOut = (auth) => {
-
-    
     if (auth && auth.authType === TYPES.GOOGLE_SIGN_IN) {
-        auth.authInstance.signOut()
+        auth.authInstance.signOut();
     }
-    sessionStorage.removeItem("user")
-    return {
+    sessionStorage.removeItem("user");
+    return ({
         type: TYPES.SIGN_OUT
-    }
-}
+    });
+};
 
 /**
  * Returns Redux Thunk function that conditionaly 
@@ -118,33 +115,30 @@ export const signOut = (auth) => {
 */
 
 export const createUser = (formValue) => {
-
     return async (dispatch) => {
-        
         if (!formValue) {
-            dispatch ({
+            dispatch({
                 type: TYPES.CREATE_FAIL,
                 payload: false
-            })
+            });
         }
 
         const registerValue = {
-            Email : formValue.registerEmail,
+            Email: formValue.registerEmail,
             Password: formValue.registerPassword
-        }
-        const {status, statusText} = await axios.post(`${BASEURL}/createUser`, registerValue)
+        };
+        const { status, statusText } = await axios.post(`${BASEURL}/createUser`, registerValue);
 
         if (status === 201 && statusText === "Created") {
-            dispatch ({
+            dispatch({
                 type: TYPES.CREATE_SUCESS,
                 payload: true
-            })
+            });
         } else {
-            
-            dispatch ({
+            dispatch({
                 type: TYPES.CREATE_FAIL,
                 payload: false
-            })
+            });
         }
-    }
-}
+    };
+};

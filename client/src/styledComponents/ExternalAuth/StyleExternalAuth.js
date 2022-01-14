@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 export const Container = styled.div`
     display: flex;
@@ -6,8 +6,7 @@ export const Container = styled.div`
     justify-content: start;
     width: 95%;
     margin: 0 auto;
-
-`
+`;
 
 export const Button = styled.button`
     text-align: center;
@@ -26,5 +25,5 @@ export const Button = styled.button`
         background-color: white;
         cursor: pointer;
     }
-`
+`;
 

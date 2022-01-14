@@ -1,6 +1,6 @@
-import React from 'react'
-import * as Style from './StyleExternalAuth'
-function ExternalAuth({children, ...restProps}) {
+import React from "react";
+import * as Style from "./StyleExternalAuth";
+function ExternalAuth({ children, ...restProps }) {
     return <Style.Container {...restProps}>
         {children}
     </Style.Container>
@@ -8,10 +8,8 @@ function ExternalAuth({children, ...restProps}) {
 
 export default ExternalAuth
 
-ExternalAuth.Button = function Button({children, ...restProps}) {
+ExternalAuth.Button = function Button({ children, ...restProps }) {
     return <Style.Button {...restProps}>
         {children}
     </Style.Button>
 }
-
-

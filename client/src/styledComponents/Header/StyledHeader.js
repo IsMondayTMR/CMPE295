@@ -1,34 +1,35 @@
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+// prettier-ignore
 export const BackGround = styled.div`
-    height : 75px;
+    height: 75px;
     background-color: #d1d1d1;
     display: flex;
     justify-content: center;
-`
+`;
+
 export const Container = styled.div`
     display: flex;
     height : 100%;
     justify-content: space-between;
     align-items: center;
     width: 75%;
-`
-
+`;
 export const WebsiteName = styled.p`
     font-size: 25px;
     margin-left: 1.5rem;
     font-weight: 600;
-`
+`;
 export const RightPanelContainer = styled.div`
     width: 400px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-`
+`;
 
 export const LinkText = styled.p`
     font-size: 20px;
-`
+;`
 
 export const TextButton = styled.p`
     font-size: 20px;
@@ -38,10 +39,9 @@ export const TextButton = styled.p`
         padding-bottom: 5px;
         border-bottom: 1px solid black;
     }
-`
+`;
 
 export const Button = styled.button`
-
     width: 125px;
     height: 45px;
     font-size: 18px;
@@ -54,7 +54,7 @@ export const Button = styled.button`
         background-color: #7c7c7c;
         color: #E0E0E0;
     }
-`
+`;
 
 export const RouteLink = styled(Link)`
     text-decoration: none;
@@ -64,4 +64,4 @@ export const RouteLink = styled(Link)`
     justify-content: space-around;
     align-items: center;
     font-size: 45px;
-`
+`;
