@@ -7,9 +7,15 @@ export const Container = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 300px;
-    width: 300px;
+
 `
 
 export const RouteLink = styled(Link)`
+    text-decoration: none;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
 ` 

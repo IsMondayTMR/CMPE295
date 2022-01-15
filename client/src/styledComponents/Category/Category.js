@@ -14,3 +14,21 @@ Category.Container = function Container({ children, ...restProps }) {
         {children}
     </Styled.Container>
 }
+
+Category.Header = function Header({ children, ...restProps }) {
+    return <Styled.Header {...restProps}>
+        {children}
+    </Styled.Header>
+}
+
+Category.HeaderUnderLine = function HeaderUnderLine({ children, ...restProps }) {
+    return <Styled.HeaderUnderLine {...restProps}>
+        {children}
+    </Styled.HeaderUnderLine>
+}
+
+Category.CardContainer = function CardContainer({ children, ...restProps }) {
+    return <Styled.CardContainer {...restProps}>
+        {children}
+    </Styled.CardContainer>
+}

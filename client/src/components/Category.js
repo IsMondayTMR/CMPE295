@@ -5,8 +5,23 @@ const Category = () => {
     return (
         <CategoryComp>
             <CategoryComp.Container>
-                Category
-                <Card />
+                <CategoryComp.Header>
+                    Category
+                    <CategoryComp.HeaderUnderLine />
+                </CategoryComp.Header>
+
+                <CategoryComp.CardContainer>
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                </CategoryComp.CardContainer>
+
             </CategoryComp.Container>
         </CategoryComp>);
 };
