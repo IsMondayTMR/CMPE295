@@ -85,7 +85,8 @@ export const signIn = (formValue) => {
             payload: {
                 isSignedIn: isSignedIn,
                 user: user,
-                authType: TYPES.SIGN_IN
+                authType: TYPES.SIGN_IN,
+                authInstance: null
             }
         });
     };

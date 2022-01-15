@@ -7,7 +7,7 @@ import { storeFactory, findByTestAttr } from "../Utils/testUtils"
 import "@testing-library/jest-dom"
 
 
-Enzyme.configure({adapter: new EnzymeAdapter()})
+Enzyme.configure({ adapter: new EnzymeAdapter() })
 
 let props = {
     closeHelper: jest.fn()
@@ -16,9 +16,9 @@ let props = {
 const setup = () => {
     const store = storeFactory();
 
-    return mount (
+    return mount(
         <Provider store={store}>
-            <Authroization closeHelper = {props.closeHelper}/>
+            <Authroization closeHelper={props.closeHelper} hide={false} />
         </Provider>
     )
 }
@@ -32,22 +32,22 @@ const switchForm = (wrapper) => {
 test(`render authorization form without error`, () => {
     const wrapper = setup()
     const compnent = wrapper.find('div')
-    const authComp = findByTestAttr(compnent,'auth-form')
+    const authComp = findByTestAttr(compnent, 'auth-form')
     expect(authComp).toHaveLength(1)
 })
 
 describe(`render test`, () => {
- 
+
     test(`text feilds are rendered correctly`, () => {
         const wrapper = setup()
         const textFields = wrapper.find('p')
 
         expect(textFields).toHaveLength(2)
-        
-        var header = findByTestAttr(wrapper,'header').find('p')
-        
-        var connectText = findByTestAttr(wrapper,'connect-text').find('p')
-        
+
+        var header = findByTestAttr(wrapper, 'header').find('p')
+
+        var connectText = findByTestAttr(wrapper, 'connect-text').find('p')
+
         expect(header.text()).toEqual('Welcome To Mock')
         expect(connectText.text()).toEqual('Or connect with')
     })
@@ -55,7 +55,7 @@ describe(`render test`, () => {
     test(`buttons are rendered correctly`, () => {
         const wrapper = setup()
         const buttons = wrapper.find('button')
-        
+
         expect(buttons).toHaveLength(7)
 
         var registerButton = findByTestAttr(wrapper, 'register-btn').find('button')
@@ -83,7 +83,7 @@ describe(`render test`, () => {
         registerForm = findByTestAttr(wrapper, 'register-form').find('form')
         expect(registerForm).toHaveLength(1)
     })
-    
+
     test(`inputs field are rendered correctly`, () => {
         const wrapper = setup()
         const signInInputFields = wrapper.find('input')
@@ -120,18 +120,18 @@ describe(`render test`, () => {
         const form = findByTestAttr(div, 'auth-form')
         expect(form).toHaveLength(1)
         expect(form.exists()).toBeTruthy()
-        
+
 
         const closeButton = findByTestAttr(wrapper, 'close-btn').find('button')
         expect(closeButton).toHaveLength(1)
         closeButton.simulate('click')
         expect(props.closeHelper).toHaveBeenCalled()
-    })  
+    })
 
     test(`button is diabled after rendering`, () => {
         const wrapper = setup()
         const buttons = wrapper.find('button')
-        
+
         expect(buttons).toHaveLength(7)
 
         var signInButton = findByTestAttr(wrapper, 'sign-in-btn').find('button')
