@@ -110,8 +110,8 @@ export const signOut = (auth) => {
 /**
  * Returns Redux Thunk function that conditionaly 
  * dispatches CREATE_FAIL or CREATE_SUCESS action
- * @function signOut
- * @param {string} formValue - user infor.
+ * @function createUser
+ * @param {object} formValue - user infor.
  * @returns {function} - Redux Thunk function.
 */
 
@@ -141,5 +141,43 @@ export const createUser = (formValue) => {
                 payload: false
             });
         }
+    };
+};
+
+/**
+ * Return Redux Thunk function that conditionally 
+ * dispatch SEARCH_SUCESS or SEARCH FAILED action
+ * @function setSearch
+ * @param {string} - search terms
+ * @returns {function} - redux thunk function
+ */
+
+export const setSearch = (term) => {
+    console.log(term);
+    return ({
+        type: TYPES.SET_SEARCH,
+        payload: term
+    });
+};
+
+/**
+ * Return Redux Thunk function that conditionally 
+ * dispatch SEARCH_SUCESS or SEARCH FAILED action
+ * @function search
+ * @param {string} - search terms
+ * @returns {function} - redux thunk function
+ */
+
+export const search = (term) => {
+
+    return async (dispatch) => {
+        const response = await axios.get(`${BASEURL}/search`);
+        dispatch({
+            type: TYPES.SEARCH_SUCCESS,
+            payload: {
+                searchTerm: term,
+                data: response.data
+            }
+        });
     };
 };
