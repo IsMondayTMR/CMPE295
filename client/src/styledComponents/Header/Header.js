@@ -29,13 +29,6 @@ HeaderComp.RightPanel = function RightPanel({ children, ...restProps }) {
     </Style.RightPanelContainer>
 }
 
-HeaderComp.LinkText = function LinkText({ to, children, ...restProps }) {
-    return <Style.RouteLink to={to} {...restProps}>
-        <Style.LinkText {...restProps}>
-            {children}
-        </Style.LinkText>
-    </Style.RouteLink>
-}
 
 HeaderComp.Button = function Button({ children, ...restProps }) {
     return <Style.Button {...restProps}>
@@ -47,4 +40,20 @@ HeaderComp.TextButton = function TextButton({ children, ...restProps }) {
     return <Style.TextButton {...restProps}>
         {children}
     </Style.TextButton>
+}
+
+HeaderComp.HeaderLinkContainer = function HeaderLinkContainer({ to, children, ...restProps }) {
+    return <Style.RouteLink to={to} {...restProps}>
+        {children}
+    </Style.RouteLink>
+}
+HeaderComp.Text = function Text({ children, ...restProps }) {
+    return <Style.Text {...restProps}>
+        {children}
+    </Style.Text>
+
+}
+
+HeaderComp.Icon = function Icon({ ...restProps }) {
+    return <Style.Icon {...restProps} />
 }

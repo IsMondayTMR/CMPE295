@@ -29,3 +29,6 @@ export const CardContainer = styled.div`
     row-gap: 2em;
     column-gap: 3em;
 `
+
+export const HeaderContainer = styled.div`
+`

@@ -32,3 +32,9 @@ Category.CardContainer = function CardContainer({ children, ...restProps }) {
         {children}
     </Styled.CardContainer>
 }
+
+Category.HeaderContainer = function HeaderContainer({ children, ...restProps }) {
+    return <Styled.HeaderContainer {...restProps}>
+        {children}
+    </Styled.HeaderContainer>
+}
