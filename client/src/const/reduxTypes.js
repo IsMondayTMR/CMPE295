@@ -5,3 +5,5 @@ export const SIGN_OUT = "SIGN_OUT";
 export const CREATE_USER = "CREATE_USER";
 export const CREATE_SUCESS = "CREATE_SUCESS";
 export const CREATE_FAIL = "CREATE_FAIL";
+export const SET_SEARCH = "SET_SEARCH";
+export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
