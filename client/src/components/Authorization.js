@@ -10,8 +10,8 @@ import ExternalAuth from "./ExternalAuth";
 class Authorization extends React.Component {
     state = { signInActive: true };
 
-    signInFormValidate = () => this.props.signInEmail === undefined || this.props.signInPassword === undefined;
-    registerFormValidate = () => this.props.registerEmail === undefined || this.props.registerPassword === undefined || !Utils.validatePass(this.props.registerPassword);
+    signInFormValidate = () => this.props.signInEmail === "" || this.props.signInPassword === "";
+    registerFormValidate = () => this.props.registerEmail === "" || this.props.registerPassword === "" || !Utils.validatePass(this.props.registerPassword);
 
     renderRegisterField = ({ input, name, label, text, type, meta }) => {
         let validate = type === "email" ? !Utils.validateEmail(this.props.registerEmail) : !Utils.validatePass(this.props.registerPassword);
@@ -177,10 +177,10 @@ const mapStateToProps = (state) => {
 };
 
 Authorization.propTypes = {
-    signInEmail: PropTypes.any.isRequired,
-    signInPassword: PropTypes.any.isRequired,
-    registerEmail: PropTypes.any.isRequired,
-    registerPassword: PropTypes.any.isRequired,
+    signInEmail: PropTypes.string.isRequired,
+    signInPassword: PropTypes.string.isRequired,
+    registerEmail: PropTypes.string.isRequired,
+    registerPassword: PropTypes.string.isRequired,
     hide: PropTypes.bool.isRequired,
     createUser: PropTypes.func.isRequired,
     signIn: PropTypes.func.isRequired,

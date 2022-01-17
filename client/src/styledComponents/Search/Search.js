@@ -9,16 +9,16 @@ function SearchComp({ children, ...restProps }) {
 
 export default SearchComp
 
-SearchComp.Container = function Container({ children, ...restProps }) {
-    return <Style.Container {...restProps}>
+SearchComp.Form = function Form({ children, ...restProps }) {
+    return <Style.Form {...restProps}>
         {children}
-    </Style.Container>
+    </Style.Form>
 }
 
-SearchComp.Icon = function Icon({ children, ...restProps }) {
-    return <Style.Icon {...restProps}>
+SearchComp.Button = function Button({ children, ...restProps }) {
+    return <Style.Button {...restProps}>
         {children}
-    </Style.Icon>
+    </Style.Button>
 }
 
 SearchComp.Input = function Input({ children, ...restProps }) {

@@ -13,7 +13,7 @@ export const Container = styled.div`
     height : 100%;
     justify-content: space-between;
     align-items: center;
-    width: 75%;
+    width: 80%;
 `;
 export const WebsiteName = styled.p`
     font-size: 25px;
@@ -27,10 +27,13 @@ export const RightPanelContainer = styled.div`
     align-items: center;
 `;
 
-export const LinkText = styled.p`
+export const Text = styled.p`
     font-size: 20px;
 ;`
-
+export const Icon = styled.i`
+    font-size: 25px;
+    margin: 0 5px;
+`
 export const TextButton = styled.p`
     font-size: 20px;
 
