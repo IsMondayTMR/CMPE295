@@ -33,7 +33,7 @@ export const Card = styled.div`
 `
 
 export const Img = styled.img`
-    width: 30%;
+    width: 20%;
     object-fit: cover;
 `
 export const Title = styled.h2`
