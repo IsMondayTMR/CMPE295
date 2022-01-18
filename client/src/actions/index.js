@@ -172,12 +172,25 @@ export const search = (term) => {
 
     return async (dispatch) => {
         const response = await axios.get(`${BASEURL}/search`);
-        dispatch({
-            type: TYPES.SEARCH_SUCCESS,
-            payload: {
-                searchTerm: term,
-                data: response.data
-            }
-        });
+        if (response.status === 200) {
+            dispatch({
+                type: TYPES.SEARCH_SUCCESS,
+                payload: {
+                    success: true,
+                    searchTerm: term,
+                    data: response.data
+                }
+            });
+        } else {
+            dispatch({
+                type: TYPES.SEARCH_FAIL,
+                payload: {
+                    success: false,
+                    searchTerm: term,
+                    data: []
+                }
+            });
+        }
+
     };
 };

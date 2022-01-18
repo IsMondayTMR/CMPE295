@@ -4,7 +4,7 @@ import Home from "../containers/Home";
 import About from "../containers/About";
 import * as ROUTES from "./routes";
 import Support from "../containers/Support";
-import Result from "../containers/Result";
+import SearchResult from "../containers/SearchResult";
 
 const Routers = () => {
     return (
@@ -19,7 +19,7 @@ const Routers = () => {
                 <Support />
             </Route>
             <Route exact path={`${ROUTES.SEARCH}/:term`}>
-                <Result />
+                <SearchResult />
             </Route>
         </Switch>
     );

@@ -5,3 +5,8 @@ export { default as ExternalAuthComp } from "./ExternalAuth/ExternalAuth";
 export { default as Footer } from "./Footer/Footer";
 export { default as CategoryComp } from "./Category/Category";
 export { default as CardComp } from "./Card/Card";
+export { default as SubHeaderComp } from "./SubHeader/SubHeader";
+export { default as ResultLeftNavComp } from "./ResultLeftNav/ResultLeftNav";
+export { default as ResultComp } from "./Result/Result";
+export { default as ResultContentComp } from "./ResultContent/ResultContent";
+export { default as Loading } from "./Loading/Loading";
