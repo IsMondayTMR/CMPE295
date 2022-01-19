@@ -21,8 +21,9 @@ export const WebsiteName = styled.p`
     font-weight: 600;
 `;
 export const RightPanelContainer = styled.div`
-    width: 400px;
+    width: 600px;
     display: flex;
+    position: relative;
     justify-content: space-around;
     align-items: center;
 `;

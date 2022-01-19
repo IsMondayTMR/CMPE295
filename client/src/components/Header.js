@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import { HeaderComp } from "../styledComponents/export";
 import Authorization from "./Authorization";
+import ProfileDropDown from "./ProfileDropDown";
 import { connect } from "react-redux";
-import { signOut } from "../actions";
 import Search from "./Search";
 import history from "../history";
 
 import * as ROUTES from "../router/routes";
 class Header extends React.Component {
-    state = { hide: true, match: history.location.pathname.includes("/search/") };
+    state = { hide: true, match: history.location.pathname.includes("/search/"), dropdownHide: true };
 
     closeForm = () => {
         this.setState({ hide: true });
@@ -37,6 +37,7 @@ class Header extends React.Component {
     renderAuthButton = () => {
         if (this.props.auth.isSignedIn === true) {
             return (
+
                 <HeaderComp.RightPanel>
                     <HeaderComp.HeaderLinkContainer to="">
                         <HeaderComp.Icon className="far fa-comment-alt" />
@@ -53,7 +54,8 @@ class Header extends React.Component {
                         <HeaderComp.Text>Listing</HeaderComp.Text>
                     </HeaderComp.HeaderLinkContainer>
                     {/* <HeaderComp.Icon className="fas fa-user-circle" /> */}
-                    <HeaderComp.TextButton onClick={() => this.props.signOut(this.props.auth)} >Sign Out</HeaderComp.TextButton>
+                    {/* <HeaderComp.TextButton onClick={() => this.props.signOut(this.props.auth)} >Sign Out</HeaderComp.TextButton> */}
+                    <ProfileDropDown />
                 </HeaderComp.RightPanel>);
         } else {
             return (
@@ -80,6 +82,8 @@ class Header extends React.Component {
                     <HeaderComp.WebsiteIcon to="/">Mock Website</HeaderComp.WebsiteIcon>
                     {this.renderSearch()}
                     {this.renderAuthButton()}
+
+
                 </HeaderComp.Content>
             </HeaderComp>
         );
@@ -92,6 +96,5 @@ const mapStateToProps = (state) => {
 
 Header.propTypes = {
     auth: PropTypes.object.isRequired,
-    signOut: PropTypes.func.isRequired,
 };
-export default connect(mapStateToProps, { signOut })(Header);
+export default connect(mapStateToProps)(Header);
