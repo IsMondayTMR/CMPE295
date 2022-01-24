@@ -10,7 +10,7 @@ import history from "../history";
 
 import * as ROUTES from "../router/routes";
 class Header extends React.Component {
-    state = { hide: true, match: history.location.pathname.includes("/search/"), dropdownHide: true };
+    state = { hide: true, match: history.location.pathname.includes("/search/") || history.location.pathname.includes("/profile/"), dropdownHide: true };
 
     closeForm = () => {
         this.setState({ hide: true });

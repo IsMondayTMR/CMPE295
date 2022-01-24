@@ -24,26 +24,26 @@ export const Form = styled.form`
 `
 
 export const Button = styled.button`
-        outline: none;
-        width: 50px;
-        height: 100%;
-        background:white;
-        border: 1px solid white;
-        border-radius: ${({ borderRadius }) => borderRadius ? `0px ${borderRadius} ${borderRadius} 0px` : ` 0rem 0.75rem 0.75rem 0rem`};
-        text-align: center;
-        color: black;
-        cursor: pointer;
-        font-size: 20px;
+    outline: none;
+    width: 50px;
+    height: 100%;
+    background:white;
+    border: 1px solid white;
+    border-radius: ${({ borderRadius }) => borderRadius ? `0px ${borderRadius} ${borderRadius} 0px` : ` 0rem 0.75rem 0.75rem 0rem`};
+    text-align: center;
+    color: black;
+    cursor: pointer;
+    font-size: 20px;
 `
 export const Input = styled.input`
-        width: 100%;
-        border-right: none;
-        font-size:${({ fontSize }) => fontSize ? fontSize : "20px"};
-        padding-left: 15px;
-        outline: none;
-        border: 4px solid white;
-        border-radius: ${({ borderRadius }) => borderRadius ? `${borderRadius} 0px 0px ${borderRadius} ` : `0.75rem 0rem 0rem 0.75rem`};
-        color: black;
-        margin: 0 auto;
+    width: 100%;
+    border-right: none;
+    font-size:${({ fontSize }) => fontSize ? fontSize : "20px"};
+    padding-left: 15px;
+    outline: none;
+    border: 4px solid white;
+    border-radius: ${({ borderRadius }) => borderRadius ? `${borderRadius} 0px 0px ${borderRadius} ` : `0.75rem 0rem 0rem 0.75rem`};
+    color: black;
+    margin: 0 auto;
     
 `

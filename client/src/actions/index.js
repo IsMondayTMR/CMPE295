@@ -194,3 +194,31 @@ export const search = (term) => {
 
     };
 };
+
+export const fetchItem = (id) => {
+
+    return async (dispatch) => {
+        const response = await axios.get(`${BASEURL}/search`);
+        if (response.status === 200) {
+
+            const item = response.data.filter((object) => object.id == id)[0];
+            // console.log(item);
+            dispatch({
+                type: TYPES.GET_ITEM_SUCCESS,
+                payload: {
+                    item: item,
+                    success: true,
+                }
+            });
+        } else {
+            dispatch({
+                type: TYPES.GET_ITEM_FAIL,
+                payload: {
+                    item: {},
+                    success: false,
+                }
+            });
+        }
+
+    };
+};

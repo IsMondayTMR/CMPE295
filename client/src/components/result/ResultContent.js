@@ -17,7 +17,7 @@ class ResultContent extends React.Component {
         }
         return this.props.data.map(object => {
             return (
-                <ResultContentComp.Card to={`/search/${this.props.searchTerm}`} key={object.id}>
+                <ResultContentComp.Card to={`/search/${this.props.searchTerm}/${object.id}`} key={object.id}>
                     <ResultContentComp.Img src={defaultImage} alt="test" />
                     <ResultContentComp.InforContainer>
                         <ResultContentComp.Title>{object.Title}</ResultContentComp.Title>
@@ -30,9 +30,7 @@ class ResultContent extends React.Component {
 
     render() {
         return <ResultContentComp>
-
             {this.renderData()}
-
         </ResultContentComp>;
     }
 

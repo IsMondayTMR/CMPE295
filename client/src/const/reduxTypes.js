@@ -8,3 +8,5 @@ export const CREATE_FAIL = "CREATE_FAIL";
 export const SET_SEARCH = "SET_SEARCH";
 export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
 export const SEARCH_FAIL = "SEARCH_FAIL";
+export const GET_ITEM_SUCCESS = "GET_ITEM_SUCCESS";
+export const GET_ITEM_FAIL = "GET_ITEM_FAIL";

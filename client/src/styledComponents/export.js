@@ -11,3 +11,4 @@ export { default as ResultComp } from "./Result/Result";
 export { default as ResultContentComp } from "./ResultContent/ResultContent";
 export { default as Loading } from "./Loading/Loading";
 export { default as DropDownComp } from "./DropDown/DropDown";
+export { default as ItemDetailComp } from "./ItemDetail/ItemDetail";

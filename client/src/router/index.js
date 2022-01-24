@@ -5,7 +5,7 @@ import About from "../containers/About";
 import * as ROUTES from "./routes";
 import Support from "../containers/Support";
 import SearchResult from "../containers/SearchResult";
-
+import ItemDetail from "../components/ItemDetail";
 const Routers = () => {
     return (
         <Switch>
@@ -20,6 +20,9 @@ const Routers = () => {
             </Route>
             <Route exact path={`${ROUTES.SEARCH}/:term`}>
                 <SearchResult />
+            </Route>
+            <Route exact path={`${ROUTES.SEARCH}/:term/:id`}>
+                <ItemDetail />
             </Route>
         </Switch>
     );
