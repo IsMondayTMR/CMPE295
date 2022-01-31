@@ -35,7 +35,8 @@ export const SecondaryImage = styled.img`
     width: 100px;
     height: 100px;
     object-fit: cover;
-    border: 2px solid grey;
+    border: ${({ active }) => active ? "2px solid orange" : "2px solid grey"};
+    
     &:hover{
         border: 2px solid orange;
     }

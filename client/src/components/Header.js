@@ -10,7 +10,7 @@ import history from "../history";
 
 import * as ROUTES from "../router/routes";
 class Header extends React.Component {
-    state = { hide: true, match: history.location.pathname.includes("/search/") || history.location.pathname.includes("/profile/"), dropdownHide: true };
+    state = { hide: true, match: history.location.pathname.includes("/search/") || history.location.pathname.includes("/profile"), dropdownHide: true };
 
     closeForm = () => {
         this.setState({ hide: true });
@@ -30,7 +30,7 @@ class Header extends React.Component {
     };
 
     componentDidMount() {
-        history.listen(() => { this.setState({ match: history.location.pathname.includes("/search/") }); });
+        history.listen(() => { this.setState({ match: history.location.pathname.includes("/search/") || history.location.pathname.includes("/profile") }); });
     }
 
 
@@ -75,7 +75,6 @@ class Header extends React.Component {
         }
     };
     render() {
-
         return (
             <HeaderComp>
                 <HeaderComp.Content>

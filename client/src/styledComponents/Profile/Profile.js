@@ -38,3 +38,51 @@ Profile.Button = function Button({ children, ...restProps }) {
         {children}
     </Style.Button>
 }
+
+Profile.Image = function Image({ children, ...restProps }) {
+    return <Style.UserImage {...restProps}>
+        {children}
+    </Style.UserImage>
+}
+
+Profile.ImageContainer = function ImageContainer({ children, ...restProps }) {
+    return <Style.ImageContainer {...restProps}>
+        {children}
+    </Style.ImageContainer>
+}
+
+Profile.Input = function Input({ children, ...restProps }) {
+    return <Style.Input {...restProps}>
+        {children}
+    </Style.Input>
+}
+
+Profile.InputGroup = function InputGroup({ children, ...restProps }) {
+    return <Style.InputGroup {...restProps}>
+        {children}
+    </Style.InputGroup>
+}
+
+Profile.InputContainer = function InputContainer({ children, ...restProps }) {
+    return <Style.InputContainer {...restProps}>
+        {children}
+    </Style.InputContainer>
+}
+Profile.Label = function Label({ children, ...restProps }) {
+    return <Style.Label {...restProps}>
+        {children}
+    </Style.Label>
+}
+
+Profile.UserName = function UserName({ children, ...restProps }) {
+    return <Style.UserName {...restProps}>
+        {children}
+    </Style.UserName>
+}
+
+Profile.TextArea = function TextArea({ children, ...restProps }) {
+    return <Style.TextArea {...restProps}>
+        {children}
+    </Style.TextArea>
+}
+

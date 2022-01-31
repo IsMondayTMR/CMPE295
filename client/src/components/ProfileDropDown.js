@@ -14,8 +14,8 @@ const ProfileDropDown = (props) => {
             <DropDownComp.DropDownContent >
                 <DropDownComp.List>
                     <DropDownComp.LinkItem to={ROUTES.PROFILE}>Profile</DropDownComp.LinkItem>
-                    <DropDownComp.LinkItem to="">History</DropDownComp.LinkItem>
-                    <DropDownComp.LinkItem to="">Setting</DropDownComp.LinkItem>
+                    <DropDownComp.LinkItem to={`${ROUTES.PROFILE}/history`}>History</DropDownComp.LinkItem>
+                    <DropDownComp.LinkItem to={`${ROUTES.PROFILE}/setting`}>Setting</DropDownComp.LinkItem>
                     <DropDownComp.ItemBtn onClick={() => props.signOut(props.auth)} >Sign Out</DropDownComp.ItemBtn>
                 </DropDownComp.List>
             </DropDownComp.DropDownContent>
