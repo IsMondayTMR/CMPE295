@@ -2,6 +2,7 @@ import React from "react";
 import { DropDownComp } from "../styledComponents/export";
 import { connect } from "react-redux";
 import { signOut } from "../actions";
+import * as ROUTES from "../router/routes";
 import PropTypes from "prop-types";
 const ProfileDropDown = (props) => {
 
@@ -12,7 +13,7 @@ const ProfileDropDown = (props) => {
             </DropDownComp.Button>
             <DropDownComp.DropDownContent >
                 <DropDownComp.List>
-                    <DropDownComp.LinkItem to="">Profile</DropDownComp.LinkItem>
+                    <DropDownComp.LinkItem to={ROUTES.PROFILE}>Profile</DropDownComp.LinkItem>
                     <DropDownComp.LinkItem to="">History</DropDownComp.LinkItem>
                     <DropDownComp.LinkItem to="">Setting</DropDownComp.LinkItem>
                     <DropDownComp.ItemBtn onClick={() => props.signOut(props.auth)} >Sign Out</DropDownComp.ItemBtn>

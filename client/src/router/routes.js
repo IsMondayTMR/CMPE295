@@ -4,3 +4,4 @@ export const ABOUT = "/about";
 export const SUPPORT = "/support";
 export const CONTACT = "/contact";
 export const SEARCH = "/search";
+export const PROFILE = "/profile";

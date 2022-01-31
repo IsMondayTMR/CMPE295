@@ -6,6 +6,7 @@ import * as ROUTES from "./routes";
 import Support from "../containers/Support";
 import SearchResult from "../containers/SearchResult";
 import ItemDetail from "../components/ItemDetail";
+import PersonalCenter from "../containers/PersonalCenter";
 const Routers = () => {
     return (
         <Switch>
@@ -24,7 +25,10 @@ const Routers = () => {
             <Route exact path={`${ROUTES.SEARCH}/:term/:id`}>
                 <ItemDetail />
             </Route>
-        </Switch>
+            <Route path={ROUTES.PROFILE}>
+                <PersonalCenter />
+            </Route>
+        </Switch >
     );
 };
 export default Routers;
