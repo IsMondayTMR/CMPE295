@@ -9,6 +9,7 @@ import Search from "./Search";
 import history from "../history";
 
 import * as ROUTES from "../router/routes";
+
 class Header extends React.Component {
     state = { hide: true, match: history.location.pathname.includes("/search/") || history.location.pathname.includes("/profile"), dropdownHide: true };
 
@@ -34,45 +35,48 @@ class Header extends React.Component {
     }
 
 
+
+
     renderAuthButton = () => {
-        if (this.props.auth.isSignedIn === true) {
+        if (this.props.auth.isSignedIn) {
             return (
 
                 <HeaderComp.RightPanel>
                     <HeaderComp.HeaderLinkContainer to="">
                         <HeaderComp.Icon className="far fa-comment-alt" />
                         <HeaderComp.Text>Message</HeaderComp.Text>
+
                     </HeaderComp.HeaderLinkContainer>
 
-                    <HeaderComp.HeaderLinkContainer to="">
+                    <HeaderComp.HeaderLinkContainer to={`${ROUTES.PROFILE}/favorite`}>
                         <HeaderComp.Icon className="far fa-heart" />
                         <HeaderComp.Text>Favorite</HeaderComp.Text>
                     </HeaderComp.HeaderLinkContainer>
 
-                    <HeaderComp.HeaderLinkContainer to="">
+                    <HeaderComp.HeaderLinkContainer to={`${ROUTES.PROFILE}/listing`}>
                         <HeaderComp.Icon className="fas fa-coins" />
                         <HeaderComp.Text>Listing</HeaderComp.Text>
                     </HeaderComp.HeaderLinkContainer>
                     {/* <HeaderComp.Icon className="fas fa-user-circle" /> */}
                     {/* <HeaderComp.TextButton onClick={() => this.props.signOut(this.props.auth)} >Sign Out</HeaderComp.TextButton> */}
                     <ProfileDropDown />
-                </HeaderComp.RightPanel>);
-        } else {
-            return (
-                <HeaderComp.RightPanel>
-
-                    <HeaderComp.HeaderLinkContainer to={ROUTES.ABOUT}>
-                        <HeaderComp.Text>About</HeaderComp.Text>
-                    </HeaderComp.HeaderLinkContainer>
-
-                    <HeaderComp.HeaderLinkContainer to={ROUTES.SUPPORT}>
-                        <HeaderComp.Text>Support</HeaderComp.Text>
-                    </HeaderComp.HeaderLinkContainer>
-                    <HeaderComp.TextButton onClick={() => this.setState({ hide: false })} >Login</HeaderComp.TextButton>
-                    {this.renderModal()}
-                    <HeaderComp.Button>Contact</HeaderComp.Button>
-                </HeaderComp.RightPanel>);
+                </HeaderComp.RightPanel >);
         }
+        return (
+            <HeaderComp.RightPanel>
+
+                <HeaderComp.HeaderLinkContainer to={ROUTES.ABOUT}>
+                    <HeaderComp.Text>About</HeaderComp.Text>
+                </HeaderComp.HeaderLinkContainer>
+
+                <HeaderComp.HeaderLinkContainer to={ROUTES.SUPPORT}>
+                    <HeaderComp.Text>Support</HeaderComp.Text>
+                </HeaderComp.HeaderLinkContainer>
+                <HeaderComp.TextButton onClick={() => this.setState({ hide: false })} >Login</HeaderComp.TextButton>
+                {this.renderModal()}
+                <HeaderComp.Button>Contact</HeaderComp.Button>
+            </HeaderComp.RightPanel>);
+
     };
     render() {
         return (
@@ -81,8 +85,6 @@ class Header extends React.Component {
                     <HeaderComp.WebsiteIcon to="/">Mock Website</HeaderComp.WebsiteIcon>
                     {this.renderSearch()}
                     {this.renderAuthButton()}
-
-
                 </HeaderComp.Content>
             </HeaderComp>
         );
