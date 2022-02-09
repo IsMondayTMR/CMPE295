@@ -18,7 +18,8 @@ module.exports = {
         "react"
     ],
     "ignorePatterns": [
-        "src/styledComponents/*/*.js"
+        "src/styledComponents/*/*.js",
+        "src/components/Chat/ChatLists.js"
     ],
     "rules": {
         "semi": [2, "always"],

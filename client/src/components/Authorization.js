@@ -14,9 +14,10 @@ class Authorization extends React.Component {
     registerFormValidate = () => this.props.registerEmail === "" || this.props.registerPassword === "" || !Utils.validatePass(this.props.registerPassword);
 
     renderRegisterField = ({ input, name, label, text, type, meta }) => {
-        let validate = type === "email" ? !Utils.validateEmail(this.props.registerEmail) : !Utils.validatePass(this.props.registerPassword);
 
+        let validate = type === "email" ? !Utils.validateEmail(this.props.registerEmail) : !Utils.validatePass(this.props.registerPassword);
         let touched = meta.touched ? validate : meta.touched;
+
         return (
             <FormComp.InputContainer >
                 <FormComp.Label >{label}</FormComp.Label>
@@ -43,7 +44,8 @@ class Authorization extends React.Component {
                 <FormComp.InputContainer>
                     <Field
                         component={this.renderSignInField}
-                        label="Email" text='Enter Email'
+                        label="Email"
+                        text='Enter Email'
                         type="email"
                         name="signInEmail"
                         data-test="sign-in-email-input" />
@@ -171,8 +173,8 @@ const mapStateToProps = (state) => {
     return {
         signInEmail: selector(state, "signInEmail") === undefined ? "" : selector(state, "signInEmail"),
         signInPassword: selector(state, "signInPassword") === undefined ? "" : selector(state, "signInEmail"),
-        registerEmail: selector(state, "registerEmail") === undefined ? "" : selector(state, "signInEmail"),
-        registerPassword: selector(state, "registerPassword") === undefined ? "" : selector(state, "signInEmail")
+        registerEmail: selector(state, "registerEmail") === undefined ? "" : selector(state, "registerEmail"),
+        registerPassword: selector(state, "registerPassword") === undefined ? "" : selector(state, "registerPassword")
     };
 };
 

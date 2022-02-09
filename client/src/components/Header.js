@@ -42,7 +42,7 @@ class Header extends React.Component {
             return (
 
                 <HeaderComp.RightPanel>
-                    <HeaderComp.HeaderLinkContainer to="">
+                    <HeaderComp.HeaderLinkContainer to={ROUTES.MESSAGE}>
                         <HeaderComp.Icon className="far fa-comment-alt" />
                         <HeaderComp.Text>Message</HeaderComp.Text>
 

@@ -7,6 +7,7 @@ import Support from "../containers/Support";
 import SearchResult from "../containers/SearchResult";
 import ItemDetail from "../components/ItemDetail";
 import PersonalCenter from "../containers/PersonalCenter";
+import Chat from "../components/Chat/Chat";
 const Routers = () => {
     return (
         <Switch>
@@ -19,12 +20,16 @@ const Routers = () => {
             <Route exact path={ROUTES.SUPPORT}>
                 <Support />
             </Route>
+            <Route exact path={ROUTES.MESSAGE}>
+                <Chat />
+            </Route>
             <Route exact path={`${ROUTES.SEARCH}/:term`}>
                 <SearchResult />
             </Route>
             <Route exact path={`${ROUTES.SEARCH}/:term/:id`}>
                 <ItemDetail />
             </Route>
+
             <Route path={ROUTES.PROFILE}>
                 <PersonalCenter />
             </Route>
