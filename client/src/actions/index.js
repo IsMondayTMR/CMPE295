@@ -130,6 +130,19 @@ export const createUser = (formValue) => {
         };
         const { status, statusText } = await axios.post(`${BASEURL}/createUser`, registerValue);
 
+
+
+        const response = await axios.post("https://api.chatengine.io/users/", {
+            "username": formValue.registerEmail,
+            "first_name": "Adam",
+            "last_name": "La Morre",
+            "secret": formValue.registerEmail,
+        }, {
+            headers: { "PRIVATE-KEY": "b4d41842-0e56-4df5-9bec-5ebab5b3438d" }
+        });
+
+        console.log(response);
+
         if (status === 201 && statusText === "Created") {
             dispatch({
                 type: TYPES.CREATE_SUCESS,

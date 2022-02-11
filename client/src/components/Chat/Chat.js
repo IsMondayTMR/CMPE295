@@ -2,22 +2,27 @@ import React from "react";
 import { ChatEngine } from "react-chat-engine";
 // import ChatFeed from "./ChatFeed";
 import ChatList from "./ChatList";
+import { PROJECTID } from "./chatConst";
 import "./chat.css";
-const Chat = () => {
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+const Chat = (props) => {
+
+    console.log(props);
     return (
         <div>
             <ChatEngine
                 height="90vh"
-                userName='IsMondayTMR'
-                userSecret='Tmdsb!@213'
-                projectID='62b90b34-fac4-4d2d-9572-ef43ecee2ba1'
+                userName={props?.auth?.user?.Email}
+                userSecret={props?.auth?.user?.Email}
+                projectID={PROJECTID}
                 renderChatList={(props) => <ChatList {...props} />}
             // renderChatCard={(chat, index) => { }}
             // renderNewChatForm={(creds) => { }}
             // renderChatFeed={(chatAppState) => <ChatFeed {...chatAppState} />}
-            // renderChatHeader={(chat) => { }}
+            // renderChatHeader={() => { return "test"; }}
             // renderMessageBubble={(creds, chat, lastMessage, message, nextMessage) => { }}
-            // renderIsTyping={(typers) => { }}
+            // renderIsTyping={() => { }}
             // renderNewMessageForm={(creds, chatId) => { }}
             // renderChatSettings={() => { }}
             // renderChatSettingsTop={() => { }}
@@ -29,4 +34,12 @@ const Chat = () => {
     );
 };
 
-export default Chat;
+
+const mapStateToProps = (state) => {
+    return { auth: state.auth };
+};
+
+Chat.propTypes = {
+    auth: PropTypes.object.isRequired,
+};
+export default connect(mapStateToProps)(Chat);

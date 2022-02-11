@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import { fetchItem } from "../actions/";
 import { ItemDetailComp } from "../styledComponents/export";
 import defaultImg from "../resources/1.jpg";
-
+import axios from "axios";
+import { PROJECTID, USERNAME, USERSECRET } from "./Chat/chatConst";
 class ItemDetail extends React.Component {
     state = { activeImage: defaultImg, active: 1 };
     componentDidMount() {
@@ -34,12 +35,32 @@ class ItemDetail extends React.Component {
             <ItemDetailComp.PrimaryImage src={this.state.activeImage} alt="Primary Image" />
         </ItemDetailComp.ImageContainer>;
     }
+
+    async startChat(e) {
+        e.preventDefault();
+
+        const headers = {
+            "Project-ID": PROJECTID,
+            "User-Name": USERNAME,
+            "User-Secret": USERSECRET
+        };
+        var response = await axios.put("https://api.chatengine.io/chats/", {
+            "usernames": [this.props?.auth?.user?.Email, "test1@gmail.com"],
+            "title": "Another Surprise Party!",
+            "is_direct_chat": true
+        }, {
+            headers: headers
+        });
+
+        console.log(response);
+
+    }
     renderInfor() {
         return <ItemDetailComp.InforContainer>
             <ItemDetailComp.Title>
                 Title: {this.props.item.item.Title}
             </ItemDetailComp.Title>
-            <ItemDetailComp.Text>
+            <ItemDetailComp.Text onClick={(e) => this.startChat(e)}>
                 Id: {this.props.item.item.id}
             </ItemDetailComp.Text>
             <ItemDetailComp.Text>
@@ -73,12 +94,14 @@ ItemDetail.propTypes = {
     item: PropTypes.any.isRequired,
     fetchItem: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
 
     return {
         item: state.item,
+        auth: state.auth
     };
 };
 

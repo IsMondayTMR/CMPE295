@@ -23,3 +23,18 @@ ChatContainer.ChatNewMessage = function ChatNewMessage({ children, ...restProps 
         {children}
     </Style.ChatNewMessage>
 }
+
+ChatContainer.ContentContainer = function ContentContainer({ children, ...restProps }) {
+    return <Style.ContentContainer {...restProps}>
+        {children}
+    </Style.ContentContainer>
+}
+ChatContainer.Image = function Image({ ...restProps }) {
+    return <Style.Image {...restProps} />
+}
+
+ChatContainer.ChatListTitle = function ChatListTitle({ children, ...restProps }) {
+    return <Style.ChatListTitle {...restProps}>
+        {children}
+    </Style.ChatListTitle>
+}
