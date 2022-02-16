@@ -33,10 +33,10 @@ Profile.RouteLink = function RouteLink({ children, ...restProps }) {
     </Style.RouteLink>
 }
 
-Profile.Button = function Button({ children, ...restProps }) {
-    return <Style.Button {...restProps}>
+Profile.EditButton = function EditButton({ children, ...restProps }) {
+    return <Style.EditButton {...restProps}>
         {children}
-    </Style.Button>
+    </Style.EditButton>
 }
 
 Profile.Image = function Image({ children, ...restProps }) {

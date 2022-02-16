@@ -2,13 +2,14 @@ import React from "react";
 import { ChatEngine } from "react-chat-engine";
 // import ChatFeed from "./ChatFeed";
 import ChatList from "./ChatList";
+import ChatHeader from "./ChatHeader";
 import { PROJECTID } from "./chatConst";
 import "./chat.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+
 const Chat = (props) => {
 
-    console.log(props);
     return (
         <div>
             <ChatEngine
@@ -17,10 +18,11 @@ const Chat = (props) => {
                 userSecret={props?.auth?.user?.Email}
                 projectID={PROJECTID}
                 renderChatList={(props) => <ChatList {...props} />}
+                renderChatHeader={(props) => <ChatHeader {...props} />}
             // renderChatCard={(chat, index) => { }}
             // renderNewChatForm={(creds) => { }}
             // renderChatFeed={(chatAppState) => <ChatFeed {...chatAppState} />}
-            // renderChatHeader={() => { return "test"; }}
+
             // renderMessageBubble={(creds, chat, lastMessage, message, nextMessage) => { }}
             // renderIsTyping={() => { }}
             // renderNewMessageForm={(creds, chatId) => { }}

@@ -5,11 +5,11 @@ import { signOut } from "../actions";
 import * as ROUTES from "../router/routes";
 import PropTypes from "prop-types";
 const ProfileDropDown = (props) => {
-
+    console.log(props?.auth);
     return (
         <DropDownComp >
             <DropDownComp.Button>
-                <i className="fas fa-user-circle" />{props.auth.user.Email}
+                <i className="fas fa-user-circle" />{props?.auth?.user?.Username}
             </DropDownComp.Button>
             <DropDownComp.DropDownContent >
                 <DropDownComp.List>

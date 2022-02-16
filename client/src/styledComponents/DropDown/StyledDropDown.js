@@ -26,6 +26,7 @@ export const DropDownContent = styled.div`
     width: 200px;
     background-color: #28a2de;
     border-radius: 5px;
+    z-index: 50;
 `
 
 export const Background = styled.div`

@@ -73,7 +73,8 @@ export const signIn = (formValue) => {
             if (data[key].Email === formValue.signInEmail && data[key].Password === formValue.signInPassword) {
                 isSignedIn = true;
                 user = {
-                    Email: data[key].Email,
+                    Email: data[key]?.Email,
+                    Username: data[key]?.Username
                 };
                 sessionStorage.setItem("user", JSON.stringify(user));
                 break;

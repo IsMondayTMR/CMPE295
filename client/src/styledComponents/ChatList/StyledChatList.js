@@ -40,6 +40,18 @@ export const Image = styled.img`
     border-radius: 10px;
 `
 
+export const ImageName = styled.div`
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    font-weight: bolder;
+    background-color: #462bb3;
+`
+
 export const ChatListTitle = styled.h2`
     font-size: 30px;
     margin: 10px 0;

@@ -33,6 +33,10 @@ ChatContainer.Image = function Image({ ...restProps }) {
     return <Style.Image {...restProps} />
 }
 
+ChatContainer.ImageName = function ImageName({ children, ...restProps }) {
+    return <Style.ImageName {...restProps} >{children} </Style.ImageName>
+}
+
 ChatContainer.ChatListTitle = function ChatListTitle({ children, ...restProps }) {
     return <Style.ChatListTitle {...restProps}>
         {children}

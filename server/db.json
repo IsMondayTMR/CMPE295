@@ -4,52 +4,72 @@
     {
       "id": 1,
       "Title": "Test Item 1",
-      "Description": "Test Test"
+      "Description": "Test Test",
+      "Email": "test1@gmail.com",
+      "Username": "test1"
     },
     {
       "id": 2,
       "Title": "Test Item 2",
-      "Description": "Test Test"
+      "Description": "Test Test",
+      "Email": "test1@gmail.com",
+      "Username": "test1"
     },
     {
       "id": 3,
       "Title": "Test Item 3",
-      "Description": "Test Test"
+      "Description": "Test Test",
+      "Email": "test1@gmail.com",
+      "Username": "test1"
     },
     {
       "id": 4,
       "Title": "Test Item 4",
-      "Description": "Test Test"
+      "Description": "Test Test",
+      "Email": "test1@gmail.com",
+      "Username": "test1"
     },
     {
       "id": 5,
       "Title": "Test Item 5",
-      "Description": "Test Test"
+      "Description": "Test Test",
+      "Email": "test1@gmail.com",
+      "Username": "test1"
     },
     {
       "id": 6,
       "Title": "Test Item 6",
-      "Description": "Test Test"
+      "Description": "Test Test",
+      "Email": "Account2@gmail.com",
+      "Username": "Account2"
     },
     {
       "id": 7,
       "Title": "Test Item 7",
-      "Description": "Test Test"
+      "Description": "Test Test",
+      "Email": "Account2@gmail.com",
+      "Username": "Account2"
     },
     {
       "id": 8,
       "Title": "Test Item 8",
-      "Description": "Test Test"
+      "Description": "Test Test",
+      "Email": "Account2@gmail.com",
+      "Username": "Account2"
     },
     {
       "id": 9,
       "Title": "Test Item 9",
-      "Description": "Test Test"
+      "Description": "Test Test",
+      "Email": "Account2@gmail.com",
+      "Username": "Account2"
     },
     {
       "id": 10,
       "Title": "Test Item 10",
-      "Description": "Test Test"
+      "Description": "Test Test",
+      "Email": "Account2@gmail.com",
+      "Username": "Account2"
     }
   ],
   "createUser": [
@@ -97,11 +117,13 @@
     {
       "Email": "test1@gmail.com",
       "Password": "Plmoknijb!@213",
+      "Username": "test1",
       "id": 6
     },
     {
       "Email": "Account2@gmail.com",
       "Password": "Plmoknijb!@213",
+      "Username": "Account2",
       "id": 7
     }
   ]

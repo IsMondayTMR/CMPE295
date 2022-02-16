@@ -40,7 +40,7 @@ export const ContentContainer = styled.div`
     text-align: center;
 `
 
-export const Button = styled.button``
+export const EditButton = styled.button``
 
 export const ImageContainer = styled.div`
     

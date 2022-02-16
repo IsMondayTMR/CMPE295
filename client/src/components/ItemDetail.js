@@ -44,24 +44,33 @@ class ItemDetail extends React.Component {
             "User-Name": USERNAME,
             "User-Secret": USERSECRET
         };
+
+        if (this.props?.auth?.user?.Email === this.props?.item?.item?.Email) {
+            console.log(this.props?.auth?.user?.Email);
+            console.log(this.props?.item?.item?.Email);
+            console.log("same user");
+            return;
+        }
+
         var response = await axios.put("https://api.chatengine.io/chats/", {
-            "usernames": [this.props?.auth?.user?.Email, "test1@gmail.com"],
+            "usernames": [this.props?.auth?.user?.Email, this.props?.item?.item?.Email],
             "title": "Another Surprise Party!",
             "is_direct_chat": true
         }, {
             headers: headers
         });
-
         console.log(response);
-
     }
     renderInfor() {
         return <ItemDetailComp.InforContainer>
             <ItemDetailComp.Title>
                 Title: {this.props.item.item.Title}
             </ItemDetailComp.Title>
-            <ItemDetailComp.Text onClick={(e) => this.startChat(e)}>
+            <ItemDetailComp.Text>
                 Id: {this.props.item.item.id}
+            </ItemDetailComp.Text>
+            <ItemDetailComp.Text onClick={(e) => this.startChat(e)}>
+                Username: {this.props.item.item.Username}
             </ItemDetailComp.Text>
             <ItemDetailComp.Text>
                 Description: {this.props.item.item.Description}
