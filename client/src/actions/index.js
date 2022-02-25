@@ -1,5 +1,6 @@
 import * as TYPES from "../const/reduxTypes";
 import { BASEURL } from "../const/apis";
+import UserPool from "../aws/UserPool";
 import axios from "axios";
 
 /**
@@ -116,7 +117,7 @@ export const signOut = (auth) => {
  * @returns {function} - Redux Thunk function.
 */
 
-export const createUser = (formValue) => {
+export const createUser = (formValue, url) => {
     return async (dispatch) => {
         if (!formValue) {
             dispatch({
@@ -125,36 +126,81 @@ export const createUser = (formValue) => {
             });
         }
 
-        const registerValue = {
-            Email: formValue.registerEmail,
-            Password: formValue.registerPassword
-        };
-        const { status, statusText } = await axios.post(`${BASEURL}/createUser`, registerValue);
+        // const registerValue = {
+        //     Email: formValue.registerEmail,
+        //     Password: formValue.registerPassword
+        // };
+        // const { status, statusText } = await axios.post(`${BASEURL}/createUser`, registerValue);
+        // "UserAttributes": [
+        //     {
+        //         "Name": "string",
+        //         "Value": "string"
+        //     }
+        // ]
+        console.log(url);
+        const phone_number = "+1" + formValue?.phone_number;
+        const attributes = [
+            {
+                Name: "name",
+                Value: formValue?.name
+            },
+            {
+                Name: "gender",
+                Value: formValue?.gender
+            },
+            {
+                Name: "phone_number",
+                Value: phone_number
+            },
+            {
+                Name: "address",
+                Value: formValue?.street
+            },
+            {
+                Name: "custom:city",
+                Value: formValue?.city
+            },
+            {
+                Name: "custom:state",
+                Value: formValue?.state
+            },
+            {
+                Name: "custom:avatar_url",
+                Value: url
+            }
 
+        ];
+        UserPool.signUp(formValue.registerEmail, formValue.registerPassword, attributes, null, (err, data) => {
+            if (err) {
+                console.log(err);
+            }
 
-
-        const response = await axios.post("https://api.chatengine.io/users/", {
-            "username": formValue.registerEmail,
-            "first_name": "Adam",
-            "last_name": "La Morre",
-            "secret": formValue.registerEmail,
-        }, {
-            headers: { "PRIVATE-KEY": "b4d41842-0e56-4df5-9bec-5ebab5b3438d" }
+            console.log(data);
         });
 
-        console.log(response);
 
-        if (status === 201 && statusText === "Created") {
-            dispatch({
-                type: TYPES.CREATE_SUCESS,
-                payload: true
-            });
-        } else {
-            dispatch({
-                type: TYPES.CREATE_FAIL,
-                payload: false
-            });
-        }
+        // const response = await axios.post("https://api.chatengine.io/users/", {
+        //     "username": formValue.registerEmail,
+        //     "first_name": "Adam",
+        //     "last_name": "La Morre",
+        //     "secret": formValue.registerEmail,
+        // }, {
+        //     headers: { "PRIVATE-KEY": "b4d41842-0e56-4df5-9bec-5ebab5b3438d" }
+        // });
+
+        // console.log(response);
+
+        // if (status === 201 && statusText === "Created") {
+        //     dispatch({
+        //         type: TYPES.CREATE_SUCESS,
+        //         payload: true
+        //     });
+        // } else {
+        //     dispatch({
+        //         type: TYPES.CREATE_FAIL,
+        //         payload: false
+        //     });
+        // }
     };
 };
 

@@ -1,12 +1,15 @@
 import React from "react";
-import { ProfileComp } from "../../styledComponents/export";
+import { ProfileComp, FormComp } from "../../styledComponents/export";
 import UserImage from "../../resources/userImage.png";
 // import { fb } from "../../service";
 import axios from "axios";
-
+import { reduxForm, Field, formValueSelector } from "redux-form";
+import { connect } from "react-redux";
+import Dropzone from "./Dropzone";
+import PropTypes from "prop-types";
 class Profile extends React.Component {
 
-    state = { image: [], imagePreviewUrl: null, progress: 0, imageUrl: null };
+    state = { image: null, imagePreviewUrl: null, progress: 0, imageUrl: null, hide: true };
 
     onImageSubmit = async (event) => {
         event.preventDefault();
@@ -91,6 +94,59 @@ class Profile extends React.Component {
         reader.readAsDataURL(file);
     };
 
+    renderEditField = ({ input, name, label, text, type }) => {
+        return (
+            <FormComp.InputContainer >
+                <FormComp.Label >{label}</FormComp.Label>
+                <FormComp.Input type={type} placeholder={text} name={name} id={name} {...input} />
+            </FormComp.InputContainer>
+        );
+    };
+
+    renderUploadField = ({ input, name, label, type, handleChange }) => {
+        return (
+            <FormComp.InputContainer >
+                <FormComp.Label >{label}</FormComp.Label>
+                <FormComp.FileInput type={type} name={name} id={name} value={this.state.image} handleChange={handleChange} fileType="image/x-png,image/gif,image/jpeg" {...input} />
+                <FormComp.AvatarPreview src={this.state.imagePreviewUrl ? this.state.imagePreviewUrl[0] : UserImage} />
+            </FormComp.InputContainer>
+        );
+    };
+
+    onFormSubmid(formValue) {
+        console.log(formValue);
+    }
+    renderForm() {
+        return <React.Fragment>
+            <FormComp>
+                <FormComp.Form
+                    onSubmit={this.props.handleSubmit(this.onFormSubmid)}>
+                    <FormComp.InputContainer>
+                        <Field
+                            component={this.renderEditField}
+                            label="username"
+                            text='Enter username'
+                            type="text"
+                            name="username" />
+                        <Field
+                            component={this.renderEditField}
+                            label="Email"
+                            text="Enter Email"
+                            type="Email"
+                            name="Email" />
+
+                        <Dropzone />
+
+                        <FormComp.SubmitButton>
+                            Submit
+                        </FormComp.SubmitButton>
+                    </FormComp.InputContainer>
+                </FormComp.Form>
+            </FormComp>
+            <FormComp.Modal />
+        </React.Fragment>;
+
+    }
     render() {
 
 
@@ -119,10 +175,26 @@ class Profile extends React.Component {
                     <ProfileComp.TextArea maxLength="50" value="description" disabled />
                 </ProfileComp.InputGroup>
             </ProfileComp.InputContainer>
+            <ProfileComp.EditButton>Edit</ProfileComp.EditButton>
 
+            {this.renderForm()}
         </ProfileComp.ContentContainer>;
     }
 
 }
 
-export default Profile;
+const formWrapped = reduxForm({ form: "Profile" })(Profile);
+const selector = formValueSelector("Authorization");
+const mapStateToProps = (state) => {
+    return {
+        signInEmail: selector(state, "signInEmail") === undefined ? "" : selector(state, "signInEmail"),
+        signInPassword: selector(state, "signInPassword") === undefined ? "" : selector(state, "signInEmail"),
+        registerEmail: selector(state, "registerEmail") === undefined ? "" : selector(state, "registerEmail"),
+        registerPassword: selector(state, "registerPassword") === undefined ? "" : selector(state, "registerPassword")
+    };
+};
+
+Profile.propTypes = {
+    handleSubmit: PropTypes.func,
+};
+export default connect(mapStateToProps)(formWrapped);

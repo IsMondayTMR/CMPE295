@@ -68,17 +68,47 @@ export const TabButton = styled.button`
         cursor: pointer;
     }
 `
-
+export const AddressContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 95%;
+    margin: 0 auto;
+`
 export const InputContinaer = styled.div`
     display: flex;
-    flex-direction:column;
+    flex-direction:${(props) => props.row ? "row" : "column"};
     justify-content: start;
     width: 95%;
     margin: 0 auto;
     margin-top: 10px;
 `
+
+export const FormContainer = styled.div`
+    max-height: 500px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        width: 0 !important
+    }
+    `
+export const RadioGroup = styled.div`
+    display: flex;
+    align-items: flex-start;
+`
+export const RadioInput = styled.input`
+
+`
+
+export const RadioLabel = styled.label`
+    font-size: 20px;
+    width: 100%; 
+    margin-bottom: 10px;
+    text-align: left;
+`
 export const Input = styled.input`
     height: 40px;
+    width: ${props => props.width ? props.width : null};
+    margin: ${props => props.margin ? props.margin : null};
     margin-bottom: 20px;
     border-radius: 5px;
     border: ${props => props.touched ? "red 1px solid" : inputBorder};
@@ -97,11 +127,50 @@ export const Input = styled.input`
         cursor: pointer;
     }
 `
+
+export const FileInput = styled.input`
+    display: none;
+`
+
+
+export const FileInputLabel = styled.label`
+
+    border: 1px solid red;
+    position: relative;
+    bottom: 80px;
+    display: none;
+    &:hover {
+        cursor: pointer;
+    }
+    
+`
+export const AvatarPreview = styled.img`
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    
+`
+export const ImageGroup = styled.div`
+    display: flex;
+    height: 150px;
+    width: 150px;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+    border-radius: 50%;
+    &:hover {
+        cursor: pointer;
+    }
+    &:hover  ${FileInputLabel}{
+        display: block;
+        opacity: 0.5;
+    }
+`
 export const Label = styled.label`
     font-size: 20px;
-    width:50px; 
+    width: 100%; 
     margin-bottom: 10px;
-    
+    text-align: left;
 `
 export const Link = styled.a`
 
@@ -137,7 +206,7 @@ export const LINE = styled.hr`
 `
 
 export const HintContainer = styled.div`
-
+    display: ${props => props.showHints ? "block" : "none"};
     text-align: start;
     margin-left: 30px;
 `

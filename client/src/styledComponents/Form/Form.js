@@ -38,8 +38,41 @@ FormComp.InputContainer = function InputContainer({ children, ...restProps }) {
     return <Style.InputContinaer {...restProps}>{children} </Style.InputContinaer>
 }
 
+FormComp.AddressContainer = function IAddressContainernputContainer({ children, ...restProps }) {
+
+    return <Style.AddressContainer {...restProps}>{children} </Style.AddressContainer>
+}
+FormComp.FormContainer = function FormContainer({ children, ...restProps }) {
+
+    return <Style.FormContainer {...restProps}>{children} </Style.FormContainer>
+}
 FormComp.Input = function Input({ ...restProps }) {
     return <Style.Input {...restProps} />
+}
+FormComp.RadioGroup = function RadioGroup({ ...restProps }) {
+    return <Style.RadioGroup {...restProps} />
+}
+FormComp.RadioInput = function RadioInput({ ...restProps }) {
+    return <Style.RadioInput {...restProps} />
+}
+
+FormComp.RadioLabel = function RadioLabel({ ...restProps }) {
+    return <Style.RadioLabel {...restProps} />
+}
+
+FormComp.ImageGroup = function ImageGroup({ children, ...restProps }) {
+    return <Style.ImageGroup {...restProps} >{children} </Style.ImageGroup>
+}
+
+FormComp.FileInputLabel = function FileInputLabel({ children, ...restProps }) {
+    return <Style.FileInputLabel {...restProps} > {children} </Style.FileInputLabel>
+}
+
+FormComp.FileInput = function FileInput({ handleChange, fileType, ...restProps }) {
+    return <Style.FileInput onChange={handleChange} accept={fileType} {...restProps} />
+}
+FormComp.AvatarPreview = function AvatarPreview({ ...restProps }) {
+    return <Style.AvatarPreview {...restProps} />
 }
 
 FormComp.Label = function Label({ children, ...restProps }) {
