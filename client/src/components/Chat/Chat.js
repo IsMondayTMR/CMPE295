@@ -14,8 +14,8 @@ const Chat = (props) => {
         <div>
             <ChatEngine
                 height="90vh"
-                userName={props?.auth?.user?.Email}
-                userSecret={props?.auth?.user?.Email}
+                userName={"IsMondayTMR"}
+                userSecret={props?.user?.user[9]?.Value}
                 projectID={PROJECTID}
                 renderChatList={(props) => <ChatList {...props} />}
                 renderChatHeader={(props) => <ChatHeader {...props} />}
@@ -38,10 +38,10 @@ const Chat = (props) => {
 
 
 const mapStateToProps = (state) => {
-    return { auth: state.auth };
+    return { user: state.user };
 };
 
 Chat.propTypes = {
-    auth: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
 };
 export default connect(mapStateToProps)(Chat);

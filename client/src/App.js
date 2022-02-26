@@ -13,6 +13,7 @@ class App extends React.Component {
         this.setState({ hideChat: state });
     };
     render() {
+
         return (
             <div className='App'>
                 <Header />

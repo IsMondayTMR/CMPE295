@@ -4,19 +4,25 @@ import { connect } from "react-redux";
 import { signOut } from "../actions";
 import * as ROUTES from "../router/routes";
 import PropTypes from "prop-types";
-const ProfileDropDown = (props) => {
-    console.log(props?.auth);
+import UserImage from "../resources/defaultAvatar.png";
+const ProfileDropDown = ({ user, signOut }) => {
     return (
+
         <DropDownComp >
             <DropDownComp.Button>
-                <i className="fas fa-user-circle" />{props?.auth?.user?.Username}
+                <DropDownComp.Avatar src={user?.user[10]?.Value ? user?.user[10]?.Value : UserImage} />
+                {user?.user[9]?.Value.substring(0, 5)}
             </DropDownComp.Button>
             <DropDownComp.DropDownContent >
                 <DropDownComp.List>
                     <DropDownComp.LinkItem to={ROUTES.PROFILE}>Profile</DropDownComp.LinkItem>
                     <DropDownComp.LinkItem to={`${ROUTES.PROFILE}/history`}>History</DropDownComp.LinkItem>
                     <DropDownComp.LinkItem to={`${ROUTES.PROFILE}/setting`}>Setting</DropDownComp.LinkItem>
-                    <DropDownComp.ItemBtn onClick={() => props.signOut(props.auth)} >Sign Out</DropDownComp.ItemBtn>
+                    <DropDownComp.ItemBtn
+                        onClick={() => {
+                            signOut();
+                            window.location.reload(false);
+                        }} >Sign Out</DropDownComp.ItemBtn>
                 </DropDownComp.List>
             </DropDownComp.DropDownContent>
         </DropDownComp>
@@ -24,11 +30,11 @@ const ProfileDropDown = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    return { auth: state.auth };
+    return { user: state.user };
 };
 
 ProfileDropDown.propTypes = {
-    auth: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     signOut: PropTypes.func.isRequired,
 };
 

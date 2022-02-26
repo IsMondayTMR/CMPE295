@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { FormComp } from "../styledComponents/export";
 import { reduxForm, Field, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
-import { createUser, signIn } from "../actions";
+import { createUser, signIn, getUser } from "../actions";
 import * as Utils from "../utils/validation";
 import { fb } from "../service";
 import UserImage from "../resources/defaultAvatar.png";
@@ -231,15 +231,6 @@ class Authorization extends React.Component {
         );
     };
 
-
-    // uploadImage = async () => {
-    //     if (this.state.image == null) {
-    //         return true;
-    //     }
-
-
-    // };
-
     handleImageChange = (event) => {
         event.preventDefault();
 
@@ -256,13 +247,21 @@ class Authorization extends React.Component {
     };
 
     onSigninFormSubmit = (formValues) => {
-        this.props.signIn(formValues);
-        this.props.closeHelper();
+        this.props.signIn(formValues)
+            .then(() => {
+                this.props.getUser()
+                    .then(() => {
+                        this.props.closeHelper();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            });
     };
 
     onRegisterFormSubmit = (formValues) => {
         if (this.state.image == null) {
-            const defImg = "https://firebasestorage.googleapis.com/v0/b/cmpe295-9aa05.appspot.com/o/avatars%2FdefaultAvatar.png?alt=media&token=15183719-cfc2-487e-bfeb-040a9a581291";
+            const defImg = `${process.env.REACT_APP_DEFAULT_AVATAR}`;
             this.props.createUser(formValues, defImg);
             this.setState({ signInActive: true });
             return;
@@ -360,7 +359,8 @@ Authorization.propTypes = {
     hide: PropTypes.bool.isRequired,
     createUser: PropTypes.func.isRequired,
     signIn: PropTypes.func.isRequired,
+    getUser: PropTypes.func.isRequired,
     closeHelper: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired
 };
-export default connect(mapStateToProps, { createUser, signIn })(formWrapped);
+export default connect(mapStateToProps, { createUser, signIn, getUser })(formWrapped);

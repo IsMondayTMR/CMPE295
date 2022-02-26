@@ -1,5 +1,6 @@
 import * as TYPES from "../const/reduxTypes";
 import { BASEURL } from "../const/apis";
+import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import UserPool from "../aws/UserPool";
 import axios from "axios";
 
@@ -67,46 +68,171 @@ export const googleSignOut = () => {
 export const signIn = (formValue) => {
 
     return async (dispatch) => {
-        const { data } = await axios.get(`${BASEURL}/createUser`);
-        var isSignedIn = false;
-        var user = null;
-        for (const key in data) {
-            if (data[key].Email === formValue.signInEmail && data[key].Password === formValue.signInPassword) {
-                isSignedIn = true;
-                user = {
-                    Email: data[key]?.Email,
-                    Username: data[key]?.Username
-                };
-                sessionStorage.setItem("user", JSON.stringify(user));
-                break;
-            }
-        }
 
-        dispatch({
-            type: TYPES.SIGN_IN,
-            payload: {
-                isSignedIn: isSignedIn,
-                user: user,
-                authType: TYPES.SIGN_IN,
-                authInstance: null
-            }
+        return await new Promise((resolve, reject) => {
+            const user = new CognitoUser({
+                Username: formValue.signInEmail,
+                Pool: UserPool,
+            });
+
+            const authDetails = new AuthenticationDetails({
+                Username: formValue.signInEmail,
+                Password: formValue.signInPassword
+            });
+
+            user.authenticateUser(authDetails, {
+                onSuccess: (data) => {
+                    sessionStorage.setItem("userObject", user);
+                    dispatch({
+                        type: TYPES.SIGN_IN,
+                        payload: {
+                            user: user,
+                            authType: "cognito",
+                            authInstance: data
+                        }
+                    });
+
+                    resolve(data);
+                },
+                onFailure: (err) => {
+                    console.error("onFailure: ", err);
+                    dispatch({
+                        type: TYPES.SIGN_IN,
+                        payload: {
+                            user: null,
+                            error: {
+                                code: err.code,
+                                message: err.message,
+                                name: err.name
+                            },
+                            authType: null,
+                            authInstance: null
+                        }
+                    });
+                    reject(err);
+                },
+                newPasswordRequired: (data) => {
+                    console.log("newPasswordRequired: ", data);
+                    resolve(data);
+                }
+            });
         });
+
     };
 };
+
+/**
+ * Returns Redux Thunk function that dispatches GET_SESSION action
+ * @function signIn
+ * @param {string} props - Email and Password.
+ * @returns {function} - Redux Thunk function.
+*/
+
+export const getUser = () => {
+
+    return async (dispatch) => {
+        return await new Promise((resolve, reject) => {
+            const user = UserPool.getCurrentUser();
+            if (user) {
+                user.getSession((err, session) => {
+                    if (err) {
+                        dispatch({
+                            type: TYPES.GET_SESSION_FAIL,
+                            payload: {
+                                status: false,
+                                session: null,
+                                session_error: err,
+                                user: null,
+                            },
+                        });
+                        reject(err);
+                    } else {
+
+                        sessionStorage.setItem("session", JSON.stringify(session));
+                        dispatch({
+                            type: TYPES.GET_SESSION_SUCCESS,
+                            payload: {
+                                session,
+                                session_error: null,
+                            },
+                        });
+
+                        resolve(session);
+                    }
+                });
+
+                user.getUserAttributes((err, userAttributes) => {
+                    if (err) {
+                        dispatch({
+                            type: TYPES.GET_USER_FAIL,
+                            payload: {
+                                status: false,
+                                user_error: err,
+                                user: null,
+                            },
+                        });
+                        reject(err);
+                    } else {
+                        sessionStorage.setItem("userInfo", JSON.stringify(userAttributes));
+                        dispatch({
+                            type: TYPES.GET_USER_SUCCESS,
+                            payload: {
+                                user: userAttributes,
+                                user_error: null,
+                            },
+                        });
+
+                        resolve(userAttributes);
+                    }
+                });
+
+            } else {
+
+                dispatch({
+                    type: TYPES.GET_SESSION_FAIL,
+                    payload: {
+                        status: false,
+                        session: null,
+                        error: {
+                            message: "no user exist",
+                        },
+                        user: null,
+                    },
+                });
+                reject();
+            }
+        });
+
+    };
+};
+
 /**
  * Returns Redux Thunk function that dispatches SIGN_OUT action
  * @function signOut
  * @param {string} auth - redux auth object.
  * @returns {function} - Redux Thunk function.
 */
-export const signOut = (auth) => {
-    if (auth && auth.authType === TYPES.GOOGLE_SIGN_IN) {
-        auth.authInstance.signOut();
-    }
-    sessionStorage.removeItem("user");
-    return ({
-        type: TYPES.SIGN_OUT
-    });
+export const signOut = () => {
+    return async (dispatch) => {
+
+        const user = UserPool.getCurrentUser();
+
+        if (user) {
+            user.signOut();
+            sessionStorage.removeItem("userObject");
+            sessionStorage.removeItem("userInfo");
+            sessionStorage.removeItem("session");
+            dispatch({
+                type: TYPES.SIGN_OUT,
+                payload: {
+                    status: false,
+                    session: null,
+                    error: null,
+                    user: null,
+                },
+            });
+        }
+    };
 };
 
 /**
@@ -117,7 +243,7 @@ export const signOut = (auth) => {
  * @returns {function} - Redux Thunk function.
 */
 
-export const createUser = (formValue, url) => {
+export const createUser = (formValue, avatarUrl) => {
     return async (dispatch) => {
         if (!formValue) {
             dispatch({
@@ -125,19 +251,6 @@ export const createUser = (formValue, url) => {
                 payload: false
             });
         }
-
-        // const registerValue = {
-        //     Email: formValue.registerEmail,
-        //     Password: formValue.registerPassword
-        // };
-        // const { status, statusText } = await axios.post(`${BASEURL}/createUser`, registerValue);
-        // "UserAttributes": [
-        //     {
-        //         "Name": "string",
-        //         "Value": "string"
-        //     }
-        // ]
-        console.log(url);
         const phone_number = "+1" + formValue?.phone_number;
         const attributes = [
             {
@@ -166,41 +279,57 @@ export const createUser = (formValue, url) => {
             },
             {
                 Name: "custom:avatar_url",
-                Value: url
+                Value: avatarUrl
             }
-
         ];
-        UserPool.signUp(formValue.registerEmail, formValue.registerPassword, attributes, null, (err, data) => {
-            if (err) {
-                console.log(err);
-            }
 
-            console.log(data);
+
+        UserPool.signUp(formValue.registerEmail, formValue.registerPassword, attributes, null, (error, res) => {
+            if (error) {
+                dispatch({
+                    type: TYPES.CREATE_FAIL,
+                    payload: {
+                        status: false,
+                        exception: error.name,
+                        message: error.message,
+                    }
+                });
+                return;
+            }
+            console.log(res);
+            axios.post("https://api.chatengine.io/users/", {
+                "username": formValue.username,
+                "first_name": formValue?.name,
+                "last_name": "La Morre",
+                "email": formValue.registerEmail,
+                "secret": formValue.registerEmail,
+                "custom_json": JSON.stringify({ "avatar": avatarUrl }),
+            }, {
+                headers: { "PRIVATE-KEY": `${process.env.REACT_APP_CHAT_ENGIN_PRIVATE_KEY}` }
+            }).then(res => {
+                console.log(res);
+            }).catch(error => {
+                console.log(error);
+                dispatch({
+                    type: TYPES.CREATE_FAIL,
+                    payload: {
+                        status: false,
+                        exception: "user create exception",
+                        message: "chat engine user create failed",
+                    }
+                });
+                return;
+            });
         });
 
-
-        // const response = await axios.post("https://api.chatengine.io/users/", {
-        //     "username": formValue.registerEmail,
-        //     "first_name": "Adam",
-        //     "last_name": "La Morre",
-        //     "secret": formValue.registerEmail,
-        // }, {
-        //     headers: { "PRIVATE-KEY": "b4d41842-0e56-4df5-9bec-5ebab5b3438d" }
-        // });
-
-        // console.log(response);
-
-        // if (status === 201 && statusText === "Created") {
-        //     dispatch({
-        //         type: TYPES.CREATE_SUCESS,
-        //         payload: true
-        //     });
-        // } else {
-        //     dispatch({
-        //         type: TYPES.CREATE_FAIL,
-        //         payload: false
-        //     });
-        // }
+        dispatch({
+            type: TYPES.CREATE_SUCESS,
+            payload: {
+                status: true,
+                exception: null,
+                message: null,
+            }
+        });
     };
 };
 

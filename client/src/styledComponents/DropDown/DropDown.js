@@ -36,7 +36,11 @@ DropDown.ItemBtn = function ItemBtn({ children, ...restProps }) {
         {children}
     </Style.ItemBtn>
 }
-
+DropDown.Avatar = function Avatar({ children, ...restProps }) {
+    return <Style.Avatar {...restProps}>
+        {children}
+    </Style.Avatar>
+}
 DropDown.List = function List({ children, ...restProps }) {
     return <Style.List {...restProps}>
         {children}

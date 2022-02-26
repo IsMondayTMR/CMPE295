@@ -38,7 +38,7 @@ class Header extends React.Component {
 
 
     renderAuthButton = () => {
-        if (this.props.auth.isSignedIn) {
+        if (this.props.user.status) {
             return (
 
                 <HeaderComp.RightPanel>
@@ -92,10 +92,10 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return { auth: state.auth };
+    return { user: state.user };
 };
 
 Header.propTypes = {
-    auth: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
 };
 export default connect(mapStateToProps)(Header);

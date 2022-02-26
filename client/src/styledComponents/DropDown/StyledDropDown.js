@@ -58,7 +58,11 @@ export const LinkItem = styled(Link)`
         background-color: #227299;
     }
 `
-
+export const Avatar = styled.img`
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+`
 export const ItemBtn = styled.button`
     background-color: transparent;
     font-size: 18px;
