@@ -1,83 +1,26 @@
 import React from "react";
 import { ProfileComp, FormComp } from "../../styledComponents/export";
 import UserImage from "../../resources/userImage.png";
-// import { fb } from "../../service";
-import axios from "axios";
-import { reduxForm, Field, formValueSelector } from "redux-form";
+// import { uploadImage } from "../../utils/imageUploader";
+import { fb } from "../../service";
+import { update, getUser } from "../../actions";
+import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
-import Dropzone from "./Dropzone";
 import PropTypes from "prop-types";
 class Profile extends React.Component {
 
-    state = { image: null, imagePreviewUrl: null, progress: 0, imageUrl: null, hide: true };
+    state = { image: null, imagePreviewUrl: [this.props.user[10]?.Value], progress: 0, hide: true };
 
-    onImageSubmit = async (event) => {
-        event.preventDefault();
-        console.log("here");
-
-
-        const { data } = await axios.put("https://api.chatengine.io/users/", {
-            "username": "test1@gmail.com",
-            "first_name": "Adam",
-            "last_name": "La Morre",
-            "secret": "test1@gmail.com",
-        }, {
-            headers: { "PRIVATE-KEY": "b4d41842-0e56-4df5-9bec-5ebab5b3438d" }
+    componentDidMount() {
+        this.props.initialize({
+            username: this.props.user[7]?.Value,
+            phone_number: this.props.user[8]?.Value,
+            street: this.props.user[1]?.Value,
+            city: this.props.user[6]?.Value,
+            state: this.props.user[5]?.Value
         });
+    }
 
-
-        // const uploadTask = fb.storage.ref(`images/${this.state.image.name}`).put(this.state.image);
-        // uploadTask.on(
-        //     "state_changed",
-        //     snapshot => {
-        //         const progress = Math.round(
-        //             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        //         );
-
-        //         this.setState({ progres: progress });
-        //     },
-        //     error => {
-        //         console.log(error);
-        //     },
-        //     () => {
-        //         fb.storage
-        //             .ref("images")
-        //             .child(this.state.image.name)
-        //             .getDownloadURL()
-        //             .then(url => {
-        //                 this.setState({ imageUrl: url });
-
-
-        //             });
-        //     }
-        // );
-
-        const formData = new FormData;
-        formData.append("avatar", 0);
-        formData.append("first_name", "Bo");
-        formData.append("username", data.username);
-        formData.append("email", data.email);
-        formData.append("first_name", data.first_name);
-        formData.append("last_name", data.last_name);
-        formData.append("secret", data.secret);
-
-        const json = JSON.stringify({
-
-            "avatar": "https://chat-engine-assets.s3.amazonaws.com/tutorials/my-face-min.png",
-
-        });
-        const res = await axios.patch("https://api.chatengine.io/users/166257", {
-
-
-            "username": "test1@gmail.com",
-            "first_name": "2222",
-            "last_name": "2222",
-            "custom_json": json,
-        }, {
-            headers: { "PRIVATE-KEY": "b4d41842-0e56-4df5-9bec-5ebab5b3438d" }
-        });
-        console.log(JSON.parse(res.data.custom_json));
-    };
 
     handleChange = (event) => {
         event.preventDefault();
@@ -113,88 +56,208 @@ class Profile extends React.Component {
         );
     };
 
-    onFormSubmid(formValue) {
-        console.log(formValue);
-    }
+    onUpdateFormSubmit = (formValues) => {
+        console.log(formValues);
+        if (this.state.image == null || !this.state.image) {
+            this.props.update(formValues, this.state.imagePreviewUrl[0], this.props.session?.accessToken?.jwtToken, this.props.user[9]?.Value)
+                .then(() => this.props.getUser())
+                .then(() => this.setState({ hide: true }));
+            return;
+        }
+        // uploadImage("avatars", this.state.image, formValues, this.props.session.accessToken, this.props.user[9]?.Value);
+        const uploadTask = fb.storage.ref(`avatars/${this.state.image.name}`).put(this.state.image);
+
+        uploadTask.on(
+            "state_changed",
+            snapshot => {
+                const progress = Math.round(
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+                this.setState({ progress });
+            },
+            error => {
+                console.log(error);
+            },
+            () => {
+                fb.storage
+                    .ref("avatars")
+                    .child(this.state.image.name)
+                    .getDownloadURL()
+                    .then(url => {
+                        this.props.update(formValues, url, this.props.session?.accessToken?.jwtToken, this.props.user[9]?.Value);
+                    })
+                    .then(() => this.props.getUser())
+                    .then(() => this.setState({ hide: true }));
+            });
+    };
+
+    renderAddress = ({ input, name, text, width, margin, type }) => {
+        return (
+            <FormComp.Input type={type} width={width} margin={margin} placeholder={text} name={name} id={name} {...input} />
+        );
+    };
+
+
     renderForm() {
+
         return <React.Fragment>
-            <FormComp>
+            <FormComp hide={this.state.hide ? "none" : "block"}>
+                <FormComp.CloseButton
+                    onClick={() => this.setState({ hide: true })}
+                    data-test="close-btn" />
                 <FormComp.Form
-                    onSubmit={this.props.handleSubmit(this.onFormSubmid)}>
+                    onSubmit={this.props.handleSubmit(this.onUpdateFormSubmit)}>
+
+                    <FormComp.ImageGroup>
+                        <FormComp.AvatarPreview src={this.state.imagePreviewUrl ? this.state.imagePreviewUrl[0] : UserImage} alt="User Image" />
+                        <FormComp.FileInputLabel htmlFor="upload">
+                            <i className="fa-solid fa-camera"></i>
+                            <FormComp.FileInput
+                                id="upload"
+                                type="file"
+                                accept="image/x-png,image/gif,image/jpeg"
+                                onChange={this.handleImageChange} />
+                        </FormComp.FileInputLabel>
+                    </FormComp.ImageGroup>
+
                     <FormComp.InputContainer>
                         <Field
                             component={this.renderEditField}
-                            label="username"
-                            text='Enter username'
+                            label="Username"
+                            text="username"
                             type="text"
                             name="username" />
                         <Field
                             component={this.renderEditField}
-                            label="Email"
-                            text="Enter Email"
-                            type="Email"
-                            name="Email" />
+                            label="Phone"
+                            text="Phone"
+                            type="tel"
+                            name="phone_number" />
+                        <Field
+                            component={this.renderEditField}
+                            label="Address"
+                            text="street"
 
-                        <Dropzone />
-
-                        <FormComp.SubmitButton>
+                            type="street"
+                            name="street"
+                            data-test="sign-in-street-input" />
+                        <FormComp.AddressContainer>
+                            <Field
+                                component={this.renderAddress}
+                                label="Address"
+                                text="city"
+                                type="city"
+                                name="city"
+                                width="150px"
+                                data-test="sign-in-city-input" />
+                            <Field
+                                component={this.renderAddress}
+                                label="Address"
+                                text="state"
+                                type="state"
+                                name="state"
+                                width="70px"
+                                data-test="sign-in-state-input" />
+                            <Field
+                                component={this.renderAddress}
+                                label="Zip"
+                                text='Zip'
+                                type="zip"
+                                name="zip"
+                                width="100px"
+                                data-test="sign-in-zip-input" />
+                        </FormComp.AddressContainer>
+                        <FormComp.SubmitButton >
                             Submit
                         </FormComp.SubmitButton>
                     </FormComp.InputContainer>
                 </FormComp.Form>
             </FormComp>
-            <FormComp.Modal />
+            <FormComp.Modal hide={this.state.hide ? "none" : "block"} />
         </React.Fragment>;
 
     }
+
+
+    handleImageChange = async (event) => {
+        event.preventDefault();
+
+        let reader = new FileReader();
+        let file = event.target.files[0];
+        reader.onload = () => {
+            this.setState({
+                image: event.target.files[0],
+                imagePreviewUrl: [reader.result]
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+
     render() {
-
-
+        console.log(this.props.user);
         return <ProfileComp.ContentContainer>
 
             <ProfileComp.ImageContainer>
-                <form onSubmit={this.onImageSubmit}>
-                    <input type="file" accept="image/x-png,image/gif,image/jpeg" onChange={this.handleChange} />
-                    <button type="submit">submit</button>
-                </form>
 
                 <ProfileComp.Image src={this.state.imagePreviewUrl ? this.state.imagePreviewUrl[0] : UserImage} alt="User Image" />
+
             </ProfileComp.ImageContainer>
-            <ProfileComp.UserName>IsMondayTMR</ProfileComp.UserName>
+            <ProfileComp.UserName>{`${this.props?.user[7]?.Value}`} </ProfileComp.UserName>
             <ProfileComp.InputContainer>
                 <ProfileComp.InputGroup>
                     <ProfileComp.Label>Email</ProfileComp.Label>
-                    <ProfileComp.Input value="Test1@gmail.com" disabled />
+                    <ProfileComp.Input value={`${this.props?.user[9]?.Value}`} disabled />
                 </ProfileComp.InputGroup>
                 <ProfileComp.InputGroup>
                     <ProfileComp.Label>Phone Number</ProfileComp.Label>
-                    <ProfileComp.Input value="1313412412" disabled />
+                    <ProfileComp.Input value={`${this.props?.user[8]?.Value.substring(2)}`} disabled />
                 </ProfileComp.InputGroup>
+
+
+                <ProfileComp.InputGroup >
+                    <ProfileComp.Label>Address</ProfileComp.Label>
+                    <ProfileComp.Input type="address" value={`${this.props?.user[1]?.Value}`} name="street" id="street" data-test="sign-in-city-input" disabled />
+                </ProfileComp.InputGroup>
+
+                <ProfileComp.InputGroup>
+                    <ProfileComp.Label></ProfileComp.Label>
+                    <ProfileComp.Input type="city" width="150px" value={`${this.props?.user[6]?.Value}`} name="city" id="city" data-test="sign-in-city-input" disabled />
+                    <ProfileComp.Input type="state" width="70px" value={`${this.props?.user[5]?.Value}`} name="state" id="state" data-test="sign-in-state-input" disabled />
+                    <ProfileComp.Input type="zip" width="100px" value={"95555"} name="zip" id="zip" data-test="sign-in-state-input" disabled />
+                </ProfileComp.InputGroup>
+
                 <ProfileComp.InputGroup>
                     <ProfileComp.Label>Description</ProfileComp.Label>
-                    <ProfileComp.TextArea maxLength="50" value="description" disabled />
+                    <ProfileComp.TextArea maxLength="50" value="This person is lazy" disabled />
                 </ProfileComp.InputGroup>
             </ProfileComp.InputContainer>
-            <ProfileComp.EditButton>Edit</ProfileComp.EditButton>
+            <ProfileComp.EditButton onClick={() => this.setState({ hide: false })} > Edit</ProfileComp.EditButton>
 
             {this.renderForm()}
-        </ProfileComp.ContentContainer>;
+        </ProfileComp.ContentContainer >;
     }
 
 }
 
-const formWrapped = reduxForm({ form: "Profile" })(Profile);
-const selector = formValueSelector("Authorization");
+Profile.propTypes = {
+    handleSubmit: PropTypes.func,
+    user: PropTypes.array,
+    session: PropTypes.object,
+    update: PropTypes.func.isRequired,
+    initialize: PropTypes.func,
+    getUser: PropTypes.func
+};
+const formWrapped = reduxForm({
+    form: "Profile",
+    enableReinitialize: true,
+    keepDirtyOnReinitialize: true
+})(Profile);
 const mapStateToProps = (state) => {
     return {
-        signInEmail: selector(state, "signInEmail") === undefined ? "" : selector(state, "signInEmail"),
-        signInPassword: selector(state, "signInPassword") === undefined ? "" : selector(state, "signInEmail"),
-        registerEmail: selector(state, "registerEmail") === undefined ? "" : selector(state, "registerEmail"),
-        registerPassword: selector(state, "registerPassword") === undefined ? "" : selector(state, "registerPassword")
+        user: state.user.user,
+        session: state.user.session,
     };
 };
 
-Profile.propTypes = {
-    handleSubmit: PropTypes.func,
-};
-export default connect(mapStateToProps)(formWrapped);
+
+export default connect(mapStateToProps, { update, getUser })(formWrapped);

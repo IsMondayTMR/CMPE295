@@ -41,6 +41,19 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 user: action.payload.user,
                 user_error: null,
             };
+        case TYPES.UPDATE_FAIL:
+            return {
+                ...state,
+                status: false,
+                user: null,
+                user_error: action.payload.user_error,
+                session: null
+            };
+        case TYPES.UPDATE_SUCESS:
+            return {
+                ...state,
+                user: action.payload.user,
+            };
         default:
             return state;
     }

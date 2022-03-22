@@ -167,7 +167,7 @@ export const ImageGroup = styled.div`
     }
 `
 export const Label = styled.label`
-    font-size: 20px;
+    font-size: ${props => props.fontSize ? props.fontSize : "20px"};
     width: 100%; 
     margin-bottom: 10px;
     text-align: left;

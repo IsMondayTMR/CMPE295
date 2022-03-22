@@ -61,7 +61,7 @@ export const InputGroup = styled.div`
     margin: 10px auto;
 `
 export const Input = styled.input`
-    width: 400px;
+    width: ${props => props.width ? props.width : "400px"};
     height: 40px;
     font-size: 20px;
     border: 1px solid #bdbdbd;

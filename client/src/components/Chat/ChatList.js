@@ -7,6 +7,7 @@ const ChatList = (props) => {
     // console.log(props);
 
     const renderImage = (from) => {
+
         if (from?.person?.avatar) {
             return <ChatListComp.Image src={from[0]?.person?.avatar} />;
         }

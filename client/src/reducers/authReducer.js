@@ -25,6 +25,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 authInstance: null,
                 authType: null
             };
+
         default:
             return state;
     }

@@ -284,7 +284,7 @@ export const createUser = (formValue, avatarUrl) => {
         ];
 
 
-        UserPool.signUp(formValue.registerEmail, formValue.registerPassword, attributes, null, (error, res) => {
+        UserPool.signUp(formValue.registerEmail, formValue.registerPassword, attributes, null, (error) => {
             if (error) {
                 dispatch({
                     type: TYPES.CREATE_FAIL,
@@ -296,7 +296,6 @@ export const createUser = (formValue, avatarUrl) => {
                 });
                 return;
             }
-            console.log(res);
             axios.post("https://api.chatengine.io/users/", {
                 "username": formValue.username,
                 "first_name": formValue?.name,
@@ -332,7 +331,142 @@ export const createUser = (formValue, avatarUrl) => {
         });
     };
 };
+/**
+ * Returns Redux Thunk function that conditionaly 
+ * dispatches UPDATE_FAIL or UPDATE_SUCCESS action
+ * @function updateImage
+ * @param {object} newImageUrl - image url that already upated to firebase.
+ * @returns {function} - Redux Thunk function.
+*/
 
+export const update = (formValue, ImageUrl, token, email) => {
+    return async (dispatch) => {
+        var chatUsers = await axios.get("https://api.chatengine.io/users/", {
+            headers: { "PRIVATE-KEY": `${process.env.REACT_APP_CHAT_ENGIN_PRIVATE_KEY}` }
+        });
+        var updateAccountID = chatUsers.data?.filter(index => index.email == email);
+
+        const attributes = [
+            {
+                Name: "phone_number",
+                Value: formValue?.phone_number
+            },
+            {
+                Name: "name",
+                Value: formValue?.username
+            },
+            {
+                Name: "custom:avatar_url",
+                Value: ImageUrl
+            },
+            {
+                Name: "address",
+                Value: formValue?.street
+            },
+            {
+                Name: "custom:city",
+                Value: formValue?.city
+            },
+            {
+                Name: "custom:state",
+                Value: formValue?.state
+            },
+        ];
+        return await new Promise((resolve, reject) => {
+            const user = UserPool.getCurrentUser();
+
+            if (!user || !updateAccountID) {
+                dispatch({
+                    type: TYPES.GET_SESSION_FAIL,
+                    payload: {
+                        status: false,
+                        session: null,
+                        error: {
+                            message: "no user exist",
+                        },
+                        user: null,
+                    },
+                });
+                reject();
+            }
+
+            user.getSession((err) => {
+                if (err) {
+                    dispatch({
+                        type: TYPES.GET_SESSION_FAIL,
+                        payload: {
+                            status: false,
+                            session: null,
+                            session_error: err,
+                            user: null,
+                        },
+                    });
+                    reject(err);
+                } else {
+
+                    user.updateAttributes(attributes, (err, res) => {
+                        if (err) {
+                            console.log(err);
+                            dispatch({
+                                type: TYPES.UPDATE_FAIL,
+                                payload: {
+                                    status: false,
+                                    exception: err.name,
+                                    message: err.message,
+                                }
+                            });
+                            return;
+                        }
+                        console.log(res);
+                    }, null);
+
+                    axios.patch(`https://api.chatengine.io/users/${updateAccountID[0]?.id}`, {
+                        "first_name": "test",
+                        "custom_json": JSON.stringify({ "avatar": ImageUrl }),
+                    }, {
+                        headers: { "PRIVATE-KEY": `${process.env.REACT_APP_CHAT_ENGIN_PRIVATE_KEY}` }
+                    }).then(() => {
+                        user.getUserAttributes((err, userAttributes) => {
+                            if (err) {
+                                dispatch({
+                                    type: TYPES.UPDATE_FAIL,
+                                    payload: {
+                                        status: false,
+                                        user_error: err,
+                                        user: null,
+                                    },
+                                });
+                                reject(err);
+                            } else {
+                                sessionStorage.setItem("userInfo", JSON.stringify(userAttributes));
+                                dispatch({
+                                    type: TYPES.UPDATE_SUCESS,
+                                    payload: {
+                                        user: userAttributes,
+                                        user_error: null,
+                                    },
+                                });
+                                resolve(userAttributes);
+                            }
+                        });
+                    }).catch(err => {
+                        dispatch({
+                            type: TYPES.UPDATE_FAIL,
+                            payload: {
+                                status: false,
+                                user_error: err,
+                                user: null,
+                            },
+                        });
+                        reject(err);
+                    });
+
+
+                }
+            });
+        });
+    };
+};
 /**
  * Return Redux Thunk function that conditionally 
  * dispatch SEARCH_SUCESS or SEARCH FAILED action

@@ -285,9 +285,7 @@ class Authorization extends React.Component {
                     .getDownloadURL()
                     .then(url => {
                         this.setState({ imageUrl: url });
-                        console.log(this.state.imageUrl);
-                    }).then(((res) => {
-                        console.log(res);
+                    }).then((() => {
                         this.props.createUser(formValues, this.state.imageUrl);
                         this.setState({ signInActive: true });
                     }));

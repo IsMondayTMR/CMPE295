@@ -5,7 +5,9 @@ import { signOut } from "../actions";
 import * as ROUTES from "../router/routes";
 import PropTypes from "prop-types";
 import UserImage from "../resources/defaultAvatar.png";
+import { useHistory } from "react-router-dom";
 const ProfileDropDown = ({ user, signOut }) => {
+    const history = useHistory();
     return (
 
         <DropDownComp >
@@ -21,6 +23,7 @@ const ProfileDropDown = ({ user, signOut }) => {
                     <DropDownComp.ItemBtn
                         onClick={() => {
                             signOut();
+                            history.push("/");
                             window.location.reload(false);
                         }} >Sign Out</DropDownComp.ItemBtn>
                 </DropDownComp.List>
