@@ -74,7 +74,9 @@ FormComp.FileInput = function FileInput({ handleChange, fileType, ...restProps }
 FormComp.AvatarPreview = function AvatarPreview({ ...restProps }) {
     return <Style.AvatarPreview {...restProps} />
 }
-
+FormComp.MainImagePreview = function MainImagePreview({ ...restProps }) {
+    return <Style.MainImagePreview {...restProps} />
+}
 FormComp.Label = function Label({ children, ...restProps }) {
 
     return <Style.Label {...restProps}> {children} </Style.Label>
@@ -106,4 +108,8 @@ FormComp.HintContainer = function HintContainer({ children, ...restProps }) {
 
 FormComp.CloseButton = function HighLight({ ...restProps }) {
     return <Style.CloseButton {...restProps}><i className="fas fa-times"></i></Style.CloseButton>
+}
+
+FormComp.PostImageGroup = function ImageGroup({ children, ...restProps }) {
+    return <Style.PostImageGroup {...restProps} >{children} </Style.PostImageGroup>
 }

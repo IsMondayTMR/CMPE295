@@ -9,12 +9,13 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 const Chat = (props) => {
-
+    console.log(props?.user);
     return (
+
         <div>
             <ChatEngine
                 height="90vh"
-                userName={"IsMondayTMR"}
+                userName={props?.user?.user[9]?.Value === "bo.an@sjsu.edu" ? "IsMondayTMR2" : "IsMondayTMR"}
                 userSecret={props?.user?.user[9]?.Value}
                 projectID={PROJECTID}
                 renderChatList={(props) => <ChatList {...props} />}

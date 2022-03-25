@@ -6,6 +6,7 @@ import Favorite from "../components/PersonalCenter/Favorite";
 import History from "../components/PersonalCenter/History";
 import Listing from "../components/PersonalCenter/Listing";
 import Setting from "../components/PersonalCenter/Setting";
+import Security from "../components/PersonalCenter/Security";
 
 const ProfileRouters = () => {
     return (
@@ -25,6 +26,9 @@ const ProfileRouters = () => {
             </Route>
             <Route exact path={`${ROUTES.PROFILE}/setting`}>
                 <Setting />
+            </Route>
+            <Route exact path={`${ROUTES.PROFILE}/security`}>
+                <Security />
             </Route>
         </Switch>
     );

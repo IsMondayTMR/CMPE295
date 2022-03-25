@@ -86,3 +86,8 @@ Profile.TextArea = function TextArea({ children, ...restProps }) {
     </Style.TextArea>
 }
 
+Profile.NewList = function NewList({ children, ...restProps }) {
+    return <Style.NewList {...restProps}>
+        {children}
+    </Style.NewList>
+}

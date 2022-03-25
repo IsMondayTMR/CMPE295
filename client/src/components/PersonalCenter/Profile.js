@@ -179,7 +179,7 @@ class Profile extends React.Component {
     }
 
 
-    handleImageChange = async (event) => {
+    handleImageChange = (event) => {
         event.preventDefault();
 
         let reader = new FileReader();
@@ -194,7 +194,6 @@ class Profile extends React.Component {
     };
 
     render() {
-        console.log(this.props.user);
         return <ProfileComp.ContentContainer>
 
             <ProfileComp.ImageContainer>

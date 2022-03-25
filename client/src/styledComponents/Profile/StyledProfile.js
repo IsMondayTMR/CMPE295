@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+const SubmitBtnNormal = '#006eff'
+const SubmitBtnHover = '#00459e'
 
 export const BackGround = styled.div`
     background-color:#f5f5f5;
@@ -40,7 +42,26 @@ export const ContentContainer = styled.div`
     text-align: center;
 `
 
-export const EditButton = styled.button``
+export const EditButton = styled.button`
+    height: 45px;
+    width: 200px;
+    margin: 20px auto;
+    background-color: ${SubmitBtnNormal};
+    font-size: 18px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+
+    &:hover {
+        background-color: ${SubmitBtnHover};
+        cursor: pointer;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+`
 
 export const ImageContainer = styled.div`
     
@@ -105,5 +126,26 @@ export const TextArea = styled.textarea`
     &:focus{
         outline: none;
         border: 1px solid #87cbff;
+    }
+`
+
+export const NewList = styled.button`
+    height: 45px;
+    width: 200px;
+    margin: 20px auto;
+    background-color: ${SubmitBtnNormal};
+    font-size: 18px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+
+    &:hover {
+        background-color: ${SubmitBtnHover};
+        cursor: pointer;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        pointer-events: none;
     }
 `

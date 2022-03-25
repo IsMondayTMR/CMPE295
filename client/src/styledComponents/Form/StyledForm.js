@@ -26,6 +26,7 @@ export const BackGround = styled.div`
     width: 450px;
     margin-left: auto;
     margin-right: auto;
+
     left: 0;
     right: 0;
     top: 5%;
@@ -34,6 +35,7 @@ export const BackGround = styled.div`
     display: ${props => props.hide};
     box-shadow: 5px 5px 20px #808080;
     z-index: 40;
+    
 `
 
 export const Container = styled.div`
@@ -46,6 +48,7 @@ export const Container = styled.div`
 
 export const Form = styled.form`
     display: ${props => props.active};
+
 `
 
 export const Header = styled.p`
@@ -85,7 +88,7 @@ export const InputContinaer = styled.div`
 `
 
 export const FormContainer = styled.div`
-    max-height: 500px;
+    max-height:${(props) => props.maxHeight ? props.maxHeight : "500px"};
     overflow-y: scroll;
     &::-webkit-scrollbar {
         width: 0 !important
@@ -129,13 +132,11 @@ export const Input = styled.input`
 `
 
 export const FileInput = styled.input`
-    display: none;
+    display: ${(props) => props.display ? props.display : "none"};
 `
 
 
 export const FileInputLabel = styled.label`
-
-    border: 1px solid red;
     position: relative;
     bottom: 80px;
     display: none;
@@ -149,6 +150,14 @@ export const AvatarPreview = styled.img`
     width: 150px;
     border-radius: 50%;
     
+`
+
+export const MainImagePreview = styled.img`
+    min-height: 150px;
+    min-width: 150px;
+    max-height: 150px;
+    max-width: 150px;
+    object-fit: cover;
 `
 export const ImageGroup = styled.div`
     display: flex;
@@ -166,6 +175,17 @@ export const ImageGroup = styled.div`
         opacity: 0.5;
     }
 `
+export const PostImageGroup = styled.div`
+
+    width: 90%;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+    border-radius: 50%;
+
+`
+
+
 export const Label = styled.label`
     font-size: ${props => props.fontSize ? props.fontSize : "20px"};
     width: 100%; 

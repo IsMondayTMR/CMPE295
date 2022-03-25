@@ -15,3 +15,4 @@ export { default as ItemDetailComp } from "./ItemDetail/ItemDetail";
 export { default as ProfileComp } from "./Profile/Profile";
 export { default as MessageComp } from "./Message/Message";
 export { default as ChatListComp } from "./ChatList/ChatList";
+export { default as ListingComp } from "./Listing/Listing";

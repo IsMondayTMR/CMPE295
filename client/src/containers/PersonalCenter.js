@@ -35,11 +35,18 @@ const PersonalCenter = () => {
                     Favorite
                 </ProfileComp.RouteLink>
                 <ProfileComp.RouteLink
+                    onClick={() => { setActive(5); }}
+                    active={active === 5 ? 1 : 0}
+                    to={`${ROUTES.PROFILE}/security`}>
+                    Security
+                </ProfileComp.RouteLink>
+                <ProfileComp.RouteLink
                     onClick={() => { setActive(4); }}
                     active={active === 4 ? 1 : 0}
                     to={`${ROUTES.PROFILE}/setting`}>
                     Setting
                 </ProfileComp.RouteLink>
+
             </ProfileComp.NavContainer>
 
             <ProfileRouter />

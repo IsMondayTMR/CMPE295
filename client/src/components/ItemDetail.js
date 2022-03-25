@@ -39,21 +39,23 @@ class ItemDetail extends React.Component {
     async startChat(e) {
         e.preventDefault();
 
+        console.log(this.props?.user?.user[9]?.Value);
+        console.log(this.props?.item?.item?.Email);
         const headers = {
             "Project-ID": PROJECTID,
             "User-Name": USERNAME,
             "User-Secret": USERSECRET
         };
 
-        if (this.props?.auth?.user?.Email === this.props?.item?.item?.Email) {
-            console.log(this.props?.auth?.user?.Email);
+        if (this.props?.user?.user[9]?.Value === this.props?.item?.item?.Email) {
+            console.log(this.props?.user?.user[9]?.Value);
             console.log(this.props?.item?.item?.Email);
             console.log("same user");
             return;
         }
 
         var response = await axios.put("https://api.chatengine.io/chats/", {
-            "usernames": [this.props?.auth?.user?.Email, this.props?.item?.item?.Email],
+            "usernames": ["IsMondayTMR", this.props?.item?.item?.Username],
             "title": "Another Surprise Party!",
             "is_direct_chat": true
         }, {
@@ -103,14 +105,14 @@ ItemDetail.propTypes = {
     item: PropTypes.any.isRequired,
     fetchItem: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
 
     return {
         item: state.item,
-        auth: state.auth
+        user: state.user
     };
 };
 
