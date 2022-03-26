@@ -1,5 +1,5 @@
 import * as TYPES from "../const/reduxTypes";
-import { BASEURL } from "../const/apis";
+import { BASEURL, POST } from "../const/apis";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import UserPool from "../aws/UserPool";
 import axios from "axios";
@@ -239,7 +239,8 @@ export const signOut = () => {
  * Returns Redux Thunk function that conditionaly 
  * dispatches CREATE_FAIL or CREATE_SUCESS action
  * @function createUser
- * @param {object} formValue - user infor.
+ * @param {Object}formValue -user information
+ * @param {String}imageUrl -string that point to user image
  * @returns {function} - Redux Thunk function.
 */
 
@@ -253,6 +254,10 @@ export const createUser = (formValue, avatarUrl) => {
         }
         const phone_number = "+1" + formValue?.phone_number;
         const attributes = [
+            {
+                Name: "preferred_username",
+                Value: formValue?.username
+            },
             {
                 Name: "name",
                 Value: formValue?.name
@@ -278,6 +283,10 @@ export const createUser = (formValue, avatarUrl) => {
                 Value: formValue?.state
             },
             {
+                Name: "custom:zipcode",
+                Value: formValue?.zip
+            },
+            {
                 Name: "custom:avatar_url",
                 Value: avatarUrl
             }
@@ -286,6 +295,7 @@ export const createUser = (formValue, avatarUrl) => {
 
         UserPool.signUp(formValue.registerEmail, formValue.registerPassword, attributes, null, (error) => {
             if (error) {
+                console.log(error);
                 dispatch({
                     type: TYPES.CREATE_FAIL,
                     payload: {
@@ -335,24 +345,26 @@ export const createUser = (formValue, avatarUrl) => {
  * Returns Redux Thunk function that conditionaly 
  * dispatches UPDATE_FAIL or UPDATE_SUCCESS action
  * @function updateImage
- * @param {object} newImageUrl - image url that already upated to firebase.
+ * @param {Object} formValue - an object that stored user information that need to be updated
+ * @param {String} ImageUrl - image url that already upated to firebase.
+ * @param {String} email - email that used to find correct user in the chat engine.
  * @returns {function} - Redux Thunk function.
 */
 
-export const update = (formValue, ImageUrl, token, email) => {
+export const update = (formValue, ImageUrl, email) => {
     return async (dispatch) => {
         var chatUsers = await axios.get("https://api.chatengine.io/users/", {
             headers: { "PRIVATE-KEY": `${process.env.REACT_APP_CHAT_ENGIN_PRIVATE_KEY}` }
         });
         var updateAccountID = chatUsers.data?.filter(index => index.email == email);
-
+        var extPhoneNumber = "+1" + formValue?.phone_number;
         const attributes = [
             {
                 Name: "phone_number",
-                Value: formValue?.phone_number
+                Value: extPhoneNumber
             },
             {
-                Name: "name",
+                Name: "preferred_username",
                 Value: formValue?.username
             },
             {
@@ -543,5 +555,83 @@ export const fetchItem = (id) => {
             });
         }
 
+    };
+};
+
+/**
+ * Return Redux Thunk function that conditionally 
+ * dispatch SEARCH_SUCESS or SEARCH FAILED action
+ * @function postNewItem
+ * @param {Array} imageUrls - urls that images stored in the firebase
+ * @param {Object} formValues - an object that contains item information
+ * @returns {function} - redux thunk function
+ */
+
+export const postNewItem = (imageUrls, formValues, user) => {
+
+    return async (dispatch) => {
+        return new Promise((resolve, reject) => {
+            const data = {
+                "description": formValues.description,
+                "email": user.email,
+                "sub": user.sub,
+                "donate": formValues.donate == "Yes" ? true : false,
+                "username": user.username,
+                "title": formValues.title,
+                "category": formValues.category,
+                "subcategory": formValues.subcategory,
+                "brand": formValues.brand,
+                "color": formValues.color,
+                "material": formValues.material,
+                "worncondition": formValues.worncondition,
+                "urls": imageUrls,
+            };
+            axios.post(POST, data).then((response) => {
+                if (response.status == 200 && response?.data.message === "post successfully created.") {
+                    dispatch({
+                        type: TYPES.POST_SUCCESS,
+                        payload: response.data.message
+                    });
+                    resolve({
+                        status: response.status,
+                        message: response.data.message
+                    });
+                } else {
+                    dispatch({
+                        type: TYPES.POST_FAIL,
+                        payload: response.data.message
+                    });
+                    reject({
+                        error: response.data.message
+                    });
+                }
+            });
+        });
+    };
+};
+
+export const getListing = (sub) => {
+    return async (dispatch) => {
+        return new Promise((resolve, reject) => {
+            axios.get(`${POST}/?user_id=${sub}`).then((response) => {
+                console.log(response);
+                if (response.status == 200 && response?.data?.length >= 0) {
+                    dispatch({
+                        type: TYPES.GET_LISTING_SUCCESS,
+                        payload: response.data
+                    });
+                    resolve({
+                        status: true,
+                    });
+                } else {
+                    dispatch({
+                        type: TYPES.GET_LISTING_FAIL,
+                        payload: response.data.errorMessage
+                    });
+                    reject({
+                    });
+                }
+            });
+        });
     };
 };

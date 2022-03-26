@@ -7,10 +7,12 @@ import { createUser, signIn, getUser } from "../actions";
 import * as Utils from "../utils/validation";
 import { fb } from "../service";
 import UserImage from "../resources/defaultAvatar.png";
+import { phoneFormatter, phoneParser } from "../utils/formater";
 // import ExternalAuth from "./ExternalAuth";
 
 class Authorization extends React.Component {
     state = { signInActive: true, radioSelect: false, image: null, imagePreviewUrl: null, progress: 0, imageUrl: null, };
+
 
     signInFormValidate = () => this.props.signInEmail === "" || this.props.signInPassword === "";
     registerFormValidate = () => this.props.registerEmail === "" || this.props.registerPassword === "" || !Utils.validatePass(this.props.registerPassword);
@@ -157,10 +159,13 @@ class Authorization extends React.Component {
                         data-test="sign-in-name-input" />
                     <Field
                         component={this.renderSignInField}
+                        format={phoneFormatter}
+                        parse={phoneParser}
                         label="Phone Number"
-                        text='Enter Phone Number'
+                        text='XXX-XXX-XXXX'
                         type="tel"
                         name="phone_number"
+                        maxlength="10"
                         data-test="sign-in-phone-input" />
 
                     <FormComp.InputContainer>
@@ -260,6 +265,7 @@ class Authorization extends React.Component {
     };
 
     onRegisterFormSubmit = (formValues) => {
+
         if (this.state.image == null) {
             const defImg = `${process.env.REACT_APP_DEFAULT_AVATAR}`;
             this.props.createUser(formValues, defImg);

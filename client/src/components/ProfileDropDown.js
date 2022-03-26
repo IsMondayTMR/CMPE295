@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DropDownComp } from "../styledComponents/export";
 import { connect } from "react-redux";
 import { signOut } from "../actions";
@@ -8,12 +8,23 @@ import UserImage from "../resources/defaultAvatar.png";
 import { useHistory } from "react-router-dom";
 const ProfileDropDown = ({ user, signOut }) => {
     const history = useHistory();
+    const [username, setUsername] = useState("");
+    const [avatar, setAvatar] = useState(null);
+    useEffect(() => {
+        if (user?.user != null) {
+            user?.user.forEach(element => {
+                if (element.Name == "preferred_username") setUsername(element.Value);
+                if (element.Name == "custom:avatar_url") setAvatar(element.Value);
+            });
+        }
+    }, [username, avatar]);
+
     return (
 
         <DropDownComp >
             <DropDownComp.Button>
-                <DropDownComp.Avatar src={user?.user[10]?.Value ? user?.user[10]?.Value : UserImage} />
-                {user?.user[9]?.Value.substring(0, 5)}
+                <DropDownComp.Avatar src={avatar !== null ? avatar : UserImage} />
+                {username}
             </DropDownComp.Button>
             <DropDownComp.DropDownContent >
                 <DropDownComp.List>

@@ -49,9 +49,23 @@ FormComp.FormContainer = function FormContainer({ children, ...restProps }) {
 FormComp.Input = function Input({ ...restProps }) {
     return <Style.Input {...restProps} />
 }
+
+FormComp.Select = function Select({ children, ...restProps }) {
+    return <Style.Select {...restProps} >
+        {children}
+    </Style.Select>
+}
+
+FormComp.Option = function Option({ children, ...restProps }) {
+    return <Style.Option {...restProps}>
+        {children}
+    </Style.Option>
+}
+
 FormComp.RadioGroup = function RadioGroup({ ...restProps }) {
     return <Style.RadioGroup {...restProps} />
 }
+
 FormComp.RadioInput = function RadioInput({ ...restProps }) {
     return <Style.RadioInput {...restProps} />
 }

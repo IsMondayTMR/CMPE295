@@ -1,4 +1,5 @@
 import React from "react";
+import Result from "../Result/Result";
 import * as Style from "./StyledLeftNav";
 function ResultLeftNav({ children, ...restProps }) {
     return <Style.Background {...restProps}>
@@ -18,9 +19,19 @@ ResultLeftNav.Link = function Link({ to, children, ...restProps }) {
             {children}
         </Style.RouteLink>
     </Style.RouteContainer>
-
-
-
 }
 
+ResultLeftNav.SubLinkContainer = function subLinkContainer({ children, ...restProps }) {
+    return <Style.SubLinkContainer {...restProps}>
+        {children}
+    </Style.SubLinkContainer>
+}
+ResultLeftNav.SubLink = function SubLink({ to, children, ...restProps }) {
+    return <Style.RouteContainer>
+        <Style.RouteLink to={to} {...restProps}>
+            {children}
+        </Style.RouteLink>
+    </Style.RouteContainer>
+
+}
 

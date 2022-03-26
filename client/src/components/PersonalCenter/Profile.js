@@ -2,6 +2,7 @@ import React from "react";
 import { ProfileComp, FormComp } from "../../styledComponents/export";
 import UserImage from "../../resources/userImage.png";
 // import { uploadImage } from "../../utils/imageUploader";
+import { phoneFormatter, phoneParser } from "../../utils/formater";
 import { fb } from "../../service";
 import { update, getUser } from "../../actions";
 import { reduxForm, Field } from "redux-form";
@@ -9,18 +10,34 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 class Profile extends React.Component {
 
-    state = { image: null, imagePreviewUrl: [this.props.user[10]?.Value], progress: 0, hide: true };
+    state = { image: null, imagePreviewUrl: "", email: "", phone_number: "", street: "", city: "", state: "", zip: "", username: "", progress: 0, hide: true };
 
     componentDidMount() {
+        if (this.props?.user != null) {
+            this.props?.user?.forEach(element => {
+                if (element.Name == "email") this.setState({ email: element.Value });
+                if (element.Name == "preferred_username") this.setState({ username: element.Value });
+                if (element.Name == "phone_number") this.setState({ phone_number: element.Value.substring(2) });
+                if (element.Name == "address") this.setState({ street: element.Value });
+                if (element.Name == "custom:city") this.setState({ city: element.Value });
+                if (element.Name == "custom:state") this.setState({ state: element.Value });
+                if (element.Name == "custom:zipcode") this.setState({ zip: element.Value });
+                if (element.Name == "custom:avatar_url") this.setState({ imagePreviewUrl: element.Value });
+            });
+        }
+
+
+    }
+    componentDidUpdate() {
         this.props.initialize({
-            username: this.props.user[7]?.Value,
-            phone_number: this.props.user[8]?.Value,
-            street: this.props.user[1]?.Value,
-            city: this.props.user[6]?.Value,
-            state: this.props.user[5]?.Value
+            username: this.state.username,
+            phone_number: this.state.phone_number,
+            street: this.state.street,
+            city: this.state.city,
+            state: this.state.state,
+            zip: this.state.zip,
         });
     }
-
 
     handleChange = (event) => {
         event.preventDefault();
@@ -51,15 +68,14 @@ class Profile extends React.Component {
             <FormComp.InputContainer >
                 <FormComp.Label >{label}</FormComp.Label>
                 <FormComp.FileInput type={type} name={name} id={name} value={this.state.image} handleChange={handleChange} fileType="image/x-png,image/gif,image/jpeg" {...input} />
-                <FormComp.AvatarPreview src={this.state.imagePreviewUrl ? this.state.imagePreviewUrl[0] : UserImage} />
+                <FormComp.AvatarPreview src={this.state.imagePreviewUrl ? this.state.imagePreviewUrl : UserImage} />
             </FormComp.InputContainer>
         );
     };
 
     onUpdateFormSubmit = (formValues) => {
-        console.log(formValues);
         if (this.state.image == null || !this.state.image) {
-            this.props.update(formValues, this.state.imagePreviewUrl[0], this.props.session?.accessToken?.jwtToken, this.props.user[9]?.Value)
+            this.props.update(formValues, this.state.imagePreviewUrl, this.props.session?.accessToken?.jwtToken, this.state.email)
                 .then(() => this.props.getUser())
                 .then(() => this.setState({ hide: true }));
             return;
@@ -84,7 +100,7 @@ class Profile extends React.Component {
                     .child(this.state.image.name)
                     .getDownloadURL()
                     .then(url => {
-                        this.props.update(formValues, url, this.props.session?.accessToken?.jwtToken, this.props.user[9]?.Value);
+                        this.props.update(formValues, url, this.props.session?.accessToken?.jwtToken, this.state.email);
                     })
                     .then(() => this.props.getUser())
                     .then(() => this.setState({ hide: true }));
@@ -109,7 +125,7 @@ class Profile extends React.Component {
                     onSubmit={this.props.handleSubmit(this.onUpdateFormSubmit)}>
 
                     <FormComp.ImageGroup>
-                        <FormComp.AvatarPreview src={this.state.imagePreviewUrl ? this.state.imagePreviewUrl[0] : UserImage} alt="User Image" />
+                        <FormComp.AvatarPreview src={this.state.imagePreviewUrl ? this.state.imagePreviewUrl : UserImage} alt="User Image" />
                         <FormComp.FileInputLabel htmlFor="upload">
                             <i className="fa-solid fa-camera"></i>
                             <FormComp.FileInput
@@ -132,6 +148,8 @@ class Profile extends React.Component {
                             label="Phone"
                             text="Phone"
                             type="tel"
+                            format={phoneFormatter}
+                            parse={phoneParser}
                             name="phone_number" />
                         <Field
                             component={this.renderEditField}
@@ -198,37 +216,39 @@ class Profile extends React.Component {
 
             <ProfileComp.ImageContainer>
 
-                <ProfileComp.Image src={this.state.imagePreviewUrl ? this.state.imagePreviewUrl[0] : UserImage} alt="User Image" />
+                <ProfileComp.Image src={this.state.imagePreviewUrl ? this.state.imagePreviewUrl : UserImage} alt="User Image" />
 
             </ProfileComp.ImageContainer>
-            <ProfileComp.UserName>{`${this.props?.user[7]?.Value}`} </ProfileComp.UserName>
+            <ProfileComp.UserName>{this.state.username} </ProfileComp.UserName>
             <ProfileComp.InputContainer>
                 <ProfileComp.InputGroup>
                     <ProfileComp.Label>Email</ProfileComp.Label>
-                    <ProfileComp.Input value={`${this.props?.user[9]?.Value}`} disabled />
+                    <ProfileComp.Input value={this.state.email} disabled />
                 </ProfileComp.InputGroup>
                 <ProfileComp.InputGroup>
                     <ProfileComp.Label>Phone Number</ProfileComp.Label>
-                    <ProfileComp.Input value={`${this.props?.user[8]?.Value.substring(2)}`} disabled />
+                    <ProfileComp.Input
+                        value={
+                            this.state.phone_number ?
+                                this.state.phone_number.substring(0, 7).match(/.{1,3}/g).join("-")
+                                + this.state.phone_number.substring(7)
+                                : this.state.phone_number}
+                        disabled />
                 </ProfileComp.InputGroup>
 
 
                 <ProfileComp.InputGroup >
                     <ProfileComp.Label>Address</ProfileComp.Label>
-                    <ProfileComp.Input type="address" value={`${this.props?.user[1]?.Value}`} name="street" id="street" data-test="sign-in-city-input" disabled />
+                    <ProfileComp.Input type="address" value={this.state.street} name="street" id="street" data-test="sign-in-city-input" disabled />
                 </ProfileComp.InputGroup>
 
                 <ProfileComp.InputGroup>
                     <ProfileComp.Label></ProfileComp.Label>
-                    <ProfileComp.Input type="city" width="150px" value={`${this.props?.user[6]?.Value}`} name="city" id="city" data-test="sign-in-city-input" disabled />
-                    <ProfileComp.Input type="state" width="70px" value={`${this.props?.user[5]?.Value}`} name="state" id="state" data-test="sign-in-state-input" disabled />
-                    <ProfileComp.Input type="zip" width="100px" value={"95555"} name="zip" id="zip" data-test="sign-in-state-input" disabled />
+                    <ProfileComp.Input type="city" width="150px" value={this.state.city} name="city" id="city" data-test="sign-in-city-input" disabled />
+                    <ProfileComp.Input type="state" width="70px" value={this.state.state} name="state" id="state" data-test="sign-in-state-input" disabled />
+                    <ProfileComp.Input type="zip" width="100px" value={this.state.zip} name="zip" id="zip" data-test="sign-in-state-input" disabled />
                 </ProfileComp.InputGroup>
 
-                <ProfileComp.InputGroup>
-                    <ProfileComp.Label>Description</ProfileComp.Label>
-                    <ProfileComp.TextArea maxLength="50" value="This person is lazy" disabled />
-                </ProfileComp.InputGroup>
             </ProfileComp.InputContainer>
             <ProfileComp.EditButton onClick={() => this.setState({ hide: false })} > Edit</ProfileComp.EditButton>
 

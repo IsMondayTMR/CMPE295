@@ -87,6 +87,8 @@ export const InputContinaer = styled.div`
     margin-top: 10px;
 `
 
+
+
 export const FormContainer = styled.div`
     max-height:${(props) => props.maxHeight ? props.maxHeight : "500px"};
     overflow-y: scroll;
@@ -255,4 +257,9 @@ export const CloseButton = styled.button`
     &:hover {
         cursor: pointer;
     }
+`
+
+export const Select = styled.select`
+`
+export const Option = styled.option`
 `

@@ -3,10 +3,36 @@ import { ProfileComp, FormComp, ListingComp } from "../../styledComponents/expor
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import defaultPlaceholder from "../../resources/defaultPlaceholder.png";
+import data from "../../const/cardData";
+import { fb } from "../../service";
+import { postNewItem, getListing } from "../../actions";
+// import defaultPlaceholder from "../../resources/defaultPlaceholder.png";
 class Listing extends React.Component {
-    state = { hide: true, mainImage: null, mainImageUrl: null, images: [], imagePreviewUrls: [] };
+    state = { hide: true, username: "", email: "", sub: "", images: [], imagePreviewUrls: [], category: data[0].title, subcategory: data[0].subtitle };
 
+    componentDidMount() {
+        this.setState({ subcategory: data[0].subtitle });
+        if (this.props?.user != null) {
+
+            this.props?.user?.forEach(element => {
+                if (element.Name == "preferred_username") this.setState({ username: element.Value });
+                if (element.Name == "email") this.setState({ email: element.Value });
+                if (element.Name == "sub") this.setState({ sub: element.Value });
+            });
+        }
+
+
+        this.props.initialize({
+            category: data[0].title,
+            subcategory: data[0].subtitle[0],
+        });
+    }
+
+    componentDidUpdate(prevState) {
+        if (this.state.sub !== prevState.sub) {
+            this.props.getListing(this.state.sub);
+        }
+    }
     openNewForm = () => {
         this.setState({ hide: false });
     };
@@ -15,6 +41,70 @@ class Listing extends React.Component {
         this.setState({ hide: true });
     };
 
+    uploadImageAsPromise = (image, title, username) => {
+
+        return new Promise(function (resolve, reject) {
+
+            const subFolder = title.replace(/\s/g, "");
+            const uploadTask = fb.storage.ref(`${username}/${subFolder}/${image.name}`).put(image);
+            uploadTask.on(
+                "state_changed",
+                snapshot => {
+                    Math.round(
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    );
+                },
+                error => {
+                    reject(error);
+                },
+                () => {
+                    fb.storage
+                        .ref(`${username}/${subFolder}`)
+                        .child(image.name)
+                        .getDownloadURL()
+                        .then(url => {
+                            resolve(url);
+                        });
+                });
+        });
+
+    };
+
+    getAllImageUrl = (formValues) => {
+
+        return new Promise((resolve, reject) => {
+            var urls = [];
+            this.state.images.forEach((image) => {
+                const files = Object.values(image);
+                urls.push(this.uploadImageAsPromise(files[0], formValues.title, this.state.username));
+            });
+            Promise.all(urls).then((urls) => {
+                resolve(urls);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+
+    };
+    onPostFormSubmit = async (formValues) => {
+
+        if (this.state.images.length == 0) {
+            return;
+        }
+        this.getAllImageUrl(formValues).then((urls) => {
+            this.props.postNewItem(urls, formValues,
+                {
+                    username: this.state.username,
+                    email: this.state.email,
+                    sub: this.state.sub,
+                })
+                .then(() => {
+                    this.closeNewForm();
+                });
+        }).catch(err => {
+            alert(err);
+        });
+    };
     renderPostField = ({ input, name, label, text, type }) => {
         return (
             <FormComp.InputContainer >
@@ -23,7 +113,64 @@ class Listing extends React.Component {
             </FormComp.InputContainer>
         );
     };
+    renderRadioSelector = ({ input, name, text, type, select, onClick }) => {
+        return (
+            <FormComp.RadioLabel>
+                <FormComp.RadioInput
+                    type={type}
+                    placeholder={text}
+                    value={input.value}
+                    name={name}
+                    id={name}
+                    check={select}
+                    onClick={onClick}
+                    {...input} />
+                {input.value}
+            </FormComp.RadioLabel>
+        );
+    };
+    renderPostSelectField = ({ input, name, label, data }) => {
+        const options = data ? data.map((object) => {
+            return <FormComp.Option key={object.key} value={object.title}> {object.title}</FormComp.Option >;
+        }) : null;
+        return (
+            <FormComp.InputContainer >
+                <FormComp.Label >{label}</FormComp.Label>
+                <FormComp.Select
+                    onChange={(e) => {
+                        const temp = data.filter((object) => {
+                            return object.title === e.target.value;
+                        });
+                        this.setState({ category: e.target.value });
+                        this.setState({ subcategory: temp[0].subtitle });
+                        this.props.change("category", e.target.value);
+                        this.props.change("subcategory", temp[0].subtitle[0]);
+                    }}
+                    name={name}
+                    id={name}
+                    onBlur={() => input.onBlur}
+                    onDragStart={() => input.onDragStart}
+                    onDrop={() => input.onDrop}
+                    onFocus={() => input.onFocus}>
+                    {options}
+                </FormComp.Select>
+            </FormComp.InputContainer >
+        );
+    };
+    renderPostSubSelectField = ({ input, name, label, data }) => {
+        const options = data ? data.map((object, index) => {
+            return <FormComp.Option key={index} value={object}> {object}</FormComp.Option >;
+        }) : null;
 
+        return (
+            <FormComp.InputContainer >
+                <FormComp.Label >{label}</FormComp.Label>
+                <FormComp.Select name={name} id={name} {...input}>
+                    {options}
+                </FormComp.Select>
+            </FormComp.InputContainer >
+        );
+    };
     renderUploadField = ({ input, name, label, type, handleChange }) => {
         return (
             <FormComp.InputContainer >
@@ -32,9 +179,7 @@ class Listing extends React.Component {
             </FormComp.InputContainer>
         );
     };
-    onPostFormSubmit = (formValues) => {
-        console.log(formValues);
-    };
+
 
     readFile = (key, file) => {
         let reader = new FileReader();
@@ -47,20 +192,6 @@ class Listing extends React.Component {
                 imagePreviewUrls: [...prevState.imagePreviewUrls, newUrl]
             }));
         };
-
-    };
-    handleMainImagesChange = (event) => {
-        event.preventDefault();
-        let reader = new FileReader();
-        let file = event.target.files[0];
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            this.setState({
-                mainImage: event.target.files[0],
-                mainImageUrl: URL.createObjectURL(file)
-            });
-        };
-
 
     };
 
@@ -124,7 +255,7 @@ class Listing extends React.Component {
                 <FormComp.Form
                     onSubmit={this.props.handleSubmit(this.onPostFormSubmit)}>
                     <FormComp.FormContainer maxHeight="700px">
-                        <FormComp.ImageGroup>
+                        {/* <FormComp.ImageGroup>
                             <FormComp.MainImagePreview src={this.state.mainImageUrl == null ? defaultPlaceholder : this.state.mainImageUrl} alt="User Image" />
                             <FormComp.FileInputLabel htmlFor="upload">
                                 <i className="fa-solid fa-camera"></i>
@@ -134,7 +265,7 @@ class Listing extends React.Component {
                                     accept="image/x-png,image/gif,image/jpeg"
                                     onChange={this.handleMainImagesChange} />
                             </FormComp.FileInputLabel>
-                        </FormComp.ImageGroup>
+                        </FormComp.ImageGroup> */}
 
                         <FormComp.InputContainer >
                             <FormComp.FileInput
@@ -155,19 +286,69 @@ class Listing extends React.Component {
                             label="Title"
                             text="Title"
                             type="text"
-                            name="Title" />
+                            name="title" />
                         <Field
                             component={this.renderPostField}
                             label="Description"
                             text="Description"
                             type="text"
-                            name="Description" />
+                            name="description" />
+                        <FormComp.InputContainer>
+                            <FormComp.Label >Donate</FormComp.Label>
+                            <FormComp.RadioGroup>
+                                <Field
+                                    component={this.renderRadioSelector}
+                                    type="radio"
+                                    name="donate"
+                                    value="Yes"
+                                    data-test="sign-in-gender-input" />
+                                <Field
+                                    component={this.renderRadioSelector}
+                                    type="radio"
+                                    name="donate"
+                                    value="No"
+                                    data-test="sign-in-gender-input" />
+                            </FormComp.RadioGroup>
+                        </FormComp.InputContainer>
+                        <Field
+                            component={this.renderPostSelectField}
+                            label="Category"
+                            text="category"
+                            type="category"
+                            name="category"
+                            data={data} />
+                        <Field
+                            component={this.renderPostSubSelectField}
+                            label="Subcategory"
+                            text="subcategory"
+                            type="subcategory"
+                            name="subcategory"
+                            data={this.state.subcategory} />
                         <Field
                             component={this.renderPostField}
-                            label="Type"
-                            text="Type"
-                            type="Type"
-                            name="Type" />
+                            label="Color"
+                            text="color"
+                            type="text"
+                            name="color" />
+                        <Field
+                            component={this.renderPostField}
+                            label="Brand"
+                            text="brand"
+                            type="brand"
+                            name="brand" />
+                        <Field
+                            component={this.renderPostField}
+                            label="Material"
+                            text="material"
+                            type="material"
+                            name="material" />
+
+                        <Field
+                            component={this.renderPostField}
+                            label="Worncondition"
+                            text="worncondition"
+                            type="text"
+                            name="worncondition" />
                         <FormComp.SubmitButton >
                             Submit
                         </FormComp.SubmitButton>
@@ -177,7 +358,6 @@ class Listing extends React.Component {
             </FormComp>
             <FormComp.Modal hide={this.state.hide ? "none" : "block"} />
         </React.Fragment>;
-
     }
     render() {
         return <ProfileComp.ContentContainer>
@@ -190,19 +370,29 @@ class Listing extends React.Component {
 
 }
 Listing.propTypes = {
-    user: PropTypes.object,
+    user: PropTypes.array,
+    list: PropTypes.array,
     handleSubmit: PropTypes.func,
+    change: PropTypes.func,
+    initialize: PropTypes.func,
+    title: PropTypes.string,
+    postNewItem: PropTypes.func,
+    getListing: PropTypes.func
 };
+
 const formWrapper = reduxForm({
     form: "Post",
+    enableReinitialize: true,
+    keepDirtyOnReinitialize: true,
 })(Listing);
 
-const mapStateToProps = () => {
+const mapStateToProps = (state) => {
     return {
-
+        user: state.user.user,
+        list: state.listing.item,
     };
 };
 
 
 
-export default connect(mapStateToProps, {})(formWrapper);
+export default connect(mapStateToProps, { postNewItem, getListing })(formWrapper);
