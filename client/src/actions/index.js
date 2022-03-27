@@ -610,11 +610,19 @@ export const postNewItem = (imageUrls, formValues, user) => {
     };
 };
 
+
+/**
+ * Return Redux Thunk function that conditionally 
+ * dispatch GET_LISTING_FAIL or GET_LISTING_SUCCESS action
+ * @function getListing
+ * @param {String} sub - user id used for get all items belong that user
+ * @returns {function} - redux thunk function
+ */
+
 export const getListing = (sub) => {
     return async (dispatch) => {
         return new Promise((resolve, reject) => {
             axios.get(`${POST}/?user_id=${sub}`).then((response) => {
-                console.log(response);
                 if (response.status == 200 && response?.data?.length >= 0) {
                     dispatch({
                         type: TYPES.GET_LISTING_SUCCESS,
@@ -634,4 +642,15 @@ export const getListing = (sub) => {
             });
         });
     };
+};
+
+/**
+ * Return Redux Thunk function that conditionally 
+ * dispatch GET_LISTING_FAIL or GET_LISTING_SUCCESS action
+ * @function updateItem
+ * @param {object} formValues - information need to be updated
+ * @returns {function} - redux thunk function
+ */
+export const updateItem = (formValues) => {
+    console.log(formValues);
 };

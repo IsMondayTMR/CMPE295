@@ -4,7 +4,7 @@ import { ChatListComp } from "../../styledComponents/export";
 import { connect } from "react-redux";
 const ChatList = (props) => {
     const { chats, creds, setActiveChat } = props;
-    // console.log(props);
+
 
     const renderImage = (from) => {
         var avatar = JSON.parse(from?.person?.custom_json);
@@ -54,7 +54,6 @@ const ChatList = (props) => {
         }
         return <></>;
     };
-    console.log(props?.user?.user[9]?.Value);
     return (
 
         <>

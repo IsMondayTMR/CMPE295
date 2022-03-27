@@ -25,18 +25,31 @@ class Profile extends React.Component {
                 if (element.Name == "custom:avatar_url") this.setState({ imagePreviewUrl: element.Value });
             });
         }
-
-
     }
-    componentDidUpdate() {
-        this.props.initialize({
-            username: this.state.username,
-            phone_number: this.state.phone_number,
-            street: this.state.street,
-            city: this.state.city,
-            state: this.state.state,
-            zip: this.state.zip,
-        });
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.hide !== this.state.hide) {
+            this.props.initialize({
+                username: this.state.username,
+                phone_number: this.state.phone_number,
+                street: this.state.street,
+                city: this.state.city,
+                state: this.state.state,
+                zip: this.state.zip,
+            });
+        }
+
+        if (prevProps?.user != this.props?.user) {
+            this.props?.user?.forEach(element => {
+                if (element.Name == "email") this.setState({ email: element.Value });
+                if (element.Name == "preferred_username") this.setState({ username: element.Value });
+                if (element.Name == "phone_number") this.setState({ phone_number: element.Value.substring(2) });
+                if (element.Name == "address") this.setState({ street: element.Value });
+                if (element.Name == "custom:city") this.setState({ city: element.Value });
+                if (element.Name == "custom:state") this.setState({ state: element.Value });
+                if (element.Name == "custom:zipcode") this.setState({ zip: element.Value });
+                if (element.Name == "custom:avatar_url") this.setState({ imagePreviewUrl: element.Value });
+            });
+        }
     }
 
     handleChange = (event) => {
@@ -75,7 +88,7 @@ class Profile extends React.Component {
 
     onUpdateFormSubmit = (formValues) => {
         if (this.state.image == null || !this.state.image) {
-            this.props.update(formValues, this.state.imagePreviewUrl, this.props.session?.accessToken?.jwtToken, this.state.email)
+            this.props.update(formValues, this.state.imagePreviewUrl, this.state.email)
                 .then(() => this.props.getUser())
                 .then(() => this.setState({ hide: true }));
             return;
@@ -100,7 +113,7 @@ class Profile extends React.Component {
                     .child(this.state.image.name)
                     .getDownloadURL()
                     .then(url => {
-                        this.props.update(formValues, url, this.props.session?.accessToken?.jwtToken, this.state.email);
+                        this.props.update(formValues, url, this.state.email);
                     })
                     .then(() => this.props.getUser())
                     .then(() => this.setState({ hide: true }));
@@ -213,11 +226,8 @@ class Profile extends React.Component {
 
     render() {
         return <ProfileComp.ContentContainer>
-
             <ProfileComp.ImageContainer>
-
                 <ProfileComp.Image src={this.state.imagePreviewUrl ? this.state.imagePreviewUrl : UserImage} alt="User Image" />
-
             </ProfileComp.ImageContainer>
             <ProfileComp.UserName>{this.state.username} </ProfileComp.UserName>
             <ProfileComp.InputContainer>

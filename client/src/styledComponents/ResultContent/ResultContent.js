@@ -29,6 +29,13 @@ ResultContent.Card = function Card({ to, children, ...restProps }) {
 
 }
 
+ResultContent.ListCard = function ListCard({ to, children, ...restProps }) {
+    return <Style.Card {...restProps}>
+        {children}
+    </Style.Card>
+}
+
+
 ResultContent.Img = function Img({ children, ...restProps }) {
     return <Style.Img {...restProps}>{children}</Style.Img>
 }
@@ -40,9 +47,20 @@ ResultContent.Title = function Title({ children, ...restProps }) {
 ResultContent.Description = function Description({ children, ...restProps }) {
     return <Style.Description {...restProps}>{children}</Style.Description>
 }
+ResultContent.Donate = function Donate({ children, ...restProps }) {
+    return <Style.Donate {...restProps}>{children}</Style.Donate>
+}
 
 ResultContent.InforContainer = function InforContainer({ children, ...restProps }) {
     return <Style.InforContainer {...restProps}>{children}</Style.InforContainer>
+}
+
+ResultContent.ButtonContainer = function ButtonContainer({ children, ...restProps }) {
+    return <Style.ButtonContainer {...restProps}>{children}</Style.ButtonContainer>
+}
+
+ResultContent.Button = function Button({ children, ...restProps }) {
+    return <Style.Button {...restProps}>{children}</Style.Button>
 }
 
 ResultContent.NoResultText = function NoResultText({ children, ...restProps }) {

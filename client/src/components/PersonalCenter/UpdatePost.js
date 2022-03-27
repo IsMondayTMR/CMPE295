@@ -1,106 +1,65 @@
 import React from "react";
-import { ProfileComp, FormComp, ListingComp } from "../../styledComponents/export";
+import { FormComp, ListingComp } from "../../styledComponents/export";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import data from "../../const/cardData";
-import { fb } from "../../service";
-import { postNewItem, getListing } from "../../actions";
-// import defaultPlaceholder from "../../resources/defaultPlaceholder.png";
-class Listing extends React.Component {
-    state = { hide: true, username: "", email: "", sub: "", images: [], imagePreviewUrls: [], category: data[0].title, subcategory: data[0].subtitle };
+import { uploadImageAsPromise, getAllImageUrl } from "../../utils/imageUploader";
+import { updateItem } from "../../actions";
+
+class UpdatePost extends React.Component {
+    state = { images: [], prevImagesUrls: [], imagePreviewUrls: [], defaultSubcategory: null, category: null, subcategory: null };
 
     componentDidMount() {
-        this.setState({ subcategory: data[0].subtitle });
-        if (this.props?.user != null) {
 
-            this.props?.user?.forEach(element => {
-                if (element.Name == "preferred_username") this.setState({ username: element.Value });
-                if (element.Name == "email") this.setState({ email: element.Value });
-                if (element.Name == "sub") this.setState({ sub: element.Value });
-            });
-        }
-
-
-        this.props.initialize({
-            category: data[0].title,
-            subcategory: data[0].subtitle[0],
-        });
     }
 
-    componentDidUpdate(prevState) {
-        if (this.state.sub !== prevState.sub) {
-            this.props.getListing(this.state.sub);
+    componentDidUpdate(prevProps) {
+        if (prevProps !== this.props) {
+            this.setState({ images: [], prevImagesUrls: [], imagePreviewUrls: [], defaultSubcategory: null, category: null, subcategory: null });
+            this.props.initialize({
+                title: this.props?.item.title,
+                description: this.props?.item.description,
+                donate: this.props?.item.donate,
+                color: this.props?.item.color,
+                brand: this.props?.item.brand,
+                material: this.props?.item.material,
+                worncondition: this.props?.item.worncondition,
+            });
+            this.setState({ prevImagesUrls: this.props?.item?.media_urls, category: "", defaultSubcategory: this.props?.item.subcategory });
+            const temp = data.filter((object) => {
+                return object.title === this.props?.item.category;
+            });
+            const tempCategory = this.props?.item == null ? "" : this.props?.item.category;
+            this.setState({ category: tempCategory });
+
+            if (temp != null && temp != undefined) {
+                this.setState({ subcategory: temp[0]?.subtitle });
+            }
+
+            this.props.change("category", tempCategory);
+            this.props.change("subcategory", this.props?.item.subcategory);
         }
     }
-    openNewForm = () => {
-        this.setState({ hide: false });
-    };
-
-    closeNewForm = () => {
-        this.setState({ hide: true });
-    };
-
-    uploadImageAsPromise = (image, title, username) => {
-
-        return new Promise(function (resolve, reject) {
-
-            const subFolder = title.replace(/\s/g, "");
-            const uploadTask = fb.storage.ref(`${username}/${subFolder}/${image.name}`).put(image);
-            uploadTask.on(
-                "state_changed",
-                snapshot => {
-                    Math.round(
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                    );
-                },
-                error => {
-                    reject(error);
-                },
-                () => {
-                    fb.storage
-                        .ref(`${username}/${subFolder}`)
-                        .child(image.name)
-                        .getDownloadURL()
-                        .then(url => {
-                            resolve(url);
-                        });
-                });
-        });
-
-    };
-
-    getAllImageUrl = (formValues) => {
-
-        return new Promise((resolve, reject) => {
-            var urls = [];
-            this.state.images.forEach((image) => {
-                const files = Object.values(image);
-                urls.push(this.uploadImageAsPromise(files[0], formValues.title, this.state.username));
-            });
-            Promise.all(urls).then((urls) => {
-                resolve(urls);
-            }).catch(err => {
-                reject(err);
-            });
-        });
-
-    };
+    componentWillUnmount() {
+    }
     onPostFormSubmit = async (formValues) => {
 
         if (this.state.images.length == 0) {
             return;
         }
         this.getAllImageUrl(formValues).then((urls) => {
-            this.props.postNewItem(urls, formValues,
-                {
-                    username: this.state.username,
-                    email: this.state.email,
-                    sub: this.state.sub,
-                })
-                .then(() => {
-                    this.closeNewForm();
-                });
+            let allUrls = urls + this.state.prevImagesUrls;
+            console.log(allUrls);
+            // this.props.updateItem(allUrls, formValues,
+            //     {
+            //         username: this.props.username,
+            //         email: this.props.email,
+            //         sub: this.props.sub,
+            //     })
+            //     .then(() => {
+            //         this.props.close();
+            //     });
         }).catch(err => {
             alert(err);
         });
@@ -113,7 +72,7 @@ class Listing extends React.Component {
             </FormComp.InputContainer>
         );
     };
-    renderRadioSelector = ({ input, name, text, type, select, onClick }) => {
+    renderRadioSelector = ({ input, name, text, type, checked, onClick }) => {
         return (
             <FormComp.RadioLabel>
                 <FormComp.RadioInput
@@ -122,7 +81,7 @@ class Listing extends React.Component {
                     value={input.value}
                     name={name}
                     id={name}
-                    check={select}
+                    checked={checked}
                     onClick={onClick}
                     {...input} />
                 {input.value}
@@ -130,6 +89,9 @@ class Listing extends React.Component {
         );
     };
     renderPostSelectField = ({ input, name, label, data }) => {
+        if (!data) {
+            return null;
+        }
         const options = data ? data.map((object) => {
             return <FormComp.Option key={object.key} value={object.title}> {object.title}</FormComp.Option >;
         }) : null;
@@ -137,6 +99,7 @@ class Listing extends React.Component {
             <FormComp.InputContainer >
                 <FormComp.Label >{label}</FormComp.Label>
                 <FormComp.Select
+                    value={this.state.category == null ? "" : this.state.category}
                     onChange={(e) => {
                         const temp = data.filter((object) => {
                             return object.title === e.target.value;
@@ -158,7 +121,10 @@ class Listing extends React.Component {
         );
     };
     renderPostSubSelectField = ({ input, name, label, data }) => {
-        const options = data ? data.map((object, index) => {
+        if (data == null || data == undefined || data.length == 0) {
+            return null;
+        }
+        const options = data ? data?.map((object, index) => {
             return <FormComp.Option key={index} value={object}> {object}</FormComp.Option >;
         }) : null;
 
@@ -221,10 +187,17 @@ class Listing extends React.Component {
             }
         });
 
-        this.setState({ images: newImages, imagePreviewUrls: newUrls });
+        var newPreImages = this.state.prevImagesUrls.filter((image) => {
+            return image != deleteKey;
+        });
+        this.setState({ images: newImages, prevImagesUrls: newPreImages, imagePreviewUrls: newUrls });
     };
+
     renderPreviewImages = () => {
-        var previwes = this.state.imagePreviewUrls.map((image, index) => {
+        if (!this.state.prevImagesUrls && !this.state.prevImagesUrls) {
+            return;
+        }
+        var previwes = this.state?.imagePreviewUrls.map((image, index) => {
             if (image == null || image == undefined) {
                 return;
             }
@@ -240,7 +213,26 @@ class Listing extends React.Component {
                 </ListingComp.ImageBox>;
             }
         });
+
+        var prevImagesPreview = this.state?.prevImagesUrls.map((image, index) => {
+            if (image == null || image == undefined) {
+                return;
+            }
+
+            return <ListingComp.ImageBox key={index}>
+
+                <ListingComp.Image src={`${image}`} alt={`${image}`} key={index} />
+                <ListingComp.DeleteContainer onClick={() => {
+                    this.deleteImage(image);
+                }}>
+                    <i className="fas fa-times"></i>
+                </ListingComp.DeleteContainer>
+            </ListingComp.ImageBox>;
+        });
+        // console.log(prevImagesPreview);
+        // console.log(previwes);
         return <ListingComp.ImagesContainer>
+            {prevImagesPreview}
             {previwes}
         </ListingComp.ImagesContainer>;
 
@@ -248,25 +240,13 @@ class Listing extends React.Component {
 
     renderForm() {
         return <React.Fragment>
-            <FormComp hide={this.state.hide ? "none" : "block"}>
+            <FormComp hide={this.props.hide ? "none" : "block"}>
                 <FormComp.CloseButton
-                    onClick={() => this.setState({ hide: true })}
+                    onClick={() => this.props.close()}
                     data-test="close-btn" />
                 <FormComp.Form
                     onSubmit={this.props.handleSubmit(this.onPostFormSubmit)}>
                     <FormComp.FormContainer maxHeight="700px">
-                        {/* <FormComp.ImageGroup>
-                            <FormComp.MainImagePreview src={this.state.mainImageUrl == null ? defaultPlaceholder : this.state.mainImageUrl} alt="User Image" />
-                            <FormComp.FileInputLabel htmlFor="upload">
-                                <i className="fa-solid fa-camera"></i>
-                                <FormComp.FileInput
-                                    id="upload"
-                                    type="file"
-                                    accept="image/x-png,image/gif,image/jpeg"
-                                    onChange={this.handleMainImagesChange} />
-                            </FormComp.FileInputLabel>
-                        </FormComp.ImageGroup> */}
-
                         <FormComp.InputContainer >
                             <FormComp.FileInput
                                 id="upload"
@@ -301,12 +281,14 @@ class Listing extends React.Component {
                                     type="radio"
                                     name="donate"
                                     value="Yes"
+                                    checked={this.props?.item?.donate}
                                     data-test="sign-in-gender-input" />
                                 <Field
                                     component={this.renderRadioSelector}
                                     type="radio"
                                     name="donate"
                                     value="No"
+                                    checked={!this.props?.item?.donate}
                                     data-test="sign-in-gender-input" />
                             </FormComp.RadioGroup>
                         </FormComp.InputContainer>
@@ -356,43 +338,37 @@ class Listing extends React.Component {
                 </FormComp.Form>
 
             </FormComp>
-            <FormComp.Modal hide={this.state.hide ? "none" : "block"} />
+            <FormComp.Modal hide={this.props.hide ? "none" : "block"} />
         </React.Fragment>;
     }
     render() {
-        return <ProfileComp.ContentContainer>
-            <ProfileComp.NewList onClick={this.openNewForm}>
-                New Item
-            </ProfileComp.NewList>
-            {this.renderForm()}
-        </ProfileComp.ContentContainer>;
+
+        return this.renderForm();
     }
 
 }
-Listing.propTypes = {
-    user: PropTypes.array,
-    list: PropTypes.array,
-    handleSubmit: PropTypes.func,
-    change: PropTypes.func,
-    initialize: PropTypes.func,
-    title: PropTypes.string,
-    postNewItem: PropTypes.func,
-    getListing: PropTypes.func
-};
 
+UpdatePost.propTypes = {
+    item: PropTypes.object.isRequired,
+    hide: PropTypes.bool.isRequired,
+    change: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    updateItem: PropTypes.func.isRequired,
+    uploadImageAsPromise: PropTypes.func.isRequired,
+    getAllImageUrl: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+};
 const formWrapper = reduxForm({
-    form: "Post",
+    form: "UpdatePostForm",
     enableReinitialize: true,
     keepDirtyOnReinitialize: true,
-})(Listing);
+})(UpdatePost);
 
 const mapStateToProps = (state) => {
     return {
         user: state.user.user,
-        list: state.listing.item,
     };
 };
 
-
-
-export default connect(mapStateToProps, { postNewItem, getListing })(formWrapper);
+export default connect(mapStateToProps, { updateItem, uploadImageAsPromise, getAllImageUrl })(formWrapper);

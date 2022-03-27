@@ -6,18 +6,18 @@ import * as ROUTES from "../router/routes";
 import PropTypes from "prop-types";
 import UserImage from "../resources/defaultAvatar.png";
 import { useHistory } from "react-router-dom";
-const ProfileDropDown = ({ user, signOut }) => {
+const ProfileDropDown = (props) => {
     const history = useHistory();
     const [username, setUsername] = useState("");
     const [avatar, setAvatar] = useState(null);
     useEffect(() => {
-        if (user?.user != null) {
-            user?.user.forEach(element => {
+        if (props?.user != null) {
+            props?.user.forEach(element => {
                 if (element.Name == "preferred_username") setUsername(element.Value);
                 if (element.Name == "custom:avatar_url") setAvatar(element.Value);
             });
         }
-    }, [username, avatar]);
+    }, [props.user]);
 
     return (
 
@@ -33,7 +33,7 @@ const ProfileDropDown = ({ user, signOut }) => {
                     <DropDownComp.LinkItem to={`${ROUTES.PROFILE}/setting`}>Setting</DropDownComp.LinkItem>
                     <DropDownComp.ItemBtn
                         onClick={() => {
-                            signOut();
+                            props?.signOut();
                             history.push("/");
                             window.location.reload(false);
                         }} >Sign Out</DropDownComp.ItemBtn>
@@ -44,11 +44,11 @@ const ProfileDropDown = ({ user, signOut }) => {
 };
 
 const mapStateToProps = (state) => {
-    return { user: state.user };
+    return { user: state.user.user };
 };
 
 ProfileDropDown.propTypes = {
-    user: PropTypes.object.isRequired,
+    user: PropTypes.array.isRequired,
     signOut: PropTypes.func.isRequired,
 };
 
