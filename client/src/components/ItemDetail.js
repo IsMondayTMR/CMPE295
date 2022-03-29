@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { fetchItem } from "../actions/";
 import { ItemDetailComp } from "../styledComponents/export";
 import defaultImg from "../resources/1.jpg";
+import Recommendation from "./Recommendation";
 // import axios from "axios";
 // import { PROJECTID, USERNAME, USERSECRET } from "./Chat/chatConst";
 
@@ -14,7 +15,7 @@ class ItemDetail extends React.Component {
         const id = this.props.match.params.id;
         this.props.fetchItem(id);
         window.scroll(0, 0);
-        console.log(this.props?.item);
+
     }
 
     renderImage() {
@@ -66,6 +67,7 @@ class ItemDetail extends React.Component {
     //     console.log(response);
     // }
     renderInfor() {
+        console.log(this.props?.item);
         return <ItemDetailComp.InforContainer>
             <ItemDetailComp.Title>
                 {this.props?.item?.item?.title}
@@ -121,6 +123,7 @@ class ItemDetail extends React.Component {
 
             </ItemDetailComp.Container>
             <ItemDetailComp.Break />
+            <Recommendation breakHide={true} text="Recommendations For You" />
         </ItemDetailComp>;
     }
 }

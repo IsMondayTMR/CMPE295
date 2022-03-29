@@ -1,5 +1,5 @@
 import * as TYPES from "../const/reduxTypes";
-import { BASEURL, POST } from "../const/apis";
+import { BASEURL, POST, RECOMMENDATION } from "../const/apis";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import UserPool from "../aws/UserPool";
 import axios from "axios";
@@ -660,8 +660,31 @@ export const updateItem = (formValues) => {
     console.log(formValues);
 };
 
+/**
+ * Return Redux Thunk function that conditionally 
+ * dispatch GET_RECOM_FAIL or GET_RECOM_SUCCESS action
+ * @function getRecommendation
+ * @returns {function} - redux thunk function
+ */
 
+export const getRecommendation = () => {
+    return async (dispatch) => {
+        let { data } = await axios.get(RECOMMENDATION);
 
+        if (data && data?.statusCode == 200) {
+
+            dispatch({
+                type: TYPES.GET_RECOM_SUCCESS,
+                payload: data.body
+            });
+        } else {
+            dispatch({
+                type: TYPES.GET_RECOM_FAIL,
+                payload: []
+            });
+        }
+    };
+};
 // helper function
 const formatUserAttributes = (userAttributes) => {
     let sub, address, email_verified, gender, phone_number_verified, preferred_username,

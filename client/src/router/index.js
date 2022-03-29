@@ -30,10 +30,14 @@ const Routers = () => {
             <Route exact path={`${ROUTES.SEARCH}/:term/:id`}>
                 <ItemDetail />
             </Route>
+
+            <Route exact path={`${ROUTES.DEFAULT}recommendation/:id`}>
+                <ItemDetail />
+            </Route>
             <Route exact path={`${ROUTES.PROFILE}/item/:id`}>
                 <ItemDetail />
             </Route>
-            <Route exact path={`${ROUTES.USER}/:useridd`}>
+            <Route exact path={`${ROUTES.USER}/:userid`}>
                 <UserProfile />
             </Route>
             <Route path={ROUTES.PROFILE}>

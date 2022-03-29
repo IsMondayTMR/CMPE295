@@ -7,6 +7,7 @@ import itemReducer from "./itemReducer";
 import userReducer from "./userReducer";
 import postReducer from "./postReducer";
 import listingReducer from "./listingReducer";
+import recommendReducer from "./recommendReducer";
 export default combineReducers({
     user: userReducer,
     auth: authReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
     item: itemReducer,
     post: postReducer,
     listing: listingReducer,
+    recommendation: recommendReducer,
 });

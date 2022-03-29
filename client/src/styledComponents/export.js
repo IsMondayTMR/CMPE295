@@ -18,3 +18,4 @@ export { default as ChatListComp } from "./ChatList/ChatList";
 export { default as ListingComp } from "./Listing/Listing";
 export { default as InvitComp } from "./Invit/Invitation";
 export { default as UserProfileComp } from "./UserProfile/UserProfile";
+export { default as RecommendComp } from "./Recommendation/Recommendation";

@@ -2,3 +2,11 @@ body {
     margin:0;
     font-size: 30px;
 }
+
+.ce-chat-feed-container{
+    height: 90% !important;
+}
+
+.ce-wrapper{
+    height: calc(100vh - 75px);
+}

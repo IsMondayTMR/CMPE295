@@ -27,3 +27,6 @@ export const POST_FAIL = "POST_FAIL";
 
 export const GET_LISTING_SUCCESS = "GET_LISTING_SUCCESS";
 export const GET_LISTING_FAIL = "GET_LISTING_FAIL";
+
+export const GET_RECOM_SUCCESS = "GET_RECOM_SUCCESS";
+export const GET_RECOM_FAIL = "GET_RECOM_FAIL";
