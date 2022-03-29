@@ -25,7 +25,7 @@ class Header extends React.Component {
 
     renderSearch = () => {
         if (this.state.match) {
-            return <Search height="45px" width="30%" fontSize="15px" border="1px solid #969696" borderRadius="0.5rem" />;
+            return <Search height="45px" width="30%" fontSize="15px" border="1px solid #969696" />;
         }
 
     };

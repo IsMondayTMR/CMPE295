@@ -26,3 +26,16 @@ SearchComp.Input = function Input({ children, ...restProps }) {
         {children}
     </Style.Input>
 }
+
+SearchComp.Select = function Select({ children, ...restProps }) {
+    return <Style.Select {...restProps}>
+        {children}
+    </Style.Select>
+}
+
+SearchComp.Option = function Option({ children, ...restProps }) {
+    return <Style.Option {...restProps}>
+        {children}
+    </Style.Option>
+}
+

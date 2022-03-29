@@ -2,51 +2,34 @@ import React, { useState } from "react";
 import { ProfileComp } from "../styledComponents/export";
 import ProfileRouter from "../router/ProfileRouters";
 import * as ROUTES from "../router/routes";
+import tabs from "../const/profile";
 const PersonalCenter = () => {
 
     const [active, setActive] = useState(0);
+    const profileTabs = tabs.map((tab, index) => {
+        if (tab === "Profile") {
+            return <ProfileComp.RouteLink
+                onClick={() => { setActive(index); }}
+                active={active === index ? 1 : 0}
+                to={ROUTES.PROFILE}
+                key={index}>
+                {tab}
+            </ProfileComp.RouteLink>;
+        }
 
+        return <ProfileComp.RouteLink
+            onClick={() => { setActive(index); }}
+            active={active === index ? 1 : 0}
+            to={`${ROUTES.PROFILE}/${tab}`}
+            key={index}>
+            {tab}
+        </ProfileComp.RouteLink>;
+    });
 
     return <ProfileComp>
         <ProfileComp.Container>
             <ProfileComp.NavContainer>
-                <ProfileComp.RouteLink
-                    onClick={() => { setActive(0); }}
-                    active={active === 0 ? 1 : 0}
-                    to={ROUTES.PROFILE}>
-                    Profile
-                </ProfileComp.RouteLink>
-                <ProfileComp.RouteLink
-                    onClick={() => { setActive(1); }}
-                    active={active === 1 ? 1 : 0}
-                    to={`${ROUTES.PROFILE}/history`}>
-                    History
-                </ProfileComp.RouteLink >
-                <ProfileComp.RouteLink
-                    onClick={() => { setActive(2); }}
-                    active={active === 2 ? 1 : 0}
-                    to={`${ROUTES.PROFILE}/listing`}>
-                    Listing
-                </ProfileComp.RouteLink >
-                <ProfileComp.RouteLink
-                    onClick={() => { setActive(3); }}
-                    active={active === 3 ? 1 : 0}
-                    to={`${ROUTES.PROFILE}/favorite`}>
-                    Favorite
-                </ProfileComp.RouteLink>
-                <ProfileComp.RouteLink
-                    onClick={() => { setActive(5); }}
-                    active={active === 5 ? 1 : 0}
-                    to={`${ROUTES.PROFILE}/security`}>
-                    Security
-                </ProfileComp.RouteLink>
-                <ProfileComp.RouteLink
-                    onClick={() => { setActive(4); }}
-                    active={active === 4 ? 1 : 0}
-                    to={`${ROUTES.PROFILE}/setting`}>
-                    Setting
-                </ProfileComp.RouteLink>
-
+                {profileTabs}
             </ProfileComp.NavContainer>
 
             <ProfileRouter />

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import history from "../history";
 import * as ROUTES from "../router/routes";
 class Search extends React.Component {
-    state = { searchTerm: "" };
+    state = { searchTerm: "", searchCategory: "item" };
 
     onFormSubmit = (e) => {
         e.preventDefault();
@@ -18,6 +18,19 @@ class Search extends React.Component {
                 width={this.props.width}
                 border={this.props.border}
                 borderRadius={this.props.borderRadius}>
+                <SearchComp.Select
+                    defaultValue="item"
+                    onChange={(e) => {
+                        this.setState({ searchCategory: e.target.value });
+                    }}
+                    fontSize={this.props.fontSize}>
+                    <SearchComp.Option fontSize={this.props.fontSize}>
+                        item
+                    </SearchComp.Option>
+                    <SearchComp.Option fontSize={this.props.fontSize}>
+                        user
+                    </SearchComp.Option>
+                </SearchComp.Select>
                 <SearchComp.Input
                     value={this.state.searchTerm}
                     onChange={(e) => { this.setState({ searchTerm: e.target.value }); }}

@@ -5,27 +5,29 @@ import { connect } from "react-redux";
 import { fetchItem } from "../actions/";
 import { ItemDetailComp } from "../styledComponents/export";
 import defaultImg from "../resources/1.jpg";
-import axios from "axios";
-import { PROJECTID, USERNAME, USERSECRET } from "./Chat/chatConst";
+// import axios from "axios";
+// import { PROJECTID, USERNAME, USERSECRET } from "./Chat/chatConst";
+
 class ItemDetail extends React.Component {
-    state = { activeImage: defaultImg, active: 1 };
+    state = { activeImage: defaultImg, active: 0 };
     componentDidMount() {
         const id = this.props.match.params.id;
         this.props.fetchItem(id);
         window.scroll(0, 0);
+        console.log(this.props?.item);
     }
 
     renderImage() {
-        // console.log(defaultImage);
-        const array = [1, 2, 3, 4, 5, 6];
-        let images = array.map((current) => {
-            let image = require(`../resources/${current}.jpg`);
+        if (this.props?.item?.item?.media_urls == null) {
+            return null;
+        }
+        let images = this.props?.item?.item?.media_urls.map((image, index) => {
             return (
                 <ItemDetailComp.SecondaryImage
-                    active={this.state.active === current ? true : false}
-                    onMouseEnter={() => { this.setState({ activeImage: image, active: current }); }}
+                    active={this.state.active === index ? true : false}
+                    onMouseEnter={() => { this.setState({ activeImage: image, active: index }); }}
                     src={image}
-                    alt={`image${current}`} key={current} />
+                    alt={`${image}`} key={index} />
             );
         });
         return <ItemDetailComp.ImageContainer>
@@ -36,47 +38,70 @@ class ItemDetail extends React.Component {
         </ItemDetailComp.ImageContainer>;
     }
 
-    async startChat(e) {
-        e.preventDefault();
+    // startChat(e) {
+    //     e.preventDefault();
 
-        console.log(this.props?.user?.user[9]?.Value);
-        console.log(this.props?.item?.item?.Email);
-        const headers = {
-            "Project-ID": PROJECTID,
-            "User-Name": USERNAME,
-            "User-Secret": USERSECRET
-        };
+    //     console.log(this.props?.user?.user[9]?.Value);
+    //     console.log(this.props?.item?.item?.Email);
+    //     const headers = {
+    //         "Project-ID": PROJECTID,
+    //         "User-Name": USERNAME,
+    //         "User-Secret": USERSECRET
+    //     };
 
-        if (this.props?.user?.user[9]?.Value === this.props?.item?.item?.Email) {
-            console.log(this.props?.user?.user[9]?.Value);
-            console.log(this.props?.item?.item?.Email);
-            console.log("same user");
-            return;
-        }
+    //     if (this.props?.user?.user[9]?.Value === this.props?.item?.item?.Email) {
+    //         console.log(this.props?.user?.user[9]?.Value);
+    //         console.log(this.props?.item?.item?.Email);
+    //         console.log("same user");
+    //         return;
+    //     }
 
-        var response = await axios.put("https://api.chatengine.io/chats/", {
-            "usernames": ["IsMondayTMR", this.props?.item?.item?.Username],
-            "title": "Another Surprise Party!",
-            "is_direct_chat": true
-        }, {
-            headers: headers
-        });
-        console.log(response);
-    }
+    //     var response = await axios.put("https://api.chatengine.io/chats/", {
+    //         "usernames": ["IsMondayTMR", this.props?.item?.item?.Username],
+    //         "title": "Another Surprise Party!",
+    //         "is_direct_chat": true
+    //     }, {
+    //         headers: headers
+    //     });
+    //     console.log(response);
+    // }
     renderInfor() {
         return <ItemDetailComp.InforContainer>
             <ItemDetailComp.Title>
-                Title: {this.props.item.item.Title}
+                {this.props?.item?.item?.title}
             </ItemDetailComp.Title>
-            <ItemDetailComp.Text>
-                Id: {this.props.item.item.id}
-            </ItemDetailComp.Text>
-            <ItemDetailComp.Text onClick={(e) => this.startChat(e)}>
-                Username: {this.props.item.item.Username}
-            </ItemDetailComp.Text>
-            <ItemDetailComp.Text>
-                Description: {this.props.item.item.Description}
-            </ItemDetailComp.Text>
+            <ItemDetailComp.UserInfoContainer>
+                <ItemDetailComp.Username>
+                    {this.props?.item?.item.name}
+                </ItemDetailComp.Username>
+                <ItemDetailComp.IconBox>
+                    <ItemDetailComp.Icon>
+                        <i className="far fa-comment"></i>
+                    </ItemDetailComp.Icon>
+                    message
+                </ItemDetailComp.IconBox>
+                <ItemDetailComp.IconBox>
+                    <ItemDetailComp.Icon color={"#40bced"}>
+                        <i className="fas fa-map-marker-alt"></i>
+                    </ItemDetailComp.Icon>
+                    location
+                </ItemDetailComp.IconBox>
+            </ItemDetailComp.UserInfoContainer>
+            <ItemDetailComp.DetailContainer>
+                <ItemDetailComp.Text>
+                    Description: {this.props?.item?.item.description}
+                </ItemDetailComp.Text>
+                <ItemDetailComp.Text>
+                    Brand: {this.props?.item?.item.brand}
+                </ItemDetailComp.Text>
+                <ItemDetailComp.Text>
+                    material: {this.props?.item?.item.material}
+                </ItemDetailComp.Text>
+                <ItemDetailComp.Text>
+                    Worn Condition: {this.props?.item?.item.worncondition}
+                </ItemDetailComp.Text>
+            </ItemDetailComp.DetailContainer>
+
         </ItemDetailComp.InforContainer>;
     }
     render() {
@@ -86,7 +111,7 @@ class ItemDetail extends React.Component {
             <ItemDetailComp.Container>
                 <ItemDetailComp.IconContainer onClick={() => { this.props.history.goBack(); }}>
                     <ItemDetailComp.BackIcon />
-                    <ItemDetailComp.BackText>Back To Results</ItemDetailComp.BackText>
+                    <ItemDetailComp.BackText>Back</ItemDetailComp.BackText>
                 </ItemDetailComp.IconContainer>
 
                 <ItemDetailComp.ContentContainer>
@@ -111,8 +136,8 @@ ItemDetail.propTypes = {
 const mapStateToProps = (state) => {
 
     return {
-        item: state.item,
-        user: state.user
+        user: state.user,
+        item: state.item
     };
 };
 

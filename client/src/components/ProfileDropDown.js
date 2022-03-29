@@ -12,10 +12,8 @@ const ProfileDropDown = (props) => {
     const [avatar, setAvatar] = useState(null);
     useEffect(() => {
         if (props?.user != null) {
-            props?.user.forEach(element => {
-                if (element.Name == "preferred_username") setUsername(element.Value);
-                if (element.Name == "custom:avatar_url") setAvatar(element.Value);
-            });
+            setUsername(props?.user.preferred_username);
+            setAvatar(props?.user.avatar_url);
         }
     }, [props.user]);
 
@@ -48,7 +46,7 @@ const mapStateToProps = (state) => {
 };
 
 ProfileDropDown.propTypes = {
-    user: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
     signOut: PropTypes.func.isRequired,
 };
 

@@ -8,6 +8,7 @@ import SearchResult from "../containers/SearchResult";
 import ItemDetail from "../components/ItemDetail";
 import PersonalCenter from "../containers/PersonalCenter";
 import Chat from "../components/Chat/Chat";
+import UserProfile from "../containers/UserProfile";
 const Routers = () => {
     return (
         <Switch>
@@ -29,7 +30,12 @@ const Routers = () => {
             <Route exact path={`${ROUTES.SEARCH}/:term/:id`}>
                 <ItemDetail />
             </Route>
-
+            <Route exact path={`${ROUTES.PROFILE}/item/:id`}>
+                <ItemDetail />
+            </Route>
+            <Route exact path={`${ROUTES.USER}/:useridd`}>
+                <UserProfile />
+            </Route>
             <Route path={ROUTES.PROFILE}>
                 <PersonalCenter />
             </Route>

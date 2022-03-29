@@ -7,7 +7,7 @@ import History from "../containers/PersonalCenter/History";
 import Listing from "../containers/PersonalCenter/Listing";
 import Setting from "../containers/PersonalCenter/Setting";
 import Security from "../containers/PersonalCenter/Security";
-
+import Invitation from "../containers/PersonalCenter/Invitation";
 const ProfileRouters = () => {
     return (
 
@@ -15,19 +15,22 @@ const ProfileRouters = () => {
             <Route exact path={ROUTES.PROFILE}>
                 <Profile />
             </Route>
-            <Route exact path={`${ROUTES.PROFILE}/favorite`}>
+            <Route exact path={`${ROUTES.PROFILE}/Favorite`}>
                 <Favorite />
             </Route>
-            <Route exact path={`${ROUTES.PROFILE}/history`}>
+            <Route exact path={`${ROUTES.PROFILE}/History`}>
                 <History />
             </Route>
-            <Route exact path={`${ROUTES.PROFILE}/listing`}>
+            <Route exact path={`${ROUTES.PROFILE}/Listing`}>
                 <Listing />
             </Route>
-            <Route exact path={`${ROUTES.PROFILE}/setting`}>
+            <Route exact path={`${ROUTES.PROFILE}/Invitation`}>
+                <Invitation />
+            </Route>
+            <Route exact path={`${ROUTES.PROFILE}/Setting`}>
                 <Setting />
             </Route>
-            <Route exact path={`${ROUTES.PROFILE}/security`}>
+            <Route exact path={`${ROUTES.PROFILE}/Security`}>
                 <Security />
             </Route>
         </Switch>

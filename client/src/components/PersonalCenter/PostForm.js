@@ -329,7 +329,7 @@ class PostForm extends React.Component {
 PostForm.propTypes = {
     hide: PropTypes.bool.isRequired,
     close: PropTypes.func.isRequired,
-    user: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,

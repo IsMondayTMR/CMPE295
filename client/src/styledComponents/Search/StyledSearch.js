@@ -20,7 +20,7 @@ export const Form = styled.form`
     margin-left: auto;
     margin-right: auto;
     border: ${({ border }) => border ? border : "none"};
-    border-radius: ${({ borderRadius }) => borderRadius ? borderRadius : "0.75rem"};
+    border-radius: ${({ borderRadius }) => borderRadius ? borderRadius : "0rem"};
 `
 
 export const Button = styled.button`
@@ -29,7 +29,7 @@ export const Button = styled.button`
     height: 100%;
     background:white;
     border: 1px solid white;
-    border-radius: ${({ borderRadius }) => borderRadius ? `0px ${borderRadius} ${borderRadius} 0px` : ` 0rem 0.75rem 0.75rem 0rem`};
+    border-radius: ${({ borderRadius }) => borderRadius ? `0px ${borderRadius} ${borderRadius} 0px` : ` 0rem 0rem 0rem 0rem`};
     text-align: center;
     color: black;
     cursor: pointer;
@@ -42,8 +42,24 @@ export const Input = styled.input`
     padding-left: 15px;
     outline: none;
     border: 4px solid white;
-    border-radius: ${({ borderRadius }) => borderRadius ? `${borderRadius} 0px 0px ${borderRadius} ` : `0.75rem 0rem 0rem 0.75rem`};
+    
     color: black;
     margin: 0 auto;
     
 `
+export const Option = styled.option`
+font-size:${({ fontSize }) => fontSize ? fontSize : "20px"};
+`
+
+export const Select = styled.select`
+    outline: none;
+    border: 4px solid white;
+    font-size:${({ fontSize }) => fontSize ? fontSize : "20px"};
+    padding-left: 15px;
+    border-radius: ${({ borderRadius }) => borderRadius ? `${borderRadius} 0px 0px ${borderRadius} ` : `0rem 0rem 0rem 0rem`};
+
+    &:hover{
+        cursor: pointer;
+    }
+`
+

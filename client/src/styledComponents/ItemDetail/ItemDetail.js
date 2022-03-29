@@ -50,8 +50,32 @@ ItemDetail.InforContainer = function InforContainer({ children, ...restProps }) 
         {children}
     </Style.InforContainer>
 }
+ItemDetail.UserInfoContainer = function UserInfoContainer({ children, ...restProps }) {
+    return <Style.UserInfoContainer {...restProps}>
+        {children}
+    </Style.UserInfoContainer>
+}
+ItemDetail.Username = function Username({ children, ...restProps }) {
+    return <Style.Username {...restProps}>
+        {children}
+    </Style.Username>
+}
+ItemDetail.IconBox = function IconBox({ children, ...restProps }) {
+    return <Style.IconBox {...restProps}>
+        {children}
+    </Style.IconBox>
+}
+ItemDetail.Icon = function Icon({ children, ...restProps }) {
+    return <Style.Icon {...restProps}>
+        {children}
+    </Style.Icon>
+}
 
-
+ItemDetail.DetailContainer = function DetailContainer({ children, ...restProps }) {
+    return <Style.DetailContainer {...restProps}>
+        {children}
+    </Style.DetailContainer>
+}
 ItemDetail.Title = function Title({ children, ...restProps }) {
     return <Style.Title {...restProps}>
         {children}

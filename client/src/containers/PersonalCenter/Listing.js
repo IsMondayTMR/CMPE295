@@ -9,6 +9,7 @@ import { Loading } from "../../styledComponents/export";
 import Loader from "../../resources/loader.gif";
 import PostForm from "../../components/PersonalCenter/PostForm";
 import UpdatePost from "../../components/PersonalCenter/UpdatePost";
+import * as ROUTES from "../../router/routes";
 
 class Listing extends React.Component {
     state = { postHide: true, updatePostHide: true, username: "", email: "", sub: "", images: [], imagePreviewUrls: [], category: data[0].title, subcategory: data[0].subtitle, currentItem: {} };
@@ -17,11 +18,9 @@ class Listing extends React.Component {
         this.setState({ subcategory: data[0].subtitle });
         if (this.props?.user != null) {
 
-            this.props?.user?.forEach(element => {
-                if (element.Name == "preferred_username") this.setState({ username: element.Value });
-                if (element.Name == "email") this.setState({ email: element.Value });
-                if (element.Name == "sub") this.setState({ sub: element.Value });
-            });
+            this.setState({ username: this.props.user.preferred_username });
+            this.setState({ email: this.props.user.email });
+            this.setState({ sub: this.props.user.sub });
         }
 
         this.props.initialize({
@@ -59,7 +58,7 @@ class Listing extends React.Component {
         return this.props?.list.map(object => {
             return (
                 <ResultContentComp.ListCard key={object.id}>
-                    <ResultContentComp.Link to={""}>
+                    <ResultContentComp.Link to={`${ROUTES.PROFILE}/item/${object.id}`}>
                         <ResultContentComp.Img src={object.media_urls[0]} alt="test" />
                         <ResultContentComp.InforContainer>
                             <ResultContentComp.Title>{object.title}</ResultContentComp.Title>
@@ -72,7 +71,7 @@ class Listing extends React.Component {
                         <ResultContentComp.Button
                             onClick={() => { this.openUpdateForm(object); }}>Update</ResultContentComp.Button>
                     </ResultContentComp.ButtonContainer>
-                </ResultContentComp.ListCard>);
+                </ResultContentComp.ListCard >);
         });
 
     };
@@ -101,13 +100,13 @@ class Listing extends React.Component {
 
 }
 Listing.propTypes = {
-    user: PropTypes.array,
-    list: PropTypes.array,
-    handleSubmit: PropTypes.func,
-    change: PropTypes.func,
-    initialize: PropTypes.func,
-    postNewItem: PropTypes.func,
-    getListing: PropTypes.func,
+    user: PropTypes.object.isRequired,
+    list: PropTypes.array.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    postNewItem: PropTypes.func.isRequired,
+    getListing: PropTypes.func.isRequired,
     success: PropTypes.bool
 };
 

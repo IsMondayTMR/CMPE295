@@ -8,25 +8,26 @@ import { uploadImageAsPromise, getAllImageUrl } from "../../utils/imageUploader"
 import { updateItem } from "../../actions";
 
 class UpdatePost extends React.Component {
-    state = { images: [], prevImagesUrls: [], imagePreviewUrls: [], defaultSubcategory: null, category: null, subcategory: null };
+    state = { images: [], checked: false, prevImagesUrls: [], imagePreviewUrls: [], defaultSubcategory: null, category: null, subcategory: null };
 
     componentDidMount() {
 
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps !== this.props) {
-            this.setState({ images: [], prevImagesUrls: [], imagePreviewUrls: [], defaultSubcategory: null, category: null, subcategory: null });
+
+        if (prevProps.hide !== this.props.hide) {
+            this.setState({ images: [], checked: false, prevImagesUrls: [], imagePreviewUrls: [], defaultSubcategory: null, category: null, subcategory: null });
             this.props.initialize({
                 title: this.props?.item.title,
                 description: this.props?.item.description,
-                donate: this.props?.item.donate,
                 color: this.props?.item.color,
                 brand: this.props?.item.brand,
+                donate: this.props?.item.donate,
                 material: this.props?.item.material,
                 worncondition: this.props?.item.worncondition,
             });
-            this.setState({ prevImagesUrls: this.props?.item?.media_urls, category: "", defaultSubcategory: this.props?.item.subcategory });
+            this.setState({ checked: this.props?.item?.donate ? this.props?.item?.donate : false, prevImagesUrls: this.props?.item?.media_urls, category: "", defaultSubcategory: this.props?.item.subcategory });
             const temp = data.filter((object) => {
                 return object.title === this.props?.item.category;
             });
@@ -43,9 +44,10 @@ class UpdatePost extends React.Component {
     }
     componentWillUnmount() {
     }
-    onPostFormSubmit = async (formValues) => {
-
+    onUpdateFormSubmit = async (formValues) => {
+        console.log(formValues);
         if (this.state.images.length == 0) {
+
             return;
         }
         this.getAllImageUrl(formValues).then((urls) => {
@@ -72,17 +74,19 @@ class UpdatePost extends React.Component {
             </FormComp.InputContainer>
         );
     };
-    renderRadioSelector = ({ input, name, text, type, checked, onClick }) => {
+    renderRadioSelector = ({ name, text, type, checked, input }) => {
+        input.checked = checked;
+        input.onClick = () => {
+            if (input.value == "Yes") this.setState({ checked: true });
+            if (input.value == "No") this.setState({ checked: false });
+        };
         return (
             <FormComp.RadioLabel>
                 <FormComp.RadioInput
                     type={type}
                     placeholder={text}
-                    value={input.value}
                     name={name}
                     id={name}
-                    checked={checked}
-                    onClick={onClick}
                     {...input} />
                 {input.value}
             </FormComp.RadioLabel>
@@ -245,7 +249,7 @@ class UpdatePost extends React.Component {
                     onClick={() => this.props.close()}
                     data-test="close-btn" />
                 <FormComp.Form
-                    onSubmit={this.props.handleSubmit(this.onPostFormSubmit)}>
+                    onSubmit={this.props.handleSubmit(this.onUpdateFormSubmit)}>
                     <FormComp.FormContainer maxHeight="700px">
                         <FormComp.InputContainer >
                             <FormComp.FileInput
@@ -281,14 +285,14 @@ class UpdatePost extends React.Component {
                                     type="radio"
                                     name="donate"
                                     value="Yes"
-                                    checked={this.props?.item?.donate}
+                                    checked={this.state.checked}
                                     data-test="sign-in-gender-input" />
                                 <Field
                                     component={this.renderRadioSelector}
                                     type="radio"
                                     name="donate"
                                     value="No"
-                                    checked={!this.props?.item?.donate}
+                                    checked={!this.state.checked}
                                     data-test="sign-in-gender-input" />
                             </FormComp.RadioGroup>
                         </FormComp.InputContainer>

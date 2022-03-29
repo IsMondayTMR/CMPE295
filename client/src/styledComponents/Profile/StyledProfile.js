@@ -40,6 +40,8 @@ export const RouteLink = styled(Link)`
 export const ContentContainer = styled.div`
     width: 100%;
     text-align: center;
+    display: flex;
+    flex-direction: column;
 `
 
 export const EditButton = styled.button`
@@ -138,7 +140,6 @@ export const NewList = styled.button`
     color: white;
     border: none;
     border-radius: 5px;
-
     &:hover {
         background-color: ${SubmitBtnHover};
         cursor: pointer;

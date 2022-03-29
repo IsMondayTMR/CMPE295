@@ -14,16 +14,14 @@ class Profile extends React.Component {
 
     componentDidMount() {
         if (this.props?.user != null) {
-            this.props?.user?.forEach(element => {
-                if (element.Name == "email") this.setState({ email: element.Value });
-                if (element.Name == "preferred_username") this.setState({ username: element.Value });
-                if (element.Name == "phone_number") this.setState({ phone_number: element.Value.substring(2) });
-                if (element.Name == "address") this.setState({ street: element.Value });
-                if (element.Name == "custom:city") this.setState({ city: element.Value });
-                if (element.Name == "custom:state") this.setState({ state: element.Value });
-                if (element.Name == "custom:zipcode") this.setState({ zip: element.Value });
-                if (element.Name == "custom:avatar_url") this.setState({ imagePreviewUrl: element.Value });
-            });
+            this.setState({ username: this.props.user.preferred_username });
+            this.setState({ email: this.props.user.email });
+            this.setState({ phone_number: this.props.user.phone_number });
+            this.setState({ street: this.props.user.address });
+            this.setState({ city: this.props.user.city });
+            this.setState({ state: this.props.user.state });
+            this.setState({ zip: this.props.user.zipcode });
+            this.setState({ imagePreviewUrl: this.props.user.avatar_url });
         }
     }
     componentDidUpdate(prevProps, prevState) {
@@ -39,16 +37,14 @@ class Profile extends React.Component {
         }
 
         if (prevProps?.user != this.props?.user) {
-            this.props?.user?.forEach(element => {
-                if (element.Name == "email") this.setState({ email: element.Value });
-                if (element.Name == "preferred_username") this.setState({ username: element.Value });
-                if (element.Name == "phone_number") this.setState({ phone_number: element.Value.substring(2) });
-                if (element.Name == "address") this.setState({ street: element.Value });
-                if (element.Name == "custom:city") this.setState({ city: element.Value });
-                if (element.Name == "custom:state") this.setState({ state: element.Value });
-                if (element.Name == "custom:zipcode") this.setState({ zip: element.Value });
-                if (element.Name == "custom:avatar_url") this.setState({ imagePreviewUrl: element.Value });
-            });
+            this.setState({ username: this.props.user.preferred_username });
+            this.setState({ email: this.props.user.email });
+            this.setState({ phone_number: this.props.user.phone_number });
+            this.setState({ street: this.props.user.address });
+            this.setState({ city: this.props.user.city });
+            this.setState({ state: this.props.user.state });
+            this.setState({ zip: this.props.user.zipcode });
+            this.setState({ imagePreviewUrl: this.props.user.avatar_url });
         }
     }
 
@@ -269,12 +265,12 @@ class Profile extends React.Component {
 }
 
 Profile.propTypes = {
-    handleSubmit: PropTypes.func,
-    user: PropTypes.array,
-    session: PropTypes.object,
+    handleSubmit: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    session: PropTypes.object.isRequired,
     update: PropTypes.func.isRequired,
-    initialize: PropTypes.func,
-    getUser: PropTypes.func
+    initialize: PropTypes.func.isRequired,
+    getUser: PropTypes.func.isRequired
 };
 const formWrapped = reduxForm({
     form: "Profile",

@@ -1,5 +1,4 @@
 import React from "react";
-import Result from "../Result/Result";
 import * as Style from "./StyledContent";
 function ResultContent({ children, ...restProps }) {
     return <Style.Background {...restProps}>
@@ -62,7 +61,23 @@ ResultContent.ButtonContainer = function ButtonContainer({ children, ...restProp
 ResultContent.Button = function Button({ children, ...restProps }) {
     return <Style.Button {...restProps}>{children}</Style.Button>
 }
+ResultContent.InvitStarter = function ({ children, ...restProps }) {
+    return <Style.InvitStarter {...restProps}>
+        {children}
+    </Style.InvitStarter>
+}
 
+ResultContent.Username = function ({ children, ...restProps }) {
+    return <Style.Username {...restProps}>
+        {children}
+    </Style.Username>
+}
+
+ResultContent.OfferDialog = function ({ children, ...restProps }) {
+    return <Style.OfferDialog {...restProps}>
+        {children}
+    </Style.OfferDialog>
+}
 ResultContent.NoResultText = function NoResultText({ children, ...restProps }) {
     return <Style.NoResultText {...restProps}>{children}</Style.NoResultText>
 }

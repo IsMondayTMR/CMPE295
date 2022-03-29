@@ -16,3 +16,5 @@ export { default as ProfileComp } from "./Profile/Profile";
 export { default as MessageComp } from "./Message/Message";
 export { default as ChatListComp } from "./ChatList/ChatList";
 export { default as ListingComp } from "./Listing/Listing";
+export { default as InvitComp } from "./Invit/Invitation";
+export { default as UserProfileComp } from "./UserProfile/UserProfile";

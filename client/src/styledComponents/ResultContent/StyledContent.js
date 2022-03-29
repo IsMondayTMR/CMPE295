@@ -67,7 +67,23 @@ export const InforContainer = styled.div`
     width: 100%;
     
 `
+export const InvitStarter = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px;
+    
+`
 
+export const Username = styled(Link)`
+    text-decoration: none;
+    margin: 10px;
+    font-size: 20px;
+`
+
+export const OfferDialog = styled.p`
+    margin: 0;
+    font-size: 20px;
+`
 export const ButtonContainer = styled.div`
 
 `

@@ -3,6 +3,7 @@ import { BASEURL, POST } from "../const/apis";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import UserPool from "../aws/UserPool";
 import axios from "axios";
+import data from "../const/cardData";
 
 /**
  * Returns Redux Thunk function that dispatches GOOGLE_SIGN_IN action
@@ -173,11 +174,14 @@ export const getUser = () => {
                         });
                         reject(err);
                     } else {
-                        sessionStorage.setItem("userInfo", JSON.stringify(userAttributes));
+
+                        const user = formatUserAttributes(userAttributes);
+
+                        sessionStorage.setItem("userInfo", JSON.stringify(user));
                         dispatch({
                             type: TYPES.GET_USER_SUCCESS,
                             payload: {
-                                user: userAttributes,
+                                user: user,
                                 user_error: null,
                             },
                         });
@@ -450,11 +454,12 @@ export const update = (formValue, ImageUrl, email) => {
                                 });
                                 reject(err);
                             } else {
-                                sessionStorage.setItem("userInfo", JSON.stringify(userAttributes));
+                                const user = formatUserAttributes(userAttributes);
+                                sessionStorage.setItem("userInfo", JSON.stringify(user));
                                 dispatch({
                                     type: TYPES.UPDATE_SUCESS,
                                     payload: {
-                                        user: userAttributes,
+                                        user: user,
                                         user_error: null,
                                     },
                                 });
@@ -533,15 +538,15 @@ export const search = (term) => {
 export const fetchItem = (id) => {
 
     return async (dispatch) => {
-        const response = await axios.get(`${BASEURL}/search`);
-        if (response.status === 200) {
+        const response = await axios.get(`${POST}/${id}`);
+        if (response.status === 200 && data?.errorMessage == null) {
 
-            const item = response.data.filter((object) => object.id == id)[0];
-            // console.log(item);
+            console.log(response);
+
             dispatch({
                 type: TYPES.GET_ITEM_SUCCESS,
                 payload: {
-                    item: item,
+                    item: response.data,
                     success: true,
                 }
             });
@@ -653,4 +658,43 @@ export const getListing = (sub) => {
  */
 export const updateItem = (formValues) => {
     console.log(formValues);
+};
+
+
+
+// helper function
+const formatUserAttributes = (userAttributes) => {
+    let sub, address, email_verified, gender, phone_number_verified, preferred_username,
+        state, city, zipcode, name, phone_number, email, avatar_url;
+    userAttributes.forEach(element => {
+        if (element.Name == "sub") sub = element.Value;
+        if (element.Name == "address") address = element.Value;
+        if (element.Name == "email_verified") email_verified = element.Value;
+        if (element.Name == "gender") gender = element.Value;
+        if (element.Name == "phone_number_verified") phone_number_verified = element.Value;
+        if (element.Name == "preferred_username") preferred_username = element.Value;
+        if (element.Name == "custom:state") state = element.Value;
+        if (element.Name == "custom:city") city = element.Value;
+        if (element.Name == "custom:zipcode") zipcode = element.Value;
+        if (element.Name == "name") name = element.Value;
+        if (element.Name == "phone_number") phone_number = element.Value.substring(2);
+        if (element.Name == "email") email = element.Value;
+        if (element.Name == "custom:avatar_url") avatar_url = element.Value;
+    });
+    const user = {
+        sub,
+        address,
+        email_verified,
+        gender,
+        phone_number_verified,
+        preferred_username,
+        state,
+        city,
+        zipcode,
+        name,
+        phone_number,
+        email,
+        avatar_url,
+    };
+    return user;
 };
