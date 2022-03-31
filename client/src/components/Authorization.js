@@ -150,13 +150,13 @@ class Authorization extends React.Component {
                         type='password'
                         name='registerPassword'
                         data-test="register-password-input" />
-                    <Field
+                    {/* <Field
                         component={this.renderSignInField}
                         label="Name"
                         text='Enter Name'
                         type="text"
                         name="name"
-                        data-test="sign-in-name-input" />
+                        data-test="sign-in-name-input" /> */}
                     <Field
                         component={this.renderSignInField}
                         format={phoneFormatter}

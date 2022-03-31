@@ -3,28 +3,26 @@ import { Link } from "react-router-dom";
 export const Background = styled.div`
     margin: 50px 0;
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(6, 1fr);
-    column-gap: 30px;
-    row-gap: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 `
 
 export const Container = styled.div`
-
 `
 
 export const RouteLink = styled(Link)`
+    display: flex;
     text-decoration: none;
     color: black;
     width: 100%;
 `
 export const Card = styled.div`
-    display: flex;
-    flex-direction: column;
+display: flex;
     border: 1px solid #b0b0b0;
-    width: 250px;
-    height: 250px;
+    width: 80%;
+    height: 150px;
     margin: 0 auto 30px auto;
     border-radius: 5px;
     box-shadow: 5px 5px 10px #e0e0e0;
@@ -34,13 +32,13 @@ export const Card = styled.div`
 `
 
 export const Img = styled.img`
-    width: 250px;
-    height: 175px;
+    min-width: 175px;
+    max-width: 25%;
     object-fit: cover;
 `
 export const Title = styled.h2`
-    margin: 0 10px;
-    font-size: 30px;
+    margin: 0;
+    font-size: 35px;
 `
 
 export const Description = styled.p`
@@ -52,21 +50,21 @@ export const Description = styled.p`
 export const Donate = styled.p`
     display: ${props => props.hide ? props.hide : "none"};
     font-size: 15px;
-    padding: 2px ;
+    padding: 2px;
     border: 1px solid #cccecf;
     border-radius: 5px;
     background-color: #258fc4;
     color: white;
     font-weight: bold;
-    margin: 0;
 `
 
 export const InforContainer = styled.div`
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin: 5px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+    width: 100%;
+    
 `
 export const InvitStarter = styled.div`
     display: flex;
@@ -77,13 +75,8 @@ export const InvitStarter = styled.div`
 
 export const Username = styled(Link)`
     text-decoration: none;
-    margin: 0;
-    color: black;
-    font-size: 18px;
-    &:hover{
-        text-decoration: underline;
-        color: red;
-    }
+    margin: 10px;
+    font-size: 20px;
 `
 
 export const OfferDialog = styled.p`
@@ -91,11 +84,9 @@ export const OfferDialog = styled.p`
     font-size: 20px;
 `
 export const ButtonContainer = styled.div`
-
 `
 
 export const Button = styled.button`
-
 `
 export const NoResultText = styled.p`
     color: #969696;

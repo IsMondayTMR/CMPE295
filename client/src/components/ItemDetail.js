@@ -4,20 +4,24 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchItem } from "../actions/";
 import { ItemDetailComp } from "../styledComponents/export";
-import defaultImg from "../resources/1.jpg";
+import defaultImg from "../resources/defaultPlaceholder.png";
 import Recommendation from "./Recommendation";
-// import axios from "axios";
-// import { PROJECTID, USERNAME, USERSECRET } from "./Chat/chatConst";
-
+import axios from "axios";
+import { PROJECTID, USERNAME, USERSECRET } from "./Chat/chatConst";
+import * as ROUTES from "../router/routes";
 class ItemDetail extends React.Component {
     state = { activeImage: defaultImg, active: 0 };
     componentDidMount() {
-        const id = this.props.match.params.id;
-        this.props.fetchItem(id);
+        const item_id = this.props.match.params.item_id;
+        this.props.fetchItem(item_id);
         window.scroll(0, 0);
-
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps?.item != this.props?.item) {
+            this.setState({ activeImage: this.props?.item?.item?.media_urls[0] == null ? defaultImg : this.props?.item?.item?.media_urls[0] });
+        }
+    }
     renderImage() {
         if (this.props?.item?.item?.media_urls == null) {
             return null;
@@ -31,6 +35,7 @@ class ItemDetail extends React.Component {
                     alt={`${image}`} key={index} />
             );
         });
+
         return <ItemDetailComp.ImageContainer>
             <ItemDetailComp.ImageList>
                 {images}
@@ -39,44 +44,54 @@ class ItemDetail extends React.Component {
         </ItemDetailComp.ImageContainer>;
     }
 
-    // startChat(e) {
-    //     e.preventDefault();
+    startChat = async (e) => {
+        e.preventDefault();
 
-    //     console.log(this.props?.user?.user[9]?.Value);
-    //     console.log(this.props?.item?.item?.Email);
-    //     const headers = {
-    //         "Project-ID": PROJECTID,
-    //         "User-Name": USERNAME,
-    //         "User-Secret": USERSECRET
-    //     };
+        if (this.props?.user?.user?.email == null) {
+            alert("please login first");
+            return;
+        }
+        const headers = {
+            "Project-ID": PROJECTID,
+            "User-Name": USERNAME,
+            "User-Secret": USERSECRET
+        };
 
-    //     if (this.props?.user?.user[9]?.Value === this.props?.item?.item?.Email) {
-    //         console.log(this.props?.user?.user[9]?.Value);
-    //         console.log(this.props?.item?.item?.Email);
-    //         console.log("same user");
-    //         return;
-    //     }
+        if (this.props?.user?.user.email === this.props?.item?.item?.email) {
+            // console.log(this.props?.user?.user[9]?.Value);
+            // console.log(this.props?.item?.item?.Email);
+            alert("you cannot send message to yourself");
+            return;
+        }
 
-    //     var response = await axios.put("https://api.chatengine.io/chats/", {
-    //         "usernames": ["IsMondayTMR", this.props?.item?.item?.Username],
-    //         "title": "Another Surprise Party!",
-    //         "is_direct_chat": true
-    //     }, {
-    //         headers: headers
-    //     });
-    //     console.log(response);
-    // }
+        var response = await axios.put("https://api.chatengine.io/chats/", {
+            "usernames": [this.props?.user?.user.username, this.props?.item?.item?.name],
+            "title": `${this.props?.user?.user.username} and ${this.props?.item?.item?.name}`,
+            "is_direct_chat": true
+        }, {
+            headers: headers
+        });
+        console.log(response);
+    };
     renderInfor() {
-        console.log(this.props?.item);
+
+        if (this.props.item.success == false) {
+            return <>
+            </>;
+        }
         return <ItemDetailComp.InforContainer>
             <ItemDetailComp.Title>
                 {this.props?.item?.item?.title}
             </ItemDetailComp.Title>
             <ItemDetailComp.UserInfoContainer>
-                <ItemDetailComp.Username>
-                    {this.props?.item?.item.name}
+                <ItemDetailComp.Username to={`${ROUTES.USER}/${this.props?.item?.item?.sub}`}>
+                    User: {this.props?.item?.item.name}
                 </ItemDetailComp.Username>
-                <ItemDetailComp.IconBox>
+
+            </ItemDetailComp.UserInfoContainer>
+
+            <ItemDetailComp.IconContainer>
+                <ItemDetailComp.IconBox onClick={(e) => { this.startChat(e); }}>
                     <ItemDetailComp.Icon>
                         <i className="far fa-comment"></i>
                     </ItemDetailComp.Icon>
@@ -88,7 +103,9 @@ class ItemDetail extends React.Component {
                     </ItemDetailComp.Icon>
                     location
                 </ItemDetailComp.IconBox>
-            </ItemDetailComp.UserInfoContainer>
+            </ItemDetailComp.IconContainer>
+
+            <ItemDetailComp.Break />
             <ItemDetailComp.DetailContainer>
                 <ItemDetailComp.Text>
                     Description: {this.props?.item?.item.description}
@@ -107,15 +124,13 @@ class ItemDetail extends React.Component {
         </ItemDetailComp.InforContainer>;
     }
     render() {
-
         return <ItemDetailComp>
 
             <ItemDetailComp.Container>
-                <ItemDetailComp.IconContainer onClick={() => { this.props.history.goBack(); }}>
+                <ItemDetailComp.BackIconContainer onClick={() => { this.props.history.goBack(); }}>
                     <ItemDetailComp.BackIcon />
                     <ItemDetailComp.BackText>Back</ItemDetailComp.BackText>
-                </ItemDetailComp.IconContainer>
-
+                </ItemDetailComp.BackIconContainer>
                 <ItemDetailComp.ContentContainer>
                     {this.renderImage()}
                     {this.renderInfor()}

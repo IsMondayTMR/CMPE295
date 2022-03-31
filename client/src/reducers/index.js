@@ -8,6 +8,7 @@ import userReducer from "./userReducer";
 import postReducer from "./postReducer";
 import listingReducer from "./listingReducer";
 import recommendReducer from "./recommendReducer";
+import nonAuthReducer from "./nonAuthReducer";
 export default combineReducers({
     user: userReducer,
     auth: authReducer,
@@ -18,4 +19,5 @@ export default combineReducers({
     post: postReducer,
     listing: listingReducer,
     recommendation: recommendReducer,
+    non_auth_user: nonAuthReducer,
 });

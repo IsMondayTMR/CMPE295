@@ -1,9 +1,8 @@
 import * as TYPES from "../const/reduxTypes";
-import { BASEURL, POST, RECOMMENDATION } from "../const/apis";
+import { POST, RECOMMENDATION, SEARCH_ITEM, GET_NON_AUTH_USER } from "../const/apis";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import UserPool from "../aws/UserPool";
 import axios from "axios";
-import data from "../const/cardData";
 
 /**
  * Returns Redux Thunk function that dispatches GOOGLE_SIGN_IN action
@@ -262,10 +261,10 @@ export const createUser = (formValue, avatarUrl) => {
                 Name: "preferred_username",
                 Value: formValue?.username
             },
-            {
-                Name: "name",
-                Value: formValue?.name
-            },
+            // {
+            //     Name: "name",
+            //     Value: formValue?.username
+            // },
             {
                 Name: "gender",
                 Value: formValue?.gender
@@ -312,7 +311,7 @@ export const createUser = (formValue, avatarUrl) => {
             }
             axios.post("https://api.chatengine.io/users/", {
                 "username": formValue.username,
-                "first_name": formValue?.name,
+                "first_name": formValue?.username,
                 "last_name": "La Morre",
                 "email": formValue.registerEmail,
                 "secret": formValue.registerEmail,
@@ -508,16 +507,20 @@ export const setSearch = (term) => {
  * @returns {function} - redux thunk function
  */
 
-export const search = (term) => {
+export const search = (category, id, key) => {
 
     return async (dispatch) => {
-        const response = await axios.get(`${BASEURL}/search`);
-        if (response.status === 200) {
+        console.log(category);
+        console.log(SEARCH_ITEM);
+        // const response = await axios.get("http://localhost:3001/search");
+        // const response = await axios.get(`${SEARCH_ITEM}/post?user_id=${id}&keywords=${key}`);
+        const response = await axios.get("https://fil0bjf1w1.execute-api.us-west-1.amazonaws.com/dev/search/post?user_id=1144ebc8-e054-4c07-a5d4-8b23a9613282&keywords=");
+        if (response.status === 200 && response.data.errorMessage == null) {
             dispatch({
                 type: TYPES.SEARCH_SUCCESS,
                 payload: {
                     success: true,
-                    searchTerm: term,
+                    searchTerm: key,
                     data: response.data
                 }
             });
@@ -526,7 +529,7 @@ export const search = (term) => {
                 type: TYPES.SEARCH_FAIL,
                 payload: {
                     success: false,
-                    searchTerm: term,
+                    searchTerm: key,
                     data: []
                 }
             });
@@ -539,7 +542,7 @@ export const fetchItem = (id) => {
 
     return async (dispatch) => {
         const response = await axios.get(`${POST}/${id}`);
-        if (response.status === 200 && data?.errorMessage == null) {
+        if (response.status === 200 && response.data?.errorMessage == null) {
 
             console.log(response);
 
@@ -680,6 +683,33 @@ export const getRecommendation = () => {
         } else {
             dispatch({
                 type: TYPES.GET_RECOM_FAIL,
+                payload: []
+            });
+        }
+    };
+};
+
+
+/**
+ * Return Redux Thunk function that conditionally 
+ * dispatch GET_NON_AUTH_SUCCESS or GET_NON_AUTH_FAIL action
+ * @function get_non_auth_user_profile
+ * @param user_id - id
+ * @returns {function} - redux thunk function
+ */
+
+export const get_non_auth_user_profile = (user_id) => {
+    return async (dispatch) => {
+        let response = await axios.get(`${GET_NON_AUTH_USER}/${user_id}`);
+        console.log(response);
+        if (response && response.status == 200 && response.data?.errorMessage == null) {
+            dispatch({
+                type: TYPES.GET_NON_AUTH_SUCCESS,
+                payload: response.data
+            });
+        } else {
+            dispatch({
+                type: TYPES.GET_NON_AUTH_FAIL,
                 payload: []
             });
         }

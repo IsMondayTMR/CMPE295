@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { Link } from "react-router-dom";
 export const BackGround = styled.div`
     padding: 1rem;
 `
@@ -18,12 +18,13 @@ export const ImageContainer = styled.div`
     display: flex;
     margin: 10px;
     justify-content: center;
-    padding: 2% 0;
 `
 
 export const PrimaryImage = styled.img`
-    width: 300px;
-    height: 300px;
+    min-width: 200px;   
+    min-height: 200px;
+    max-width: 400px;
+    max-height: 400px;
     object-fit: cover;
 `
 export const ImageList = styled.div`
@@ -32,8 +33,8 @@ export const ImageList = styled.div`
     margin: 0 10px 0 0;
 `
 export const SecondaryImage = styled.img`
-    width: 100px;
-    height: 100px;
+    width: 40px;
+    height: 40px;
     object-fit: cover;
     border: ${({ active }) => active ? "2px solid orange" : "2px solid grey"};
     
@@ -41,35 +42,52 @@ export const SecondaryImage = styled.img`
         border: 2px solid orange;
     }
 `
-export const InforContainer = styled.div`
-    width: 70%;
-    margin-left: 5vw;
-`
+
 export const UserInfoContainer = styled.div`
     display: flex;
     margin: 0 0 20px;
-    font-size: 20px;
-    margin-left: 20px;
+    font-size: 1rem;
 `
-export const Username = styled.p`
+export const Username = styled(Link)`
     margin: 0;
+    text-decoration: none;
+    color: #005eab;
+    &:hover{
+        color: red;
+        text-decoration: underline;
+    }
+`
+
+export const IconContainer = styled.div`
+    display: flex;
+    margin: 0 0 20px;
+    font-size: 1rem;
+    color: #005eab;
+
 `
 
 export const Icon = styled.div`
     color: ${props => props.color ? props.color : "black"};
-    margin:0 5px;
+    margin-right: 5px;
 `
 export const IconBox = styled.div`
     display: flex;
-    margin: 0 10px;
+    margin-right: 10px;
     &:hover{
         cursor: pointer;
+        color: red;
+        text-decoration: underline;
     }
 `
 export const Break = styled.hr`
     width: 80%;
 `
-
+export const InforContainer = styled.div`
+    width: 60%;
+    ${Break} {
+        width: 100%;
+    }
+`
 export const Button = styled.button`
     
 `
@@ -93,8 +111,7 @@ export const BackIcon = styled.i`
 export const BackText = styled.p`
     border-bottom: 1px solid transparent;
 `
-export const IconContainer = styled.div`
-    margin: 1rem;
+export const BackIconContainer = styled.div`
     font-size: 20px;
     display: flex;
     justify-content: center;

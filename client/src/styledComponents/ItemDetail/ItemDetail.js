@@ -55,6 +55,12 @@ ItemDetail.UserInfoContainer = function UserInfoContainer({ children, ...restPro
         {children}
     </Style.UserInfoContainer>
 }
+
+ItemDetail.IconContainer = function IconContainer({ children, ...restProps }) {
+    return <Style.IconContainer {...restProps}>
+        {children}
+    </Style.IconContainer>
+}
 ItemDetail.Username = function Username({ children, ...restProps }) {
     return <Style.Username {...restProps}>
         {children}
@@ -87,8 +93,8 @@ ItemDetail.Text = function Text({ children, ...restProps }) {
         {children}
     </Style.Text>
 }
-ItemDetail.IconContainer = function IconContainer({ children, ...restProps }) {
-    return <Style.IconContainer {...restProps} > {children}</Style.IconContainer>
+ItemDetail.BackIconContainer = function BackIconContainer({ children, ...restProps }) {
+    return <Style.BackIconContainer {...restProps} > {children}</Style.BackIconContainer>
 }
 ItemDetail.BackIcon = function BackIcon({ ...restProps }) {
     return <Style.BackIcon className="fas fa-chevron-left" {...restProps} />

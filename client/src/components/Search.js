@@ -3,12 +3,13 @@ import { SearchComp } from "../styledComponents/export";
 import PropTypes from "prop-types";
 import history from "../history";
 import * as ROUTES from "../router/routes";
+import { connect } from "react-redux";
 class Search extends React.Component {
-    state = { searchTerm: "", searchCategory: "item" };
+    state = { key: "", category: "item" };
 
     onFormSubmit = (e) => {
         e.preventDefault();
-        history.push(`${ROUTES.SEARCH}/${this.state.searchTerm}`);
+        history.push(`${ROUTES.SEARCH}/${this.state.category}/1144ebc8-e054-4c07-a5d4-8b23a9613282/${this.state.key}`);
     };
     render() {
         return (
@@ -21,7 +22,7 @@ class Search extends React.Component {
                 <SearchComp.Select
                     defaultValue="item"
                     onChange={(e) => {
-                        this.setState({ searchCategory: e.target.value });
+                        this.setState({ category: e.target.value });
                     }}
                     fontSize={this.props.fontSize}>
                     <SearchComp.Option fontSize={this.props.fontSize}>
@@ -33,7 +34,7 @@ class Search extends React.Component {
                 </SearchComp.Select>
                 <SearchComp.Input
                     value={this.state.searchTerm}
-                    onChange={(e) => { this.setState({ searchTerm: e.target.value }); }}
+                    onChange={(e) => { this.setState({ key: e.target.value }); }}
                     placeholder="Search items/locations/Communities"
                     fontSize={this.props.fontSize}
                     borderRadius={this.props.borderRadius}
@@ -53,6 +54,12 @@ Search.propTypes = {
     fontSize: PropTypes.string,
     border: PropTypes.string,
     borderRadius: PropTypes.string,
+    user: PropTypes.object,
 };
 
-export default Search;
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    };
+};
+export default connect(mapStateToProps, {})(Search);

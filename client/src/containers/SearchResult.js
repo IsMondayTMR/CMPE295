@@ -6,13 +6,13 @@ import { ResultComp } from "../styledComponents/export";
 import { useParams } from "react-router-dom";
 const SearchResult = () => {
 
-    const { term } = useParams();
+    const { key, category, user_id } = useParams();
     return (
         <ResultComp>
             <SearchSubHeader />
             <ResultComp.Container>
                 <ResultLeftNav />
-                <ResultContent searchTerm={term} />
+                <ResultContent key={key} category={category} user_id={user_id} />
             </ResultComp.Container>
         </ResultComp>
     );

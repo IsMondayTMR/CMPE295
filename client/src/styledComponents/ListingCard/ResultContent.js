@@ -21,7 +21,9 @@ ResultContent.Link = function Link({ to, children, ...restProps }) {
 
 ResultContent.Card = function Card({ to, children, ...restProps }) {
     return <Style.Card {...restProps}>
-        {children}
+        <Style.RouteLink to={to}>
+            {children}
+        </Style.RouteLink>
     </Style.Card>
 
 }

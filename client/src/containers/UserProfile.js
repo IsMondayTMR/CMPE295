@@ -1,56 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { UserProfileComp } from "../styledComponents/export";
-import AVATAR from "../resources/maria-bo-schatzis-stream-profilpicture.jpg";
-import { useHistory } from "react-router-dom";
-
-const UserProfile = () => {
+import AVATAR from "../resources/defaultAvatar.png";
+import { getListing, get_non_auth_user_profile } from "../actions";
+import { useHistory, useParams } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import * as ROUTES from "../router/routes";
+const UserProfile = (props) => {
     const history = useHistory();
-
+    const { user_id } = useParams();
+    useEffect(() => {
+        props.get_non_auth_user_profile(user_id);
+        props.getListing(user_id);
+    }, []);
     const renderItem = () => {
-
-        return (
-            <>
-                <UserProfileComp.ImageLink>
-                    <UserProfileComp.ItemImage src={AVATAR} />
-                </UserProfileComp.ImageLink>
-                <UserProfileComp.ImageLink>
-                    <UserProfileComp.ItemImage src={AVATAR} />
-                </UserProfileComp.ImageLink>
-                <UserProfileComp.ImageLink>
-                    <UserProfileComp.ItemImage src={AVATAR} />
-                </UserProfileComp.ImageLink>
-                <UserProfileComp.ImageLink>
-                    <UserProfileComp.ItemImage src={AVATAR} />
-                </UserProfileComp.ImageLink>
-                <UserProfileComp.ImageLink>
-                    <UserProfileComp.ItemImage src={AVATAR} />
-                </UserProfileComp.ImageLink>
-                <UserProfileComp.ImageLink>
-                    <UserProfileComp.ItemImage src={AVATAR} />
-                </UserProfileComp.ImageLink>
-                <UserProfileComp.ImageLink>
-                    <UserProfileComp.ItemImage src={AVATAR} />
-                </UserProfileComp.ImageLink>
-                <UserProfileComp.ImageLink>
-                    <UserProfileComp.ItemImage src={AVATAR} />
-                </UserProfileComp.ImageLink>
-                <UserProfileComp.ImageLink>
-                    <UserProfileComp.ItemImage src={AVATAR} />
-                </UserProfileComp.ImageLink>
-
-            </>
-
-        );
+        if (props?.non_auth_user_listing?.item == null || props?.non_auth_user_listing?.item.length == 0) {
+            return <>
+            </>;
+        }
+        return props.non_auth_user_listing?.item.map((item) => {
+            return <UserProfileComp.ImageLink to={`${ROUTES.SEARCH}/item_detail/${item?.name}/${item?.sub}/${item?.id}`} key={item?.id}>
+                <UserProfileComp.ItemImage src={item.media_urls[0] ? item.media_urls[0] : AVATAR} />
+            </UserProfileComp.ImageLink>;
+        });
     };
     const renderInfor = () => {
         return <UserProfileComp.InforContainer>
             <UserProfileComp.Title>
-                IsMondayTMR
+                {props.non_auth_user?.user?.username}
             </UserProfileComp.Title>
 
             <UserProfileComp.DetailContainer>
                 <UserProfileComp.Text>
-                    Rating
+                    Rating: {props.non_auth_user?.user?.exchangeRating}
                 </UserProfileComp.Text>
             </UserProfileComp.DetailContainer>
             <UserProfileComp.UserInfoContainer>
@@ -71,6 +53,10 @@ const UserProfile = () => {
             <UserProfileComp.Text>
                 Item List
             </UserProfileComp.Text>
+
+            <UserProfileComp.Text>
+                Wish List
+            </UserProfileComp.Text>
             <UserProfileComp.Break />
             <UserProfileComp.ItemListContainer>
 
@@ -79,6 +65,9 @@ const UserProfile = () => {
 
         </UserProfileComp.InforContainer>;
     };
+
+    console.log(props.non_auth_user);
+    console.log(props.non_auth_user_listing);
     return <UserProfileComp>
         <UserProfileComp.Container>
             <UserProfileComp.IconContainer onClick={() => { history.goBack(); }}>
@@ -88,7 +77,7 @@ const UserProfile = () => {
 
             <UserProfileComp.ContentContainer>
                 <UserProfileComp.ImageContainer>
-                    <UserProfileComp.PrimaryImage src={AVATAR} alt="Primary Image" />
+                    <UserProfileComp.PrimaryImage src={props.non_auth_user?.user?.avatar_url !== null ? props.non_auth_user?.user?.avatar_url : AVATAR} alt="Primary Image" />
                 </UserProfileComp.ImageContainer>
                 {renderInfor()}
             </UserProfileComp.ContentContainer>
@@ -98,5 +87,16 @@ const UserProfile = () => {
     </UserProfileComp>;
 };
 
-
-export default UserProfile;
+UserProfile.propTypes = {
+    getListing: PropTypes.func.isRequired,
+    get_non_auth_user_profile: PropTypes.func.isRequiredm,
+    non_auth_user: PropTypes.object.isRequired,
+    non_auth_user_listing: PropTypes.object.isRequired,
+};
+const mapStateToProp = (state) => {
+    return {
+        non_auth_user: state.non_auth_user,
+        non_auth_user_listing: state.listing,
+    };
+};
+export default connect(mapStateToProp, { getListing, get_non_auth_user_profile })(UserProfile);

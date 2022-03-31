@@ -24,20 +24,21 @@ const Routers = () => {
             <Route exact path={ROUTES.MESSAGE}>
                 <Chat />
             </Route>
-            <Route exact path={`${ROUTES.SEARCH}/:term`}>
+            <Route exact path={`${ROUTES.SEARCH}/:category/:user_id/:key?`}>
                 <SearchResult />
             </Route>
-            <Route exact path={`${ROUTES.SEARCH}/:term/:id`}>
+
+            <Route exact path={`${ROUTES.SEARCH}/item_detail/:category/:user_id/:item_id`}>
                 <ItemDetail />
             </Route>
 
-            <Route exact path={`${ROUTES.DEFAULT}recommendation/:id`}>
+            <Route exact path={`${ROUTES.DEFAULT}recommendation/:item_id`}>
                 <ItemDetail />
             </Route>
-            <Route exact path={`${ROUTES.PROFILE}/item/:id`}>
+            <Route exact path={`${ROUTES.PROFILE}/item/:item_id`}>
                 <ItemDetail />
             </Route>
-            <Route exact path={`${ROUTES.USER}/:userid`}>
+            <Route exact path={`${ROUTES.USER}/:user_id`}>
                 <UserProfile />
             </Route>
             <Route path={ROUTES.PROFILE}>
