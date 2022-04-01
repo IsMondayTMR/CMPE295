@@ -541,10 +541,8 @@ export const fetchItem = (id) => {
 
     return async (dispatch) => {
         const response = await axios.get(`${POST}/${id}`);
+        console.log(response);
         if (response.status === 200 && response.data?.errorMessage == null) {
-
-            console.log(response);
-
             dispatch({
                 type: TYPES.GET_ITEM_SUCCESS,
                 payload: {

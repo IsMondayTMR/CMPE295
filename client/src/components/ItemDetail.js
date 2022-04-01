@@ -13,6 +13,7 @@ class ItemDetail extends React.Component {
     state = { activeImage: defaultImg, active: 0 };
     componentDidMount() {
         const item_id = this.props.match.params.item_id;
+        console.log(item_id);
         this.props.fetchItem(item_id);
         window.scroll(0, 0);
     }
