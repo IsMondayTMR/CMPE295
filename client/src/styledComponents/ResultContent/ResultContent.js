@@ -79,3 +79,11 @@ ResultContent.OfferDialog = function ({ children, ...restProps }) {
 ResultContent.NoResultText = function NoResultText({ children, ...restProps }) {
     return <Style.NoResultText {...restProps}>{children}</Style.NoResultText>
 }
+
+ResultContent.Fav = function Fav({ children, ...restProps }) {
+    return <Style.Fav {...restProps}>{children}</Style.Fav>
+}
+
+ResultContent.FavFill = function FavFill({ children, ...restProps }) {
+    return <Style.FavFill {...restProps}>{children}</Style.FavFill>
+}

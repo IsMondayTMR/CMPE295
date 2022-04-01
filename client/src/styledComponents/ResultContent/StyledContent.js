@@ -3,24 +3,28 @@ import { Link } from "react-router-dom";
 export const Background = styled.div`
     margin: 50px 0;
     width: 100%;
+    text-align: center;
+`
+
+export const Container = styled.div`
+    width: 100%;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(6, 1fr);
     column-gap: 30px;
     row-gap: 20px;
-`
-
-export const Container = styled.div`
 
 `
 
 export const RouteLink = styled(Link)`
     text-decoration: none;
+    
     color: black;
     width: 100%;
 `
 export const Card = styled.div`
     display: flex;
+    position: relative;
     flex-direction: column;
     border: 1px solid #b0b0b0;
     width: 250px;
@@ -99,4 +103,29 @@ export const Button = styled.button`
 `
 export const NoResultText = styled.p`
     color: #969696;
+    margin: 0 auto;
+`
+
+export const Fav = styled.div`
+    display: ${(props) => props.hide ? "block" : "none"};
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    color: pink;
+
+    &:hover{
+        color: #e8a2df;
+    }
+`
+
+export const FavFill = styled.div`
+    display: ${(props) => props.hide ? "block" : "none"};
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    color: pink;
+
+    &:hover{
+        color: #e8a2df;
+    }
 `

@@ -1,5 +1,5 @@
 import * as TYPES from "../const/reduxTypes";
-import { POST, RECOMMENDATION, SEARCH_ITEM, GET_NON_AUTH_USER } from "../const/apis";
+import { POST, RECOMMENDATION, SEARCH_ITEM, GET_NON_AUTH_USER, FAV } from "../const/apis";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import UserPool from "../aws/UserPool";
 import axios from "axios";
@@ -510,12 +510,11 @@ export const setSearch = (term) => {
 export const search = (category, id, key) => {
 
     return async (dispatch) => {
-        console.log(category);
-        console.log(SEARCH_ITEM);
         // const response = await axios.get("http://localhost:3001/search");
         // const response = await axios.get(`${SEARCH_ITEM}/post?user_id=${id}&keywords=${key}`);
-        const response = await axios.get("https://fil0bjf1w1.execute-api.us-west-1.amazonaws.com/dev/search/post?user_id=1144ebc8-e054-4c07-a5d4-8b23a9613282&keywords=");
-        if (response.status === 200 && response.data.errorMessage == null) {
+        const response = await axios.get(`${SEARCH_ITEM}/post?user_id=${id === "null" ? "" : id}&keywords=${key}`);
+        console.log(response);
+        if (response.status === 200 && response.data?.message == null) {
             dispatch({
                 type: TYPES.SEARCH_SUCCESS,
                 payload: {
@@ -631,6 +630,8 @@ export const getListing = (sub) => {
     return async (dispatch) => {
         return new Promise((resolve, reject) => {
             axios.get(`${POST}/?user_id=${sub}`).then((response) => {
+                console.log(response);
+                console.log(sub);
                 if (response.status == 200 && response?.data?.length >= 0) {
                     dispatch({
                         type: TYPES.GET_LISTING_SUCCESS,
@@ -715,6 +716,38 @@ export const get_non_auth_user_profile = (user_id) => {
         }
     };
 };
+
+/**
+ * Return Redux Thunk function that conditionally 
+ * dispatch GET_NON_AUTH_SUCCESS or GET_NON_AUTH_FAIL action
+ * @function get_non_auth_user_profile
+ * @param user_id - id
+ * @returns {function} - redux thunk function
+ */
+
+export const get_fav_by_user = (user_id) => {
+    return async (dispatch) => {
+        console.log(user_id);
+        // const url = "https://ufb0i94wwg.execute-api.us-west-1.amazonaws.com/dev/like";
+        console.log(FAV);
+        let response = await axios.get(`${FAV}?user_id=${user_id}`).catch((err) => {
+            console.log(err);
+        });
+        console.log(response);
+        if (response && response.status == 200 && response.data?.errorMessage == null) {
+            dispatch({
+                type: TYPES.GET_FAV_SUCCESS,
+                payload: response.data.body
+            });
+        } else {
+            dispatch({
+                type: TYPES.GET_FAV_FAIL,
+                payload: []
+            });
+        }
+    };
+};
+
 // helper function
 const formatUserAttributes = (userAttributes) => {
     let sub, address, email_verified, gender, phone_number_verified, preferred_username,

@@ -1,5 +1,5 @@
 import React from "react";
-import { ProfileComp, ResultContentComp } from "../../styledComponents/export";
+import { ProfileComp, ProfileCardComp } from "../../styledComponents/export";
 import { reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -18,9 +18,9 @@ class Listing extends React.Component {
         this.setState({ subcategory: data[0].subtitle });
         if (this.props?.user != null) {
 
-            this.setState({ username: this.props.user.preferred_username });
-            this.setState({ email: this.props.user.email });
-            this.setState({ sub: this.props.user.sub });
+            this.setState({ username: this.props?.user.preferred_username });
+            this.setState({ email: this.props?.user.email });
+            this.setState({ sub: this.props?.user.sub });
         }
 
         this.props.initialize({
@@ -53,25 +53,25 @@ class Listing extends React.Component {
 
     renderData = () => {
         if (this.props?.list?.length === 0) {
-            return this.props?.success === null ? <Loading src={Loader} /> : <ResultContentComp.NoResultText>Opps! Seems like no items were found</ResultContentComp.NoResultText>;
+            return this.props?.success === null ? <Loading src={Loader} /> : <ProfileCardComp.NoResultText>Opps! Seems like no items were found</ProfileCardComp.NoResultText>;
         }
         return this.props?.list.map(object => {
             return (
-                <ResultContentComp.ListCard key={object.id}>
-                    <ResultContentComp.Link to={`${ROUTES.PROFILE}/item/${object.id}`}>
-                        <ResultContentComp.Img src={object.media_urls[0]} alt="test" />
-                        <ResultContentComp.InforContainer>
-                            <ResultContentComp.Title>{object.title}</ResultContentComp.Title>
-                            <ResultContentComp.Description>{object.description}</ResultContentComp.Description>
-                            <ResultContentComp.Donate hide={object.donate ? "block" : "none"}>Donate</ResultContentComp.Donate>
-                        </ResultContentComp.InforContainer>
-                    </ResultContentComp.Link>
-                    <ResultContentComp.ButtonContainer>
-                        <ResultContentComp.Button>Delete</ResultContentComp.Button>
-                        <ResultContentComp.Button
-                            onClick={() => { this.openUpdateForm(object); }}>Update</ResultContentComp.Button>
-                    </ResultContentComp.ButtonContainer>
-                </ResultContentComp.ListCard >);
+                <ProfileCardComp.ListCard key={object.id}>
+                    <ProfileCardComp.Link to={`${ROUTES.PROFILE}/item/${object.id}`}>
+                        <ProfileCardComp.Img src={object.media_urls[0]} alt="test" />
+                        <ProfileCardComp.InforContainer>
+                            <ProfileCardComp.Title>{object.title}</ProfileCardComp.Title>
+                            <ProfileCardComp.Description>{object.description}</ProfileCardComp.Description>
+                            <ProfileCardComp.Donate hide={object.donate ? "block" : "none"}>Donate</ProfileCardComp.Donate>
+                        </ProfileCardComp.InforContainer>
+                    </ProfileCardComp.Link>
+                    <ProfileCardComp.ButtonContainer>
+                        <ProfileCardComp.Button>Delete</ProfileCardComp.Button>
+                        <ProfileCardComp.Button
+                            onClick={() => { this.openUpdateForm(object); }}>Update</ProfileCardComp.Button>
+                    </ProfileCardComp.ButtonContainer>
+                </ProfileCardComp.ListCard >);
         });
 
     };

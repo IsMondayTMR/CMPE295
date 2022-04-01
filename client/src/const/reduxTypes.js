@@ -33,3 +33,6 @@ export const GET_RECOM_FAIL = "GET_RECOM_FAIL";
 
 export const GET_NON_AUTH_SUCCESS = "GET_NON_AUTH_SUCCESS";
 export const GET_NON_AUTH_FAIL = "GET_NON_AUTH_FAIL";
+
+export const GET_FAV_SUCCESS = "GET_FAV_SUCCESS";
+export const GET_FAV_FAIL = "GET_FAV_FAIL";

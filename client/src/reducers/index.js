@@ -9,6 +9,7 @@ import postReducer from "./postReducer";
 import listingReducer from "./listingReducer";
 import recommendReducer from "./recommendReducer";
 import nonAuthReducer from "./nonAuthReducer";
+import favReducer from "./favReducer";
 export default combineReducers({
     user: userReducer,
     auth: authReducer,
@@ -20,4 +21,5 @@ export default combineReducers({
     listing: listingReducer,
     recommendation: recommendReducer,
     non_auth_user: nonAuthReducer,
+    favList: favReducer,
 });

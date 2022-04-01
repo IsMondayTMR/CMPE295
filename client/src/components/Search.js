@@ -5,13 +5,14 @@ import history from "../history";
 import * as ROUTES from "../router/routes";
 import { connect } from "react-redux";
 class Search extends React.Component {
-    state = { key: "", category: "item" };
+    state = { key: null, category: "item" };
 
     onFormSubmit = (e) => {
         e.preventDefault();
-        history.push(`${ROUTES.SEARCH}/${this.state.category}/1144ebc8-e054-4c07-a5d4-8b23a9613282/${this.state.key}`);
+        history.push(`${ROUTES.SEARCH}/${this.state.category}/${this.props?.user?.user?.sub == null ? null : this.props?.user?.user.sub}/${this.state.key}`);
     };
     render() {
+        console.log(this.state.key);
         return (
             <SearchComp.Form
                 onSubmit={this.onFormSubmit}
