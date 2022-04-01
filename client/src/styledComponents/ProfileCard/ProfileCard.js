@@ -1,5 +1,6 @@
 import React from "react";
 import * as Style from "./Style";
+
 function ProfileCard({ children, ...restProps }) {
     return <Style.Background {...restProps}>
         {children}
@@ -8,35 +9,113 @@ function ProfileCard({ children, ...restProps }) {
 
 export default ProfileCard;
 
-ProfileCard.Container = function Container({ children, ...restProps }) {
-    return <Style.Container {...restProps}>{children}</Style.Container>
+ProfileCard.Container = function ({ children, ...restProps }) {
+    return <Style.Container {...restProps}>
+        {children}
+    </Style.Container>
 }
 
-ProfileCard.Link = function Link({ to, children, ...restProps }) {
-    return <Style.RouteLink to={to} {...restProps}>
+ProfileCard.Card = function ({ children, ...restProps }) {
+    return <Style.Card {...restProps}>
+        {children}
+    </Style.Card>
+}
+
+ProfileCard.StarterContainer = function ({ children, ...restProps }) {
+    return <Style.StarterContainer {...restProps}>
+        {children}
+    </Style.StarterContainer>
+}
+
+ProfileCard.RouteLink = function ({ children, ...restProps }) {
+    return <Style.RouteLink {...restProps}>
         {children}
     </Style.RouteLink>
 }
 
-
-ProfileCard.Card = function Card({ to, children, ...restProps }) {
-    return <Style.Card {...restProps}>
-        <Style.RouteLink to={to}>
-            {children}
-        </Style.RouteLink>
-    </Style.Card>
-
-}
-
-ProfileCard.ListCard = function ListCard({ to, children, ...restProps }) {
-    return <Style.Card {...restProps}>
+ProfileCard.Starter = function ({ children, ...restProps }) {
+    return <Style.Starter {...restProps}>
         {children}
-    </Style.Card>
+    </Style.Starter>
+}
+ProfileCard.UserInfor = function ({ children, ...restProps }) {
+    return <Style.UserInfor {...restProps}>
+        {children}
+    </Style.UserInfor>
 }
 
+ProfileCard.UserId = function ({ children, ...restProps }) {
+    return <Style.UserId {...restProps}>
+        {children}
+    </Style.UserId>
+}
 
-ProfileCard.Img = function Img({ children, ...restProps }) {
-    return <Style.Img {...restProps}>{children}</Style.Img>
+ProfileCard.ItemId = function ({ children, ...restProps }) {
+    return <Style.UserId {...restProps}>
+        {children}
+    </Style.UserId>
+}
+ProfileCard.Username = function ({ children, ...restProps }) {
+    return <Style.Username {...restProps}>
+        {children}
+    </Style.Username>
+}
+ProfileCard.DetailContainer = function ({ children, ...restProps }) {
+    return <Style.DetailContainer {...restProps}>
+        {children}
+    </Style.DetailContainer>
+}
+
+ProfileCard.ItemContainer = function ({ children, ...restProps }) {
+    return <Style.ItemContainer {...restProps}>
+        {children}
+    </Style.ItemContainer>
+}
+
+ProfileCard.ItemInfor = function ({ children, ...restProps }) {
+    return <Style.ItemInfor {...restProps}>
+        {children}
+    </Style.ItemInfor>
+}
+
+ProfileCard.ItemTitle = function ({ children, ...restProps }) {
+    return <Style.ItemTitle {...restProps}>
+        {children}
+    </Style.ItemTitle>
+}
+
+ProfileCard.ItemDesc = function ({ children, ...restProps }) {
+    return <Style.ItemDesc {...restProps}>
+        {children}
+    </Style.ItemDesc>
+}
+
+ProfileCard.Image = function ({ children, ...restProps }) {
+    return <Style.Image {...restProps}>
+        {children}
+    </Style.Image>
+}
+ProfileCard.Avatar = function ({ children, ...restProps }) {
+    return <Style.Avatar {...restProps}>
+        {children}
+    </Style.Avatar>
+}
+ProfileCard.Button = function ({ children, ...restProps }) {
+    return <Style.Button {...restProps}>
+        {children}
+    </Style.Button>
+}
+
+ProfileCard.ButtonContainer = function ({ children, ...restProps }) {
+    return <Style.ButtonContainer {...restProps}>
+        {children}
+    </Style.ButtonContainer>
+}
+
+ProfileCard.NoResultText = function ({ children, ...restProps }) {
+    return <Style.NoResultText {...restProps}>
+        {children}
+    </Style.NoResultText>
 }
 
 ProfileCard.Title = function Title({ children, ...restProps }) {
@@ -52,32 +131,4 @@ ProfileCard.Donate = function Donate({ children, ...restProps }) {
 
 ProfileCard.InforContainer = function InforContainer({ children, ...restProps }) {
     return <Style.InforContainer {...restProps}>{children}</Style.InforContainer>
-}
-
-ProfileCard.ButtonContainer = function ButtonContainer({ children, ...restProps }) {
-    return <Style.ButtonContainer {...restProps}>{children}</Style.ButtonContainer>
-}
-
-ProfileCard.Button = function Button({ children, ...restProps }) {
-    return <Style.Button {...restProps}>{children}</Style.Button>
-}
-ProfileCard.InvitStarter = function ({ children, ...restProps }) {
-    return <Style.InvitStarter {...restProps}>
-        {children}
-    </Style.InvitStarter>
-}
-
-ProfileCard.Username = function ({ children, ...restProps }) {
-    return <Style.Username {...restProps}>
-        {children}
-    </Style.Username>
-}
-
-ProfileCard.OfferDialog = function ({ children, ...restProps }) {
-    return <Style.OfferDialog {...restProps}>
-        {children}
-    </Style.OfferDialog>
-}
-ProfileCard.NoResultText = function NoResultText({ children, ...restProps }) {
-    return <Style.NoResultText {...restProps}>{children}</Style.NoResultText>
 }

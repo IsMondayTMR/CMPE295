@@ -12,7 +12,6 @@ class Search extends React.Component {
         history.push(`${ROUTES.SEARCH}/${this.state.category}/${this.props?.user?.user?.sub == null ? null : this.props?.user?.user.sub}/${this.state.key}`);
     };
     render() {
-        console.log(this.state.key);
         return (
             <SearchComp.Form
                 onSubmit={this.onFormSubmit}

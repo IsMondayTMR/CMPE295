@@ -57,45 +57,62 @@ class Listing extends React.Component {
         }
         return this.props?.list.map(object => {
             return (
-                <ProfileCardComp.ListCard key={object.id}>
-                    <ProfileCardComp.Link to={`${ROUTES.PROFILE}/item/${object.id}`}>
-                        <ProfileCardComp.Img src={object.media_urls[0]} alt="test" />
-                        <ProfileCardComp.InforContainer>
-                            <ProfileCardComp.Title>{object.title}</ProfileCardComp.Title>
-                            <ProfileCardComp.Description>{object.description}</ProfileCardComp.Description>
-                            <ProfileCardComp.Donate hide={object.donate ? "block" : "none"}>Donate</ProfileCardComp.Donate>
-                        </ProfileCardComp.InforContainer>
-                    </ProfileCardComp.Link>
-                    <ProfileCardComp.ButtonContainer>
-                        <ProfileCardComp.Button>Delete</ProfileCardComp.Button>
-                        <ProfileCardComp.Button
-                            onClick={() => { this.openUpdateForm(object); }}>Update</ProfileCardComp.Button>
-                    </ProfileCardComp.ButtonContainer>
-                </ProfileCardComp.ListCard >);
+                <ProfileCardComp.Card key={object.id}>
+                    <ProfileCardComp.StarterContainer>
+                        <ProfileCardComp.Starter>
+                            <ProfileCardComp.ItemId>
+                                {object.id}
+                            </ProfileCardComp.ItemId>
+                        </ProfileCardComp.Starter>
+
+                        <ProfileCardComp.ButtonContainer>
+                            <ProfileCardComp.Button>Delete</ProfileCardComp.Button>
+                            <ProfileCardComp.Button
+                                onClick={() => { this.openUpdateForm(object); }}>Update</ProfileCardComp.Button>
+                        </ProfileCardComp.ButtonContainer>
+                    </ProfileCardComp.StarterContainer>
+                    <ProfileCardComp.DetailContainer>
+
+                        <ProfileCardComp.ItemContainer>
+                            <ProfileCardComp.RouteLink to={`${ROUTES.PROFILE}/item/${object.id}`}>
+                                <ProfileCardComp.Image src={object.media_urls[0]} alt="test" />
+                            </ProfileCardComp.RouteLink>
+                            <ProfileCardComp.ItemInfor>
+                                <ProfileCardComp.Title>{object.title}</ProfileCardComp.Title>
+                                <ProfileCardComp.Description>{object.description}</ProfileCardComp.Description>
+                                <ProfileCardComp.Donate hide={object.donate ? "block" : "none"}>Donate</ProfileCardComp.Donate>
+                            </ProfileCardComp.ItemInfor>
+                        </ProfileCardComp.ItemContainer>
+                    </ProfileCardComp.DetailContainer>
+
+
+                </ProfileCardComp.Card >);
         });
 
     };
     render() {
-        return <ProfileComp.ContentContainer>
-            <ProfileComp.NewList onClick={this.openPostForm}>
-                New Item
-            </ProfileComp.NewList>
-            <PostForm
-                hide={this.state.postHide}
-                close={this.closePostForm}
-                username={this.state.username}
-                email={this.state.email}
-                sub={this.state.sub} />
+        return <ProfileCardComp>
+            <ProfileCardComp.Container>
+                <ProfileComp.NewList onClick={this.openPostForm}>
+                    New Item
+                </ProfileComp.NewList>
+                <PostForm
+                    hide={this.state.postHide}
+                    close={this.closePostForm}
+                    username={this.state.username}
+                    email={this.state.email}
+                    sub={this.state.sub} />
 
-            {this.renderData()}
-            <UpdatePost
-                hide={this.state.updatePostHide}
-                close={this.closeUpdateForm}
-                username={this.state.username}
-                email={this.state.email}
-                item={this.state.currentItem}
-                sub={this.state.sub} />
-        </ProfileComp.ContentContainer>;
+                {this.renderData()}
+                <UpdatePost
+                    hide={this.state.updatePostHide}
+                    close={this.closeUpdateForm}
+                    username={this.state.username}
+                    email={this.state.email}
+                    item={this.state.currentItem}
+                    sub={this.state.sub} />
+            </ProfileCardComp.Container>
+        </ProfileCardComp>;
     }
 
 }

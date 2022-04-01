@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { ProfileComp, ProfileCardComp } from "../../styledComponents/export";
+import { ProfileCardComp } from "../../styledComponents/export";
 import { get_fav_by_user } from "../../actions";
 import { connect } from "react-redux";
-import IMAGE from "../../resources/1.jpg";
+// import IMAGE from "../../resources/1.jpg";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { FAV } from "../../const/apis";
@@ -25,28 +25,72 @@ const Favorite = (props) => {
             return <>
             </>;
         }
-
+        {/* <InvitComp.StarterContainer>
+                <InvitComp.Starter>
+                    <InvitComp.RouteLink to={`${ROUTES.USER}/123456789`}>
+                        <InvitComp.Avatar src={AVATAR} />
+                        <InvitComp.UserInfor>
+                            <InvitComp.Username>
+                                IsMondayTMR
+                            </InvitComp.Username>
+                            <InvitComp.UserId>
+                                ID:123456789
+                            </InvitComp.UserId>
+                        </InvitComp.UserInfor>
+                    </InvitComp.RouteLink>
+                </InvitComp.Starter> */}
         const cards = props?.favList?.item?.map((item, index) => {
-            return <ProfileCardComp.ListCard key={index}>
-                <ProfileCardComp.Link to={`${ROUTES.SEARCH}/item_detail/item/${props?.user?.user?.sub}/${item.id}`}>
-                    <ProfileCardComp.Img src={item?.media_urls == null ? IMAGE : item?.media_urls[0]} />
-                    <ProfileCardComp.InforContainer>
-                        <ProfileCardComp.Title>{item?.title}</ProfileCardComp.Title>
-                        <ProfileCardComp.Description>{item?.description}</ProfileCardComp.Description>
-                        <ProfileCardComp.Donate >{item?.donate}</ProfileCardComp.Donate>
-                    </ProfileCardComp.InforContainer>
-                </ProfileCardComp.Link>
-                <ProfileCardComp.ButtonContainer>
-                    <ProfileCardComp.Button onClick={() => deleteLike(item.id)}>remove</ProfileCardComp.Button>
-                </ProfileCardComp.ButtonContainer>
-            </ProfileCardComp.ListCard >;
+            return <ProfileCardComp.Card key={index}>
+                <ProfileCardComp.StarterContainer>
+                    <ProfileCardComp.Starter>
+                        <ProfileCardComp.RouteLink to={`${ROUTES.USER}/${item.sub}`}>
+                            <ProfileCardComp.UserInfor>
+                                <ProfileCardComp.Username>
+                                    {item.username}
+                                </ProfileCardComp.Username>
+                                <ProfileCardComp.UserId>
+                                    Id: {item.sub}
+                                </ProfileCardComp.UserId>
+                            </ProfileCardComp.UserInfor>
+                        </ProfileCardComp.RouteLink>
+                    </ProfileCardComp.Starter>
+                    <ProfileCardComp.ButtonContainer>
+                        <ProfileCardComp.Button onClick={() => deleteLike(item.id)}>remove</ProfileCardComp.Button>
+                        <ProfileCardComp.Button onClick={() => console.log("direct to 3way match")}>match</ProfileCardComp.Button>
+                    </ProfileCardComp.ButtonContainer>
+                </ProfileCardComp.StarterContainer>
+                <ProfileCardComp.DetailContainer>
+                    <ProfileCardComp.ItemContainer>
+                        <ProfileCardComp.RouteLink to={`${ROUTES.SEARCH}/item_detail/item/${item.sub}/${item.id}`}>
+                            <ProfileCardComp.Image src={`${item.media_urls[0]}`} />
+                        </ProfileCardComp.RouteLink>
+                        <ProfileCardComp.ItemInfor>
+                            <ProfileCardComp.ItemTitle>
+                                {item.title}
+                            </ProfileCardComp.ItemTitle>
+                            <ProfileCardComp.ItemDesc>
+                                {item.description}
+                            </ProfileCardComp.ItemDesc>
+                        </ProfileCardComp.ItemInfor>
+                    </ProfileCardComp.ItemContainer>
+
+                </ProfileCardComp.DetailContainer>
+
+
+
+            </ProfileCardComp.Card >;
         });
         return cards;
     };
-    return <ProfileComp.ContentContainer>
+    return <ProfileCardComp>
         Favorite
-        {renderCard()}
-    </ProfileComp.ContentContainer>;
+        <ProfileCardComp.Container>
+            {renderCard()}
+        </ProfileCardComp.Container>
+
+    </ProfileCardComp>;
+
+
 };
 
 Favorite.propTypes = {

@@ -1,5 +1,4 @@
 import React from "react";
-import { List } from "../DropDown/StyledDropDown";
 import * as Style from "./StyledListing";
 
 function Listing({ children, ...restProps }) {

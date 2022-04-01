@@ -1,44 +1,137 @@
-import styled from "styled-components";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+
 export const Background = styled.div`
-    margin: 50px 0;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    
 `
 
 export const Container = styled.div`
+    width: 90%;
+    margin: 0 auto;
+`
+
+export const Card = styled.div`
+    border: 1px solid #d4d4d4;
+    border-radius: 0.75rem;
+    height: 250px;
+    width: 100%;
+    margin: 20px 0;
+`
+
+export const StarterContainer = styled.div`
+    background-color: #ebebeb;
+    height: 25%;
+    border-bottom: 1px solid #d4d4d4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `
 
 export const RouteLink = styled(Link)`
-    display: flex;
     text-decoration: none;
-    color: black;
-    width: 100%;
-`
-export const Card = styled.div`
-display: flex;
-    border: 1px solid #b0b0b0;
-    width: 80%;
-    height: 150px;
-    margin: 0 auto 30px auto;
-    border-radius: 5px;
-    box-shadow: 5px 5px 10px #e0e0e0;
-    &:hover{
-        background-color: #f7f7f7;
-    }
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    color : black;
 `
 
-export const Img = styled.img`
-    min-width: 175px;
-    max-width: 25%;
+export const Starter = styled.div`
+    height: 100%;
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+`
+export const UserInfor = styled.div`
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    font-size: 20px;
+    margin: 0;
+`
+
+export const Username = styled.p`
+    margin: 5px;
+    &:hover{
+        color: red;
+        text-decoration: underline;
+    }
+`
+export const UserId = styled.p`
+    font-size: 15px;
+    margin: 5px;
+`
+export const DetailContainer = styled.div`
+    display: flex;
+    align-items: center;
+    height: 75%;
+`
+export const ItemContainer = styled.div`
+    display: flex;
+    margin-left: 3rem;
+
+`
+
+export const ItemInfor = styled.div`
+    margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: start;
+
+`
+export const ItemTitle = styled.h1`
+    font-size: 25px;
+    margin: 0;
+`
+
+export const ItemDesc = styled.div`
+    font-size: 20px;
+`
+export const Image = styled.img`
+    width: 100px;
     object-fit: cover;
 `
+export const Avatar = styled.img`
+    width: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+`
+
+export const Button = styled.button`
+    margin: 5px;
+    background-color: ${props => props.backgroundColor ? backgroundColor : "#1f9aff"};
+    color: white;
+    height: 25px;
+    width:  80px;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+
+    &:hover{
+        cursor: pointer;
+        background-color: ${props => props.hoverColor ? hoverColor : "#2079a8"};
+    }
+
+`
+
+export const ButtonContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+`
+
+export const NoResultText = styled.p`
+    color: #969696;
+    margin: 0 auto;
+`
+
 export const Title = styled.h2`
     margin: 0;
-    font-size: 35px;
+    font-size: 30px;
 `
 
 export const Description = styled.p`
@@ -50,44 +143,20 @@ export const Description = styled.p`
 export const Donate = styled.p`
     display: ${props => props.hide ? props.hide : "none"};
     font-size: 15px;
-    padding: 2px;
+    padding: 2px ;
     border: 1px solid #cccecf;
     border-radius: 5px;
     background-color: #258fc4;
     color: white;
     font-weight: bold;
+    margin: 0;
+    width: 48px;
 `
 
 export const InforContainer = styled.div`
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 20px;
-    width: 100%;
-    
-`
-export const InvitStarter = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: 0 10px;
-    
-`
-
-export const Username = styled(Link)`
-    text-decoration: none;
-    margin: 10px;
-    font-size: 20px;
-`
-
-export const OfferDialog = styled.p`
-    margin: 0;
-    font-size: 20px;
-`
-export const ButtonContainer = styled.div`
-`
-
-export const Button = styled.button`
-`
-export const NoResultText = styled.p`
-    color: #969696;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 10px;
 `

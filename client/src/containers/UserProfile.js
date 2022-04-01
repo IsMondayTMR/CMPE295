@@ -66,8 +66,6 @@ const UserProfile = (props) => {
         </UserProfileComp.InforContainer>;
     };
 
-    console.log(props.non_auth_user);
-    console.log(props.non_auth_user_listing);
     return <UserProfileComp>
         <UserProfileComp.Container>
             <UserProfileComp.IconContainer onClick={() => { history.goBack(); }}>
