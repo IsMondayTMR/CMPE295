@@ -131,6 +131,22 @@ class PostForm extends React.Component {
             </FormComp.InputContainer >
         );
     };
+
+    renderWornConditionField = ({ input, name, label, data }) => {
+        const options = data ? data.map((index) => {
+            return <FormComp.Option key={index} value={index}> {index}</FormComp.Option >;
+        }) : null;
+        return (
+            <FormComp.InputContainer >
+                <FormComp.Label >{label}</FormComp.Label>
+                <FormComp.Select
+                    name={name} id={name}
+                    {...input}>
+                    {options}
+                </FormComp.Select>
+            </FormComp.InputContainer >
+        );
+    };
     renderPostSubSelectField = ({ input, name, label, data }) => {
         const options = data ? data.map((object, index) => {
             return <FormComp.Option key={index} value={object}> {object}</FormComp.Option >;
@@ -304,15 +320,16 @@ class PostForm extends React.Component {
                             name="material" />
 
                         <Field
-                            component={this.renderPostField}
-                            label="Worncondition"
-                            text="worncondition"
-                            type="text"
+                            component={this.renderWornConditionField}
+                            label="Worn condition"
+                            type="select"
+                            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
                             name="worncondition" />
-                        <FormComp.SubmitButton >
-                            Submit
-                        </FormComp.SubmitButton>
+
                     </FormComp.FormContainer>
+                    <FormComp.SubmitButton >
+                        Submit
+                    </FormComp.SubmitButton>
                 </FormComp.Form>
 
             </FormComp>

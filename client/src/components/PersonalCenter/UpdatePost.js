@@ -25,7 +25,6 @@ class UpdatePost extends React.Component {
                 brand: this.props?.item.brand,
                 donate: this.props?.item.donate,
                 material: this.props?.item.material,
-                worncondition: this.props?.item.worncondition,
             });
             this.setState({ checked: this.props?.item?.donate ? this.props?.item?.donate : false, prevImagesUrls: this.props?.item?.media_urls, category: "", defaultSubcategory: this.props?.item.subcategory });
             const temp = data.filter((object) => {
@@ -40,6 +39,7 @@ class UpdatePost extends React.Component {
 
             this.props.change("category", tempCategory);
             this.props.change("subcategory", this.props?.item.subcategory);
+            this.props.change("worncondition", this.props?.item.worncondition);
         }
     }
     componentWillUnmount() {
@@ -150,7 +150,23 @@ class UpdatePost extends React.Component {
         );
     };
 
+    renderWornConditionField = ({ input, name, label, data }) => {
+        const options = data ? data.map((index) => {
+            return <FormComp.Option key={index} value={index}> {index}</FormComp.Option >;
+        }) : null;
 
+        return (
+            <FormComp.InputContainer >
+                <FormComp.Label >{label}</FormComp.Label>
+                <FormComp.Select
+                    name={name} id={name}
+                    {...input}
+                >
+                    {options}
+                </FormComp.Select>
+            </FormComp.InputContainer >
+        );
+    };
     readFile = (key, file) => {
         let reader = new FileReader();
         reader.readAsDataURL(file);
@@ -330,15 +346,16 @@ class UpdatePost extends React.Component {
                             name="material" />
 
                         <Field
-                            component={this.renderPostField}
+                            component={this.renderWornConditionField}
                             label="Worncondition"
-                            text="worncondition"
-                            type="text"
+                            type="number"
+                            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
                             name="worncondition" />
-                        <FormComp.SubmitButton >
-                            Submit
-                        </FormComp.SubmitButton>
+
                     </FormComp.FormContainer>
+                    <FormComp.SubmitButton >
+                        Submit
+                    </FormComp.SubmitButton>
                 </FormComp.Form>
 
             </FormComp>

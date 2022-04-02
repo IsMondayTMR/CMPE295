@@ -92,6 +92,13 @@ class ItemDetail extends React.Component {
             </ItemDetailComp.UserInfoContainer>
 
             <ItemDetailComp.IconContainer>
+
+                <ItemDetailComp.IconBox onClick={() => { }}>
+                    <ItemDetailComp.Icon>
+                        <i className="fas fa-exchange"></i>
+                    </ItemDetailComp.Icon>
+                    trade
+                </ItemDetailComp.IconBox>
                 <ItemDetailComp.IconBox onClick={(e) => { this.startChat(e); }}>
                     <ItemDetailComp.Icon>
                         <i className="far fa-comment"></i>
