@@ -10,7 +10,7 @@ export const Container = styled.div`
     width: 100%;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(6, 1fr);
+    grid-auto-rows: 1fr;
     column-gap: 30px;
     row-gap: 20px;
 

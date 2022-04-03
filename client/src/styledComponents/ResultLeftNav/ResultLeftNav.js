@@ -15,7 +15,7 @@ ResultLeftNav.Container = function Container({ children, ...restProps }) {
 
 ResultLeftNav.Link = function Link({ to, children, ...restProps }) {
     return <Style.RouteContainer>
-        <Style.RouteLink to={to} {...restProps}>
+        <Style.RouteLink {...restProps}>
             {children}
         </Style.RouteLink>
     </Style.RouteContainer>
@@ -28,7 +28,7 @@ ResultLeftNav.SubLinkContainer = function subLinkContainer({ children, ...restPr
 }
 ResultLeftNav.SubLink = function SubLink({ to, children, ...restProps }) {
     return <Style.RouteContainer>
-        <Style.RouteLink to={to} {...restProps}>
+        <Style.RouteLink {...restProps}>
             {children}
         </Style.RouteLink>
     </Style.RouteContainer>

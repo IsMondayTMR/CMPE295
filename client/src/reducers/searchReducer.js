@@ -2,7 +2,8 @@ import * as TYPES from "../const/reduxTypes";
 
 const INITIAL_STATE = {
     success: null,
-    searchTerm: null,
+    category: null,
+    key: null,
     data: []
 };
 
@@ -11,16 +12,18 @@ const searchReducer = (state = INITIAL_STATE, action) => {
         case TYPES.SEARCH_SUCCESS:
             return {
                 ...state,
-                success: action.payload.success,
-                searchTerm: action.payload.searchTerm,
+                success: action.payload.true,
+                category: action.payload.category,
+                key: action.payload.key,
                 data: action.payload.data
             };
         case TYPES.SEARCH_FAIL:
             return {
                 ...state,
-                success: action.payload.success,
-                searchTerm: action.payload.searchTerm,
-                data: action.payload.data
+                success: false,
+                category: action.payload.category,
+                key: action.payload.key,
+                data: action.payload.data,
             };
         default:
             return state;

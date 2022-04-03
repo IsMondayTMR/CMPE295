@@ -87,7 +87,7 @@ const UserProfile = (props) => {
 
 UserProfile.propTypes = {
     getListing: PropTypes.func.isRequired,
-    get_non_auth_user_profile: PropTypes.func.isRequiredm,
+    get_non_auth_user_profile: PropTypes.func.isRequired,
     non_auth_user: PropTypes.object.isRequired,
     non_auth_user_listing: PropTypes.object.isRequired,
 };

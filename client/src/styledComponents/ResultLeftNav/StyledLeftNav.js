@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 export const Background = styled.div`
     width: 30%;
+    display: ${props => props.hide ? "none" : "block"};
 `
 
 export const Container = styled.div`
@@ -10,17 +10,18 @@ export const Container = styled.div`
     padding: 20px;
 `
 
-export const RouteLink = styled(Link)`
+export const RouteLink = styled.p`
     font-size: 20px;
     color: black;
-    text-decoration: none;
+    display: inline-block;
+    margin: 0;
     &:hover{
         border-bottom: 1px solid black;
     }
 `
 
 export const RouteContainer = styled.div`
-    margin: 0;
+margin: 0;
 `
 
 export const SubLinkContainer = styled.div`

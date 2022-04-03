@@ -4,12 +4,16 @@ import PropTypes from "prop-types";
 import history from "../history";
 import * as ROUTES from "../router/routes";
 import { connect } from "react-redux";
+import { search } from "../actions";
 class Search extends React.Component {
-    state = { key: null, category: "item" };
+    state = { key: null, category: "item", user_id: this.props?.user?.user?.sub == null ? null : this.props?.user?.user.sub };
 
     onFormSubmit = (e) => {
         e.preventDefault();
-        history.push(`${ROUTES.SEARCH}/${this.state.category}/${this.props?.user?.user?.sub == null ? null : this.props?.user?.user.sub}/${this.state.key}`);
+        // this.props.search(this.state.category, this.state.user_id, this.state.key).then(() => {
+        history.push(`${ROUTES.SEARCH}/result/${this.state.category}/${this.state.user_id}/${this.state.key}`);
+        // });
+
     };
     render() {
         return (
@@ -55,6 +59,7 @@ Search.propTypes = {
     border: PropTypes.string,
     borderRadius: PropTypes.string,
     user: PropTypes.object,
+    search: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -62,4 +67,4 @@ const mapStateToProps = (state) => {
         user: state.user
     };
 };
-export default connect(mapStateToProps, {})(Search);
+export default connect(mapStateToProps, { search })(Search);

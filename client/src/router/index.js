@@ -24,7 +24,7 @@ const Routers = () => {
             <Route exact path={ROUTES.MESSAGE}>
                 <Chat />
             </Route>
-            <Route exact path={`${ROUTES.SEARCH}/:category/:user_id/:key`}>
+            <Route exact path={`${ROUTES.SEARCH}/result/:category/:user_id/:key`}>
                 <SearchResult />
             </Route>
 

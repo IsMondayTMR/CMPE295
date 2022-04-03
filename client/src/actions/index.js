@@ -1,5 +1,5 @@
 import * as TYPES from "../const/reduxTypes";
-import { POST, RECOMMENDATION, SEARCH_ITEM, GET_NON_AUTH_USER, FAV } from "../const/apis";
+import { POST, RECOMMENDATION, SEARCH_ITEM, GET_NON_AUTH_USER, FAV, SEARCH_USER } from "../const/apis";
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import UserPool from "../aws/UserPool";
 import axios from "axios";
@@ -507,33 +507,69 @@ export const setSearch = (term) => {
  * @returns {function} - redux thunk function
  */
 
-export const search = (category, id, key) => {
+export const search = (is_mounted, category, id, key) => {
 
     return async (dispatch) => {
         // const response = await axios.get("http://localhost:3001/search");
         // const response = await axios.get(`${SEARCH_ITEM}/post?user_id=${id}&keywords=${key}`);
-        const response = await axios.get(`${SEARCH_ITEM}/post?user_id=${id === "null" ? "" : id}&keywords=${key}`);
-        console.log(response);
-        if (response.status === 200 && response.data?.message == null) {
-            dispatch({
-                type: TYPES.SEARCH_SUCCESS,
-                payload: {
-                    success: true,
-                    searchTerm: key,
-                    data: response.data
-                }
-            });
-        } else {
-            dispatch({
-                type: TYPES.SEARCH_FAIL,
-                payload: {
-                    success: false,
-                    searchTerm: key,
-                    data: []
-                }
-            });
+        if (category == "item") {
+            is_mounted && axios.get(`${SEARCH_ITEM}user_id=${id === null ? "" : id}&keywords=${key}`)
+                .then((response) => {
+                    if (response?.status === 200 && response.data?.message == null && response.data?.errorMessage == null) {
+                        dispatch({
+                            type: TYPES.SEARCH_SUCCESS,
+                            payload: {
+                                success: true,
+                                key,
+                                category,
+                                data: response.data
+                            }
+                        });
+                    } else {
+                        dispatch({
+                            type: TYPES.SEARCH_FAIL,
+                            payload: {
+                                success: false,
+                                key,
+                                category,
+                                data: []
+                            }
+                        });
+                    }
+                })
+                .catch(err => {
+                    alert(err);
+                });
         }
-
+        if (category == "user") {
+            is_mounted && axios.get(`${SEARCH_USER}keyword=${key}`)
+                .then((response) => {
+                    if (response?.status === 200 && response.data?.message == null && response.data?.errorMessage == null) {
+                        dispatch({
+                            type: TYPES.SEARCH_SUCCESS,
+                            payload: {
+                                success: true,
+                                key,
+                                category,
+                                data: response.data
+                            }
+                        });
+                    } else {
+                        dispatch({
+                            type: TYPES.SEARCH_FAIL,
+                            payload: {
+                                success: false,
+                                key,
+                                category,
+                                data: []
+                            }
+                        });
+                    }
+                })
+                .catch(err => {
+                    alert(err);
+                });
+        }
     };
 };
 
@@ -717,8 +753,8 @@ export const get_non_auth_user_profile = (user_id) => {
 
 /**
  * Return Redux Thunk function that conditionally 
- * dispatch GET_NON_AUTH_SUCCESS or GET_NON_AUTH_FAIL action
- * @function get_non_auth_user_profile
+ * dispatch GET_FAV_SUCCESS or GET_FAV_FAIL action
+ * @function get_fav_by_user
  * @param user_id - id
  * @returns {function} - redux thunk function
  */
@@ -744,6 +780,46 @@ export const get_fav_by_user = (user_id) => {
             });
         }
     };
+};
+
+
+/**
+ * Return Redux Thunk function that conditionally 
+ * dispatch GET_FAV_SUCCESS or GET_FAV_FAIL action
+ * @function filter_data
+ * @param user_id - id
+ * @returns {function} - redux thunk function
+ */
+
+export const filter_data = (category, subcategory) => {
+
+    if (category != null && subcategory != null) {
+        return {
+            type: TYPES.BOTH_CHANGED,
+            payload: {
+                category,
+                subcategory
+            }
+        };
+    }
+
+    if (category != null && subcategory == null) {
+        return {
+            type: TYPES.CATEGORY_CHANEGD,
+            payload: {
+                category,
+                subcategory,
+            }
+        };
+    } else {
+        return {
+            type: TYPES.SUBCATEG_CHANGED,
+            payload: {
+                category,
+                subcategory,
+            }
+        };
+    }
 };
 
 // helper function

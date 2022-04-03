@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 export const Background = styled.div`
     height: 50px;
     background-color: black;
-    display: flex;
+    display: ${props => props.hide ? "none" : "flex"};
     justify-content: space-around;
     align-items: center;
 
