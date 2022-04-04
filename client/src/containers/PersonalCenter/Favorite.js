@@ -56,7 +56,7 @@ const Favorite = (props) => {
                     </ProfileCardComp.Starter>
                     <ProfileCardComp.ButtonContainer>
                         <ProfileCardComp.Button onClick={() => deleteLike(item.id)}>remove</ProfileCardComp.Button>
-                        <ProfileCardComp.Button onClick={() => console.log("direct to 3way match")}>match</ProfileCardComp.Button>
+
                     </ProfileCardComp.ButtonContainer>
                 </ProfileCardComp.StarterContainer>
                 <ProfileCardComp.DetailContainer>

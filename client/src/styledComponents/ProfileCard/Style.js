@@ -119,8 +119,8 @@ export const Button = styled.button`
 `
 
 export const ButtonContainer = styled.div`
-    display: flex;
-    flex-direction: column;
+    display:  flex;
+    flex-direction: ${(props) => props.displayDirection ? props.displayDirection : "column"};
     margin: 0 auto;
 `
 

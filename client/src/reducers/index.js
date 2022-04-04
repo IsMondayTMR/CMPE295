@@ -11,6 +11,8 @@ import recommendReducer from "./recommendReducer";
 import nonAuthReducer from "./nonAuthReducer";
 import favReducer from "./favReducer";
 import filterReducer from "./filterReducer";
+import invitationReducer from "./invitationReducer";
+
 export default combineReducers({
     user: userReducer,
     auth: authReducer,
@@ -24,4 +26,5 @@ export default combineReducers({
     non_auth_user: nonAuthReducer,
     favList: favReducer,
     filter: filterReducer,
+    invitations: invitationReducer,
 });

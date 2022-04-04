@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { fetchItem } from "../actions/";
+import { fetchItem } from "../actions";
 import { ItemDetailComp } from "../styledComponents/export";
 import defaultImg from "../resources/defaultPlaceholder.png";
 import Recommendation from "./Recommendation";
@@ -11,7 +11,7 @@ import { PROJECTID, USERNAME, USERSECRET } from "./Chat/chatConst";
 import * as ROUTES from "../router/routes";
 import InvitationForm from "./InvitationForm";
 class ItemDetail extends React.Component {
-    state = { activeImage: defaultImg, active: 0, invitationHide: true };
+    state = { activeImage: defaultImg, active: 0 };
     componentDidMount() {
         const item_id = this.props.match.params.item_id;
         this.props.fetchItem(item_id);
@@ -75,17 +75,6 @@ class ItemDetail extends React.Component {
         console.log(response);
     };
 
-    openInvitationForm = () => {
-        if (this.props?.user?.user?.email == null) {
-            alert("please login first");
-            return;
-        }
-        this.setState({ invitationHide: false });
-    };
-
-    closeInvitationForm = () => {
-        this.setState({ invitationHide: true });
-    };
     renderInfor() {
 
         if (this.props.item.success == false) {
@@ -105,12 +94,6 @@ class ItemDetail extends React.Component {
 
             <ItemDetailComp.IconContainer>
 
-                <ItemDetailComp.IconBox onClick={() => { this.openInvitationForm(); }}>
-                    <ItemDetailComp.Icon>
-                        <i className="fas fa-exchange"></i>
-                    </ItemDetailComp.Icon>
-                    trade
-                </ItemDetailComp.IconBox>
                 <ItemDetailComp.IconBox onClick={(e) => { this.startChat(e); }}>
                     <ItemDetailComp.Icon>
                         <i className="far fa-comment"></i>

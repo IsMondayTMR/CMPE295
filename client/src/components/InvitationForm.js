@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FormComp } from "../styledComponents/export";
 import { connect } from "react-redux";
 import { getListing } from "../actions";
+import { send_2_way_invitation } from "../actions/invitationAction";
 import PropTypes from "prop-types";
 const InvitationForm = (props) => {
 
@@ -18,7 +19,14 @@ const InvitationForm = (props) => {
     }, []);
     const onInvitationFormSubmit = (e) => {
         e.preventDefault();
-        console.log(selected);
+
+        props.send_2_way_invitation(props?.user?.user?.sub, props?.item?.item?.sub, props?.item?.item?.id, selected.id)
+            .then(() => {
+                props.close();
+            })
+            .catch((err) => {
+                alert(err);
+            });
     };
 
     const renderLisitng = () => {
@@ -81,7 +89,9 @@ InvitationForm.propTypes = {
     close: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     getListing: PropTypes.func.isRequired,
-    listing: PropTypes.object.isRequired
+    listing: PropTypes.object.isRequired,
+    send_2_way_invitation: PropTypes.func.isRequired,
+    item: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -90,4 +100,4 @@ const mapStateToProps = (state) => {
         listing: state.listing,
     };
 };
-export default connect(mapStateToProps, { getListing })(InvitationForm);
+export default connect(mapStateToProps, { getListing, send_2_way_invitation })(InvitationForm);

@@ -65,10 +65,11 @@ class Listing extends React.Component {
                             </ProfileCardComp.ItemId>
                         </ProfileCardComp.Starter>
 
-                        <ProfileCardComp.ButtonContainer>
-                            <ProfileCardComp.Button>Delete</ProfileCardComp.Button>
+                        <ProfileCardComp.ButtonContainer displayDirection={"row"}>
                             <ProfileCardComp.Button
                                 onClick={() => { this.openUpdateForm(object); }}>Update</ProfileCardComp.Button>
+                            <ProfileCardComp.Button onClick={() => console.log("direct to 3way match")}>match</ProfileCardComp.Button>
+                            <ProfileCardComp.Button>Delete</ProfileCardComp.Button>
                         </ProfileCardComp.ButtonContainer>
                     </ProfileCardComp.StarterContainer>
                     <ProfileCardComp.DetailContainer>

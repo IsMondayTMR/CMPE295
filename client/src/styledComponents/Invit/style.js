@@ -102,7 +102,31 @@ export const Button = styled.button`
     }
 
 `
+export const TabButton = styled.button`
+    margin: 0;
+    height: 45px;
+    margin-top: 20px;
+    color: white;
+    font-weight: bolder;
+    background-color: #1f9aff;
+    border-radius: 5px 5px 0 0;
+    border: 1px solid gray;
+    border-bottom:none ;
+    margin-right: 5px;
 
+    &:hover{
+        background-color: #265ca3;
+    }
+`
+
+export const TabContainer = styled.div`
+    margin: 0;
+`
+
+export const Break = styled.hr`
+    margin: 0;
+
+`
 export const ButtonContainer = styled.div`
     display: flex;
     flex-direction: column;

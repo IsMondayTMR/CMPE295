@@ -99,7 +99,21 @@ Invitation.Button = function ({ children, ...restProps }) {
         {children}
     </Style.Button>
 }
+Invitation.TabButton = function ({ children, ...restProps }) {
+    return <Style.TabButton {...restProps}>
+        {children}
+    </Style.TabButton>
+}
+Invitation.TabContainer = function ({ children, ...restProps }) {
+    return <Style.TabContainer {...restProps}>
+        {children}
+    </Style.TabContainer>
+}
 
+Invitation.Break = function ({ ...restProps }) {
+    return <Style.Break {...restProps} />
+
+}
 Invitation.ButtonContainer = function ({ children, ...restProps }) {
     return <Style.ButtonContainer {...restProps}>
         {children}
