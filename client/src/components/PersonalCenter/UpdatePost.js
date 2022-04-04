@@ -11,39 +11,61 @@ class UpdatePost extends React.Component {
     state = { images: [], checked: false, prevImagesUrls: [], imagePreviewUrls: [], defaultSubcategory: null, category: null, subcategory: null };
 
     componentDidMount() {
+        this.setState({ images: [], checked: false, prevImagesUrls: [], imagePreviewUrls: [], defaultSubcategory: null, category: null, subcategory: null });
+        this.props.initialize({
+            title: this.props?.item.title,
+            description: this.props?.item.description,
+            color: this.props?.item.color,
+            brand: this.props?.item.brand,
+            donate: this.props?.item.donate,
+            material: this.props?.item.material,
+        });
+        this.setState({ checked: this.props?.item?.donate ? this.props?.item?.donate : false, prevImagesUrls: this.props?.item?.media_urls, category: "", defaultSubcategory: this.props?.item.subcategory });
+        const temp = data.filter((object) => {
+            return object.title === this.props?.item.category;
+        });
+        const tempCategory = this.props?.item == null ? "" : this.props?.item.category;
+        this.setState({ category: tempCategory });
 
-    }
-
-    componentDidUpdate(prevProps) {
-
-        if (prevProps.hide !== this.props.hide) {
-            this.setState({ images: [], checked: false, prevImagesUrls: [], imagePreviewUrls: [], defaultSubcategory: null, category: null, subcategory: null });
-            this.props.initialize({
-                title: this.props?.item.title,
-                description: this.props?.item.description,
-                color: this.props?.item.color,
-                brand: this.props?.item.brand,
-                donate: this.props?.item.donate,
-                material: this.props?.item.material,
-            });
-            this.setState({ checked: this.props?.item?.donate ? this.props?.item?.donate : false, prevImagesUrls: this.props?.item?.media_urls, category: "", defaultSubcategory: this.props?.item.subcategory });
-            const temp = data.filter((object) => {
-                return object.title === this.props?.item.category;
-            });
-            const tempCategory = this.props?.item == null ? "" : this.props?.item.category;
-            this.setState({ category: tempCategory });
-
-            if (temp != null && temp != undefined) {
-                this.setState({ subcategory: temp[0]?.subtitle });
-            }
-
-            this.props.change("category", tempCategory);
-            this.props.change("subcategory", this.props?.item.subcategory);
-            this.props.change("worncondition", this.props?.item.worncondition);
+        if (temp != null && temp != undefined) {
+            this.setState({ subcategory: temp[0]?.subtitle });
         }
+
+        this.props.change("category", tempCategory);
+        this.props.change("subcategory", this.props?.item.subcategory);
+        this.props.change("worncondition", this.props?.item.worncondition);
     }
-    componentWillUnmount() {
-    }
+
+    // componentDidUpdate(prevProps) {
+
+    //     if (prevProps.hide !== this.props.hide) {
+    //         this.setState({ images: [], checked: false, prevImagesUrls: [], imagePreviewUrls: [], defaultSubcategory: null, category: null, subcategory: null });
+    //         this.props.initialize({
+    //             title: this.props?.item.title,
+    //             description: this.props?.item.description,
+    //             color: this.props?.item.color,
+    //             brand: this.props?.item.brand,
+    //             donate: this.props?.item.donate,
+    //             material: this.props?.item.material,
+    //         });
+    //         this.setState({ checked: this.props?.item?.donate ? this.props?.item?.donate : false, prevImagesUrls: this.props?.item?.media_urls, category: "", defaultSubcategory: this.props?.item.subcategory });
+    //         const temp = data.filter((object) => {
+    //             return object.title === this.props?.item.category;
+    //         });
+    //         const tempCategory = this.props?.item == null ? "" : this.props?.item.category;
+    //         this.setState({ category: tempCategory });
+
+    //         if (temp != null && temp != undefined) {
+    //             this.setState({ subcategory: temp[0]?.subtitle });
+    //         }
+
+    //         this.props.change("category", tempCategory);
+    //         this.props.change("subcategory", this.props?.item.subcategory);
+    //         this.props.change("worncondition", this.props?.item.worncondition);
+    //     }
+    // }
+    // componentWillUnmount() {
+    // }
     onUpdateFormSubmit = async (formValues) => {
         console.log(formValues);
         if (this.state.images.length == 0) {

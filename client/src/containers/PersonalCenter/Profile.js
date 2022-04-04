@@ -258,7 +258,7 @@ class Profile extends React.Component {
             </ProfileComp.InputContainer>
             <ProfileComp.EditButton onClick={() => this.setState({ hide: false })} > Edit</ProfileComp.EditButton>
 
-            {this.renderForm()}
+            {this.state.hide ? null : this.renderForm()}
         </ProfileComp.ContentContainer >;
     }
 

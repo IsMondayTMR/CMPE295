@@ -3,73 +3,79 @@
   "search": [
     {
       "id": 1,
-      "Title": "Test Item 1",
-      "Description": "Test Test",
-      "Email": "bo.an@sjsu.edu",
-      "Username": "IsMondayTMR2"
+      "title": "Test Item 1",
+      "description": "Test Test",
+      "email": "bo.an@sjsu.edu",
+      "username": "IsMondayTMR2",
+      "liked": true
     },
     {
       "id": 2,
-      "Title": "Test Item 2",
-      "Description": "Test Test",
-      "Email": "bo.an@sjsu.edu",
-      "Username": "IsMondayTMR2"
+      "title": "Test Item 2",
+      "description": "Test Test",
+      "email": "bo.an@sjsu.edu",
+      "username": "IsMondayTMR2",
+      "liked": true
     },
     {
       "id": 3,
-      "Title": "Test Item 3",
-      "Description": "Test Test",
-      "Email": "bo.an@sjsu.edu",
-      "Username": "IsMondayTMR2"
+      "title": "Test Item 3",
+      "description": "Test Test",
+      "email": "bo.an@sjsu.edu",
+      "username": "IsMondayTMR2",
+      "liked": true
     },
     {
       "id": 4,
-      "Title": "Test Item 4",
-      "Description": "Test Test",
-      "Email": "bo.an@sjsu.edu",
-      "Username": "IsMondayTMR2"
+      "title": "Test Item 4",
+      "description": "Test Test",
+      "email": "bo.an@sjsu.edu",
+      "username": "IsMondayTMR2",
+      "liked": false
     },
     {
       "id": 5,
-      "Title": "Test Item 5",
-      "Description": "Test Test",
-      "Email": "bo.an@sjsu.edu",
-      "Username": "IsMondayTMR2"
+      "title": "Test Item 5",
+      "description": "Test Test",
+      "email": "bo.an@sjsu.edu",
+      "username": "IsMondayTMR2",
+      "liked": false
     },
     {
       "id": 6,
-      "Title": "Test Item 6",
-      "Description": "Test Test",
-      "Email": "bo.an@sjsu.edu",
-      "Username": "IsMondayTMR2"
+      "title": "Test Item 6",
+      "description": "Test Test",
+      "email": "bo.an@sjsu.edu",
+      "username": "IsMondayTMR2",
+      "liked": false
     },
     {
       "id": 7,
-      "Title": "Test Item 7",
-      "Description": "Test Test",
-      "Email": "bo.an@sjsu.edu",
-      "Username": "IsMondayTMR2"
+      "title": "Test Item 7",
+      "description": "Test Test",
+      "email": "bo.an@sjsu.edu",
+      "username": "IsMondayTMR2"
     },
     {
       "id": 8,
-      "Title": "Test Item 8",
-      "Description": "Test Test",
-      "Email": "bo.an@sjsu.edu",
-      "Username": "IsMondayTMR2"
+      "title": "Test Item 8",
+      "description": "Test Test",
+      "email": "bo.an@sjsu.edu",
+      "username": "IsMondayTMR2"
     },
     {
       "id": 9,
-      "Title": "Test Item 9",
-      "Description": "Test Test",
-      "Email": "bo.an@sjsu.edu",
-      "Username": "IsMondayTMR2"
+      "title": "Test Item 9",
+      "description": "Test Test",
+      "email": "bo.an@sjsu.edu",
+      "username": "IsMondayTMR2"
     },
     {
       "id": 10,
-      "Title": "Test Item 10",
-      "Description": "Test Test",
-      "Email": "bo.an@sjsu.edu",
-      "Username": "IsMondayTMR2"
+      "title": "Test Item 10",
+      "description": "Test Test",
+      "email": "bo.an@sjsu.edu",
+      "username": "IsMondayTMR2"
     }
   ],
   "createUser": [

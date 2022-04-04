@@ -9,8 +9,9 @@ import Recommendation from "./Recommendation";
 import axios from "axios";
 import { PROJECTID, USERNAME, USERSECRET } from "./Chat/chatConst";
 import * as ROUTES from "../router/routes";
+import InvitationForm from "./InvitationForm";
 class ItemDetail extends React.Component {
-    state = { activeImage: defaultImg, active: 0 };
+    state = { activeImage: defaultImg, active: 0, invitationHide: true };
     componentDidMount() {
         const item_id = this.props.match.params.item_id;
         console.log(item_id);
@@ -74,6 +75,18 @@ class ItemDetail extends React.Component {
         });
         console.log(response);
     };
+
+    openInvitationForm = () => {
+        if (this.props?.user?.user?.email == null) {
+            alert("please login first");
+            return;
+        }
+        this.setState({ invitationHide: false });
+    };
+
+    closeInvitationForm = () => {
+        this.setState({ invitationHide: true });
+    };
     renderInfor() {
 
         if (this.props.item.success == false) {
@@ -93,7 +106,7 @@ class ItemDetail extends React.Component {
 
             <ItemDetailComp.IconContainer>
 
-                <ItemDetailComp.IconBox onClick={() => { }}>
+                <ItemDetailComp.IconBox onClick={() => { this.openInvitationForm(); }}>
                     <ItemDetailComp.Icon>
                         <i className="fas fa-exchange"></i>
                     </ItemDetailComp.Icon>
@@ -105,12 +118,12 @@ class ItemDetail extends React.Component {
                     </ItemDetailComp.Icon>
                     message
                 </ItemDetailComp.IconBox>
-                <ItemDetailComp.IconBox>
+                {/* <ItemDetailComp.IconBox>
                     <ItemDetailComp.Icon color={"#40bced"}>
                         <i className="fas fa-map-marker-alt"></i>
                     </ItemDetailComp.Icon>
                     location
-                </ItemDetailComp.IconBox>
+                </ItemDetailComp.IconBox> */}
             </ItemDetailComp.IconContainer>
 
             <ItemDetailComp.Break />
@@ -142,6 +155,7 @@ class ItemDetail extends React.Component {
                 <ItemDetailComp.ContentContainer>
                     {this.renderImage()}
                     {this.renderInfor()}
+                    {this.state.invitationHide ? <></> : <InvitationForm hide={this.state.invitationHide} close={this.closeInvitationForm} />}
                 </ItemDetailComp.ContentContainer>
 
             </ItemDetailComp.Container>

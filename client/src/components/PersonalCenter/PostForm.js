@@ -331,7 +331,6 @@ class PostForm extends React.Component {
                         Submit
                     </FormComp.SubmitButton>
                 </FormComp.Form>
-
             </FormComp>
             <FormComp.Modal hide={this.props.hide ? "none" : "block"} />
         </React.Fragment>;

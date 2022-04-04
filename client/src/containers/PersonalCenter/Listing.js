@@ -96,21 +96,21 @@ class Listing extends React.Component {
                 <ProfileComp.NewList onClick={this.openPostForm}>
                     New Item
                 </ProfileComp.NewList>
-                <PostForm
+                {this.state.postHide ? null : <PostForm
                     hide={this.state.postHide}
                     close={this.closePostForm}
                     username={this.state.username}
                     email={this.state.email}
-                    sub={this.state.sub} />
+                    sub={this.state.sub} />}
 
                 {this.renderData()}
-                <UpdatePost
+                {this.state.updatePostHide ? null : <UpdatePost
                     hide={this.state.updatePostHide}
                     close={this.closeUpdateForm}
                     username={this.state.username}
                     email={this.state.email}
                     item={this.state.currentItem}
-                    sub={this.state.sub} />
+                    sub={this.state.sub} />}
             </ProfileCardComp.Container>
         </ProfileCardComp>;
     }

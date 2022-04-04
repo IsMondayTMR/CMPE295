@@ -21,12 +21,10 @@ export const Modal = styled.div`
     z-index: 30;
 `
 export const BackGround = styled.div`
-    
     position: fixed;
-    width: 450px;
+    width: ${(props) => props.width ? props.width : "450px"};
     margin-left: auto;
     margin-right: auto;
-
     left: 0;
     right: 0;
     top: 5%;
@@ -35,7 +33,8 @@ export const BackGround = styled.div`
     display: ${props => props.hide};
     box-shadow: 5px 5px 20px #808080;
     z-index: 40;
-    
+    display: flex;
+
 `
 
 export const Container = styled.div`
@@ -50,7 +49,8 @@ export const Form = styled.form`
     display: ${props => props.active};
     display: flex;
     flex-direction: column;
-
+    margin: 0 auto;
+    width: 90%;
 `
 
 export const Header = styled.p`
@@ -265,3 +265,40 @@ export const Select = styled.select`
 `
 export const Option = styled.option`
 `
+export const CardsContainer = styled.div`
+    max-height:${(props) => props.maxHeight ? props.maxHeight : "500px"};
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        width: 0 !important
+    }
+    `
+export const CardTitle = styled.h3`
+    font-size: 20px;
+`
+
+export const CardInforContainer = styled.div`
+    width: 60%;
+`
+export const Card = styled.div`
+    border: 1px solid gray;
+    border-radius: 5px;
+    height: 75px;
+    margin: 10px;
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+`
+
+export const FormTitle = styled.h2`
+    margin: 15px 0;
+
+`
+
+export const ItemImage = styled.img`
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+`
+

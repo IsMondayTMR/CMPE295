@@ -18,9 +18,8 @@ class Header extends React.Component {
     };
 
     renderModal = () => {
-        return ReactDOM.createPortal(
-            <Authorization hide={this.state.hide} closeHelper={this.closeForm} />,
-            document.querySelector("#modal"));
+        const form = this.state.hide ? null : <Authorization hide={this.state.hide} closeHelper={this.closeForm} />;
+        return ReactDOM.createPortal(form, document.querySelector("#modal"));
     };
 
     renderSearch = () => {

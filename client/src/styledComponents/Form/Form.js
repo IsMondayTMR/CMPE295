@@ -127,3 +127,27 @@ FormComp.CloseButton = function HighLight({ ...restProps }) {
 FormComp.PostImageGroup = function ImageGroup({ children, ...restProps }) {
     return <Style.PostImageGroup {...restProps} >{children} </Style.PostImageGroup>
 }
+
+FormComp.Card = function ({ children, ...restProps }) {
+    return <Style.Card {...restProps} >{children} </Style.Card>
+}
+
+FormComp.CardTitle = function ({ children, ...restProps }) {
+    return <Style.CardTitle {...restProps} >{children} </Style.CardTitle>
+}
+
+FormComp.CardsContainer = function ({ children, ...restProps }) {
+    return <Style.CardsContainer {...restProps} >{children} </Style.CardsContainer>
+}
+
+FormComp.FormTitle = function ({ children, ...restProps }) {
+    return <Style.FormTitle {...restProps} >{children} </Style.FormTitle>
+}
+
+FormComp.ItemImage = function ({ children, ...restProps }) {
+    return <Style.ItemImage {...restProps} />
+}
+
+FormComp.CardInforContainer = function ({ children, ...restProps }) {
+    return <Style.CardInforContainer {...restProps} >{children} </Style.CardInforContainer>
+}
