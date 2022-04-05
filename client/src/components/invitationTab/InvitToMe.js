@@ -35,7 +35,10 @@ const InvitToMe = (props) => {
 
                     <InvitComp.ButtonContainer>
                         <InvitComp.Button>
-                            Cancel
+                            Accept
+                        </InvitComp.Button>
+                        <InvitComp.Button>
+                            Decline
                         </InvitComp.Button>
                     </InvitComp.ButtonContainer>
                 </InvitComp.StarterContainer>

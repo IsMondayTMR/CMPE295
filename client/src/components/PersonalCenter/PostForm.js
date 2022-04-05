@@ -336,7 +336,6 @@ class PostForm extends React.Component {
         </React.Fragment>;
     }
     render() {
-
         return this.renderForm();
     }
 

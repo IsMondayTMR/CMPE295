@@ -12,6 +12,7 @@ import nonAuthReducer from "./nonAuthReducer";
 import favReducer from "./favReducer";
 import filterReducer from "./filterReducer";
 import invitationReducer from "./invitationReducer";
+import threeWayMatchReducer from "./threeWayMatchReducer";
 
 export default combineReducers({
     user: userReducer,
@@ -27,4 +28,5 @@ export default combineReducers({
     favList: favReducer,
     filter: filterReducer,
     invitations: invitationReducer,
+    threeWayMatch: threeWayMatchReducer,
 });

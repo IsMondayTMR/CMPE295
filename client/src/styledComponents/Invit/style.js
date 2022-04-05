@@ -11,11 +11,11 @@ export const Container = styled.div`
 `
 
 export const Card = styled.div`
-    border: 1px solid #d4d4d4;
+    border: 1px solid #d4d4d4; 
     border-radius: 0.75rem;
     height: 300px;
-    width: 100%;
-    margin: 20px 0;
+    width: ${(props) => props.width ? props.width : "100%"};
+    margin: 20px auto;
 `
 
 export const StarterContainer = styled.div`
@@ -24,6 +24,7 @@ export const StarterContainer = styled.div`
     border-bottom: 1px solid #d4d4d4;
     display: flex;
     justify-content: space-between;
+    border-radius: 0.75rem 0.75rem 0 0;
     align-items: center;
 `
 

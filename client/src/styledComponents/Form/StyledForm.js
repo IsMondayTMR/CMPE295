@@ -94,9 +94,13 @@ export const InputContinaer = styled.div`
 export const FormContainer = styled.div`
     max-height:${(props) => props.maxHeight ? props.maxHeight : "500px"};
     overflow-y: scroll;
+    
     &::-webkit-scrollbar {
-        width: 0 !important
+        width: 0 !important;
+        background-color: transparent;
+        background: transparent;
     }
+
     `
 export const RadioGroup = styled.div`
     display: flex;

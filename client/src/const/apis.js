@@ -12,3 +12,4 @@ export const TWO_WAY_INVITATION = "https://0vmz20ytqi.execute-api.us-west-1.amaz
 export const THREE_WAY_INVITATION = "https://0vmz20ytqi.execute-api.us-west-1.amazonaws.com/dev/invitation/3way";
 export const RESPOND_TO_INVITATION = "https://0vmz20ytqi.execute-api.us-west-1.amazonaws.com/dev/invitation/action";
 export const GET_ALL_INVITATIOSN_BY_ID = "https://0vmz20ytqi.execute-api.us-west-1.amazonaws.com/dev/invitation?";
+export const GET_THREE_WAY_MATCH = "https://41v9akenbf.execute-api.us-west-1.amazonaws.com/test/threewaymatch?";

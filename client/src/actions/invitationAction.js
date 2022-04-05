@@ -1,6 +1,6 @@
 // import * as TYPES from "../const/reduxTypes";
 import axios from "axios";
-import { TWO_WAY_INVITATION, GET_ALL_INVITATIOSN_BY_ID } from "../const/apis";
+import { TWO_WAY_INVITATION, GET_ALL_INVITATIOSN_BY_ID, GET_THREE_WAY_MATCH } from "../const/apis";
 import * as TYPES from "../const/reduxTypes";
 export const send_2_way_invitation = (requestor_id, receiver_id, item_to_receive, item_to_provide) => {
     return async () => {
@@ -89,3 +89,13 @@ export const get_invitation_by_user = (user_id) => {
 //             });
 //     });
 // }
+
+export const three_way_match = (user_id, item_id) => {
+
+    return async (dispatch) => {
+        let response = await axios.get(`${GET_THREE_WAY_MATCH}user_id=${user_id}&post_id=${item_id}`);
+
+        console.log(dispatch);
+        console.log(response);
+    };
+};

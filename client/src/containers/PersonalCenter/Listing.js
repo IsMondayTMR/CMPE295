@@ -10,9 +10,14 @@ import Loader from "../../resources/loader.gif";
 import PostForm from "../../components/PersonalCenter/PostForm";
 import UpdatePost from "../../components/PersonalCenter/UpdatePost";
 import * as ROUTES from "../../router/routes";
+import MatchList from "../../components/PersonalCenter/MatchList";
 
 class Listing extends React.Component {
-    state = { postHide: true, updatePostHide: true, username: "", email: "", sub: "", images: [], imagePreviewUrls: [], category: data[0].title, subcategory: data[0].subtitle, currentItem: {} };
+    state = {
+        postHide: true, updatePostHide: true, username: "", email: "", sub: "", images: [], imagePreviewUrls: [],
+        category: data[0].title, subcategory: data[0].subtitle, currentItem: {}, threeWayMatchHide: true,
+        matchID: null,
+    };
 
     componentDidMount() {
         this.setState({ subcategory: data[0].subtitle });
@@ -41,7 +46,13 @@ class Listing extends React.Component {
     closePostForm = () => {
         this.setState({ postHide: true });
     };
+    openMatchList = () => {
+        this.setState({ threeWayMatchHide: false });
+    };
 
+    closeMatchList = () => {
+        this.setState({ threeWayMatchHide: true });
+    };
     openUpdateForm = (item) => {
         this.setState({ currentItem: item });
         this.setState({ updatePostHide: false });
@@ -68,7 +79,11 @@ class Listing extends React.Component {
                         <ProfileCardComp.ButtonContainer displayDirection={"row"}>
                             <ProfileCardComp.Button
                                 onClick={() => { this.openUpdateForm(object); }}>Update</ProfileCardComp.Button>
-                            <ProfileCardComp.Button onClick={() => console.log("direct to 3way match")}>match</ProfileCardComp.Button>
+                            <ProfileCardComp.Button
+                                onClick={() => {
+                                    this.openMatchList();
+                                    this.setState({ matchID: object.id });
+                                }}>match</ProfileCardComp.Button>
                             <ProfileCardComp.Button>Delete</ProfileCardComp.Button>
                         </ProfileCardComp.ButtonContainer>
                     </ProfileCardComp.StarterContainer>
@@ -112,6 +127,7 @@ class Listing extends React.Component {
                     email={this.state.email}
                     item={this.state.currentItem}
                     sub={this.state.sub} />}
+                {this.state.threeWayMatchHide ? null : <MatchList close={this.closeMatchList} itemId={this.state.matchID} userId={this.props?.user?.sub} />}
             </ProfileCardComp.Container>
         </ProfileCardComp>;
     }
