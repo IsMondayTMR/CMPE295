@@ -6,7 +6,7 @@ import { useLoadScript } from "@react-google-maps/api";
 
 const Progressing = () => {
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: "AIzaSyBNGgpaMwmJWlFT2sh-7oYqgNhAA4B6Du4",
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
     });
 
     if (!isLoaded) return <div>...loading</div>;
