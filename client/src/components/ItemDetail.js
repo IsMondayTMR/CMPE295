@@ -92,6 +92,23 @@ class ItemDetail extends React.Component {
             return <>
             </>;
         }
+
+        const tradeButton = this.props?.user.status == false || this.props?.user?.user == null || this.props.user?.user?.sub == this.props.item?.item?.sub ?
+            null :
+            <ItemDetailComp.IconBox onClick={() => { this.openInvitationForm(); }}>
+                <ItemDetailComp.Icon>
+                    <i className="fas fa-exchange"></i>
+                </ItemDetailComp.Icon>
+                trade
+            </ItemDetailComp.IconBox>;
+        const messaageButton = this.props?.user.status == false || this.props?.user?.user == null || this.props.user?.user?.sub == this.props.item?.item?.sub ?
+            null :
+            <ItemDetailComp.IconBox onClick={(e) => { this.startChat(e); }}>
+                <ItemDetailComp.Icon>
+                    <i className="far fa-comment"></i>
+                </ItemDetailComp.Icon>
+                message
+            </ItemDetailComp.IconBox>;
         return <ItemDetailComp.InforContainer>
             <ItemDetailComp.Title>
                 {this.props?.item?.item?.title}
@@ -104,8 +121,9 @@ class ItemDetail extends React.Component {
             </ItemDetailComp.UserInfoContainer>
 
             <ItemDetailComp.IconContainer>
-
-                <ItemDetailComp.IconBox onClick={() => { this.openInvitationForm(); }}>
+                {tradeButton}
+                {messaageButton}
+                {/* <ItemDetailComp.IconBox onClick={() => { this.openInvitationForm(); }}>
                     <ItemDetailComp.Icon>
                         <i className="fas fa-exchange"></i>
                     </ItemDetailComp.Icon>
@@ -116,7 +134,7 @@ class ItemDetail extends React.Component {
                         <i className="far fa-comment"></i>
                     </ItemDetailComp.Icon>
                     message
-                </ItemDetailComp.IconBox>
+                </ItemDetailComp.IconBox> */}
                 {/* <ItemDetailComp.IconBox>
                     <ItemDetailComp.Icon color={"#40bced"}>
                         <i className="fas fa-map-marker-alt"></i>

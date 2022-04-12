@@ -1,8 +1,9 @@
 import React from "react";
 import { InvitComp } from "../../styledComponents/export";
 import * as ROUTES from "../../router/routes";
-import IMAGE from "../../resources/1.jpg";
+import IMAGE from "../../resources/defaultPlaceholder.png";
 import AVATAR from "../../resources/maria-bo-schatzis-stream-profilpicture.jpg";
+
 // import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // import { get_invitation_by_user } from "../../actions/invitationAction";
@@ -15,18 +16,17 @@ const InvitToOthers = (props) => {
         }
 
         const cards = props?.data.map((invit, index) => {
-            console.log(invit);
             return <InvitComp.Card key={index}>
                 <InvitComp.StarterContainer>
                     <InvitComp.Starter>
-                        <InvitComp.RouteLink to={`${ROUTES.USER}/123456789`}>
-                            <InvitComp.Avatar src={AVATAR} />
+                        <InvitComp.RouteLink to={`${ROUTES.USER}/${invit?.receiver.sub}`}>
+                            <InvitComp.Avatar src={invit?.receiver?.avatar_url > 0 ? invit?.receiver?.avatar_url : AVATAR} />
                             <InvitComp.UserInfor>
                                 <InvitComp.Username>
-                                    IsMondayTMR
+                                    {invit?.receiver?.username}
                                 </InvitComp.Username>
                                 <InvitComp.UserId>
-                                    ID:123456789
+                                    {invit?.receiver?.sub}
                                 </InvitComp.UserId>
                             </InvitComp.UserInfor>
                         </InvitComp.RouteLink>
@@ -41,30 +41,30 @@ const InvitToOthers = (props) => {
                 </InvitComp.StarterContainer>
                 <InvitComp.DetailContainer>
                     <InvitComp.ItemContainer>
-                        <InvitComp.RouteLink to={""}>
-                            <InvitComp.Image src={IMAGE} />
+                        <InvitComp.RouteLink to={`${ROUTES.PROFILE}/item/${invit?.item_to_provide?.id}`}>
+                            <InvitComp.Image src={invit?.item_to_provide?.media_urls.length > 0 ? invit?.item_to_provide?.media_urls[0] : IMAGE} />
                         </InvitComp.RouteLink>
                         <InvitComp.ItemInfor>
                             <InvitComp.ItemTitle>
-                                Item1
+                                {invit?.item_to_provide?.title}
                             </InvitComp.ItemTitle>
                             <InvitComp.ItemDesc>
-                                Item1 desc
+                                {invit?.item_to_provide?.description}
                             </InvitComp.ItemDesc>
                         </InvitComp.ItemInfor>
                     </InvitComp.ItemContainer>
                     <i className="fas fa-exchange"></i>
                     <InvitComp.ItemContainer>
-                        <InvitComp.RouteLink to={""}>
-                            <InvitComp.Image src={IMAGE} />
+                        <InvitComp.RouteLink to={`${ROUTES.PROFILE}/item/${invit?.item_to_receive?.id}`}>
+                            <InvitComp.Image src={invit?.item_to_receive?.media_urls.length > 0 ? invit?.item_to_receive?.media_urls[0] : IMAGE} />
                         </InvitComp.RouteLink>
 
                         <InvitComp.ItemInfor>
                             <InvitComp.ItemTitle>
-                                Item2
+                                {invit?.item_to_receive?.title}
                             </InvitComp.ItemTitle>
                             <InvitComp.ItemDesc>
-                                Item2 desc
+                                {invit?.item_to_receive?.description}
                             </InvitComp.ItemDesc>
                         </InvitComp.ItemInfor>
                     </InvitComp.ItemContainer>

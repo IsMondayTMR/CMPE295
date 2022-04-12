@@ -1,10 +1,11 @@
 const tabs = [
     "Profile",
+    "Progressing",
     "History",
     "Listing",
     "Favorite",
     "Invitation",
-    "Security",
-    "Setting"
+    // "Security",
+    // "Setting"
 ];
 export default tabs;

@@ -8,6 +8,7 @@ import Listing from "../containers/PersonalCenter/Listing";
 import Setting from "../containers/PersonalCenter/Setting";
 import Security from "../containers/PersonalCenter/Security";
 import Invitation from "../containers/PersonalCenter/Invitation";
+import Progressing from "../containers/PersonalCenter/Progressing";
 const ProfileRouters = () => {
     return (
 
@@ -17,6 +18,9 @@ const ProfileRouters = () => {
             </Route>
             <Route exact path={`${ROUTES.PROFILE}/Favorite`}>
                 <Favorite />
+            </Route>
+            <Route exact path={`${ROUTES.PROFILE}/Progressing`}>
+                <Progressing />
             </Route>
             <Route exact path={`${ROUTES.PROFILE}/History`}>
                 <History />

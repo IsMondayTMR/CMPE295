@@ -135,9 +135,8 @@ class ResultContent extends React.Component {
             this.state?.data?.length === 0) {
             return this.props?.success === null ? <Loading src={Loader} /> : <ResultContentComp.NoResultText>Opps! Seems like no items were found</ResultContentComp.NoResultText>;
         }
-
         const data = this.state?.data?.map(object => {
-            const favorite_icons = this.props?.user?.user == null || this.props?.user?.status == false ? null : <>
+            const favorite_icons = this.props?.user?.user == null || this.props?.user?.status == false || this.props?.user?.user?.sub == object?.sub ? null : <>
                 <ResultContentComp.Fav
                     hide={object?.liked == undefined ? false : !object?.liked}
                     onClick={() => this.addLike(object)}>

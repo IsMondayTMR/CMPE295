@@ -91,7 +91,6 @@ export const signIn = (formValue) => {
                             authInstance: data
                         }
                     });
-
                     resolve(data);
                 },
                 onFailure: (err) => {
@@ -476,8 +475,6 @@ export const update = (formValue, ImageUrl, email) => {
                         });
                         reject(err);
                     });
-
-
                 }
             });
         });

@@ -3,10 +3,15 @@ import { InvitComp } from "../../styledComponents/export";
 import * as ROUTES from "../../router/routes";
 import IMAGE from "../../resources/1.jpg";
 import AVATAR from "../../resources/maria-bo-schatzis-stream-profilpicture.jpg";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
+import { respond_invitation } from "../../actions/invitationAction";
 import PropTypes from "prop-types";
 // import { get_invitation_by_user } from "../../actions/invitationAction";
 const InvitToMe = (props) => {
+
+    const respondInvitation = (invitation_id, action) => {
+        props.respond_invitation(invitation_id, action);
+    };
     const renderInvitations = () => {
         if (props?.data == null || props.data.length == 0) {
             return <>
@@ -19,55 +24,56 @@ const InvitToMe = (props) => {
             return <InvitComp.Card key={index}>
                 <InvitComp.StarterContainer>
                     <InvitComp.Starter>
-                        <InvitComp.RouteLink to={`${ROUTES.USER}/123456789`}>
-                            <InvitComp.Avatar src={AVATAR} />
+                        <InvitComp.RouteLink to={`${ROUTES.USER}/${invit?.requestor.sub}`}>
+                            <InvitComp.Avatar src={invit?.requestor?.avatar_url > 0 ? invit?.requestor?.avatar_url : AVATAR} />
                             <InvitComp.UserInfor>
                                 <InvitComp.Username>
-                                    IsMondayTMR
+                                    {invit?.requestor?.username}
                                 </InvitComp.Username>
                                 <InvitComp.UserId>
-                                    ID:123456789
+                                    {invit?.requestor?.sub}
                                 </InvitComp.UserId>
                             </InvitComp.UserInfor>
                         </InvitComp.RouteLink>
                     </InvitComp.Starter>
-
-
+                    <InvitComp.Starter>
+                        wants to provide <a>{invit?.item_to_receive?.title}</a> for <a>{invit?.item_to_provide?.title} </a>
+                    </InvitComp.Starter>
                     <InvitComp.ButtonContainer>
-                        <InvitComp.Button>
-                            Accept
+                        <InvitComp.Button onClick={() => respondInvitation(invit?.id, "accept")}>
+                            Accpet
                         </InvitComp.Button>
-                        <InvitComp.Button>
-                            Decline
+                        <InvitComp.Button onClick={() => respondInvitation(invit?.id, "reject")}>
+                            Reject
                         </InvitComp.Button>
                     </InvitComp.ButtonContainer>
                 </InvitComp.StarterContainer>
                 <InvitComp.DetailContainer>
                     <InvitComp.ItemContainer>
-                        <InvitComp.RouteLink to={""}>
-                            <InvitComp.Image src={IMAGE} />
+                        <InvitComp.RouteLink to={`${ROUTES.PROFILE}/item/${invit?.item_to_receive?.id}`}>
+                            <InvitComp.Image src={invit?.item_to_receive?.media_urls.length > 0 ? invit?.item_to_receive?.media_urls[0] : IMAGE} />
                         </InvitComp.RouteLink>
+
                         <InvitComp.ItemInfor>
                             <InvitComp.ItemTitle>
-                                Item1
+                                {invit?.item_to_receive?.title}
                             </InvitComp.ItemTitle>
                             <InvitComp.ItemDesc>
-                                Item1 desc
+                                {invit?.item_to_receive?.description}
                             </InvitComp.ItemDesc>
                         </InvitComp.ItemInfor>
                     </InvitComp.ItemContainer>
                     <i className="fas fa-exchange"></i>
                     <InvitComp.ItemContainer>
-                        <InvitComp.RouteLink to={""}>
-                            <InvitComp.Image src={IMAGE} />
+                        <InvitComp.RouteLink to={`${ROUTES.PROFILE}/item/${invit?.item_to_provide?.id}`}>
+                            <InvitComp.Image src={invit?.item_to_provide?.media_urls.length > 0 ? invit?.item_to_provide?.media_urls[0] : IMAGE} />
                         </InvitComp.RouteLink>
-
                         <InvitComp.ItemInfor>
                             <InvitComp.ItemTitle>
-                                Item2
+                                {invit?.item_to_provide?.title}
                             </InvitComp.ItemTitle>
                             <InvitComp.ItemDesc>
-                                Item2 desc
+                                {invit?.item_to_provide?.description}
                             </InvitComp.ItemDesc>
                         </InvitComp.ItemInfor>
                     </InvitComp.ItemContainer>
@@ -83,5 +89,6 @@ const InvitToMe = (props) => {
 };
 InvitToMe.propTypes = {
     data: PropTypes.array.isRequired,
+    respond_invitation: PropTypes.func.isRequired
 };
-export default InvitToMe;
+export default connect(null, { respond_invitation })(InvitToMe);

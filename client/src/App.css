@@ -1,12 +1,17 @@
 body {
-    margin:0;
+    margin: 0;
     font-size: 30px;
 }
 
-.ce-chat-feed-container{
+.ce-chat-feed-container {
     height: 90% !important;
 }
 
-.ce-wrapper{
+.ce-wrapper {
     height: calc(100vh - 75px);
+}
+
+.map-container {
+    width: 100%;
+    height: 100%;
 }

@@ -1,7 +1,8 @@
 // import * as TYPES from "../const/reduxTypes";
 import axios from "axios";
-import { TWO_WAY_INVITATION, GET_ALL_INVITATIOSN_BY_ID, GET_THREE_WAY_MATCH } from "../const/apis";
+import { TWO_WAY_INVITATION, GET_ALL_INVITATIOSN_BY_ID, GET_THREE_WAY_MATCH, RESPOND_INVITATION } from "../const/apis";
 import * as TYPES from "../const/reduxTypes";
+
 export const send_2_way_invitation = (requestor_id, receiver_id, item_to_receive, item_to_provide) => {
     return async () => {
         return new Promise((resolve, reject) => {
@@ -97,5 +98,20 @@ export const three_way_match = (user_id, item_id) => {
 
         console.log(dispatch);
         console.log(response);
+    };
+};
+
+export const respond_invitation = (invitation_id, action) => {
+
+    return async (dispatch) => {
+        console.log(invitation_id);
+        console.log(action);
+        let response = await axios.post(RESPOND_INVITATION, {
+            "invitation_id": invitation_id,
+            "response": action
+        });
+        console.log(dispatch);
+        console.log(response);
+
     };
 };
